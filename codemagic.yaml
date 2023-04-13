@@ -1,0 +1,84 @@
+workflows:
+  android-workflow:
+    name: Better life Customer App
+    max_build_duration: 60
+    environment:
+      android_signing:
+        - better_life_keystore
+      #  android_signing:
+
+      # groups:
+      #   - keystore_credentials
+      #   - google_credentials
+      #   - google_play # <-- (Includes GCLOUD_SERVICE_ACCOUNT_CREDENTIALS)
+      # vars:
+      #   PACKAGE_NAME: "io.codemagic.flutteryaml" # <-- Put your package name here
+
+      flutter: stable
+    publishing:
+      # keystore_files:
+      #   - reference: ${{ env.KEYSTORE_REF_NAME }}
+      #     alias: my-alias
+      #     password:
+      #       from_secret: keystore_password
+      email:
+        recipients:
+          - anuradha@codanto.in
+          - faisal.hiyaz@outlook.com
+          - manager@codanto.com
+        notify:
+          success: true
+          failure: false
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    cache:
+      cache_paths:
+        # - $HOME/.gradle/caches
+        # - $HOME/.gradle/wrapper
+        - $HOME/.pub-cache
+
+    scripts:
+      # - name: Set up local.properties
+      #   script: |
+      #     echo $storeFile | base64 --decode > /tmp/keystore.keystore
+      #     cat >> "$CM_BUILD_DIR/android/key.properties" <<EOF
+      #     storePassword=$storePassword
+      #     keyPassword=$keyPassword
+      #     keyAlias=$keyAlias
+      #     storeFile=/tmp/keystore.keystore
+      #     EOF
+      #     echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: flutter pub get
+      # - name: Flutter Build App Bundle
+      #   script: |
+      #     flutter build appbundle --obfuscate --split-debug-info=build/bioplus --target=lib/main_prod.dart
+
+      - name: Flutter Build APK
+        script: |
+          flutter build apk --flavor production --target lib/main_production.dart
+
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/**/outputs/**/mapping.txt
+
+    # cache:
+
+    #   failure: false
+    # google_play:
+    #   credentials: $GOOGLE_CLOUD_SERVICE_ACCOUNT_CREDENTIALS
+    #   track: internal
+    #   # track: productino
+    #   submit_as_draft: true
+    # slack:
+    #   # See the following link about how to connect your Slack account - https://docs.codemagic.io/publishing-yaml/distribution/#slack
+    #   channel: "#itrak-poc"
+    #   notify_on_build_start: false # To receive a notification when a build starts
+    #   notify:
+    #     success: true # To receive a notification when a build succeeds
+    #     failure: false # To not receive a notification when a build fails
