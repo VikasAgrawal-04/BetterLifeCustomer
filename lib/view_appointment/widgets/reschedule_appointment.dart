@@ -5,9 +5,9 @@ import 'package:widgets/widgets.dart';
 
 class RescheduleAppointment extends StatefulWidget {
   const RescheduleAppointment({
-    super.key,
     required this.onReschedule,
     required this.id,
+    super.key,
   });
   final int id;
   final Future<void> Function(RescheduleAppointmentParams) onReschedule;
@@ -63,15 +63,22 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
                 }
 
                 if (_selectedDate != null && _selectedTime != null) {
+                  final date = _selectedDate!.add(
+                    Duration(
+                      hours: _selectedTime!.hour,
+                      minutes: _selectedTime!.minute,
+                    ),
+                  );
                   await widget.onReschedule(
                     RescheduleAppointmentParams(
                       appointmentId: widget.id,
-                      appointmentDate: _selectedDate!,
-                      appointmentTime: _selectedTime!,
+                      appointmentDate: date,
                     ),
                   );
                 }
-              } catch (e) {}
+              } catch (e) {
+                print(e);
+              }
             },
           ),
         ],

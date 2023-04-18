@@ -69,34 +69,37 @@ class MyDrawer extends StatelessWidget {
   Row _buildHeader(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 30.r,
-          backgroundColor: Colors.white,
-          child: CircleAvatar(
-            radius: 28.r,
-          ),
-        ),
+        // CircleAvatar(
+        //   radius: 30.r,
+        //   backgroundColor: Colors.white,
+        //   child: CircleAvatar(
+        //     radius: 28.r,
+        //   ),
+        // ),
         Gap(10.w),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sanjay Naik',
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+        StreamBuilder<User?>(
+          stream: context.read<ApiRepo>().userStream,
+          builder: (context, snapshot) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                snapshot.data?.fullName ?? 'User',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            Text(
-              'sanjay@gmail.com ',
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
+              Text(
+                snapshot.data?.email ?? '',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

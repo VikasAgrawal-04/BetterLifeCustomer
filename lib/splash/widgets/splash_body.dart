@@ -1,6 +1,7 @@
 import 'package:better_life_customer/splash/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:widgets/widgets.dart';
 
 /// {@template splash_body}
@@ -22,9 +23,9 @@ class SplashBody extends StatelessWidget {
             Padding(
               padding: kPadding,
               child: Center(
-                child: Image.asset(
-                  'assets/logo.png',
-                  scale: 0.5,
+                child: SvgPicture.asset(
+                  'assets/logo_svg.svg',
+                  // scale: 0.5,
                 ),
               ),
             ),

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:api/api.dart';
 import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
-import 'package:better_life_customer/bottom_nav/view/bottom_nav_page.dart';
+import 'package:better_life_customer/home/view/home_page.dart';
 import 'package:better_life_customer/register/register.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:equatable/equatable.dart';
@@ -36,6 +36,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> success(User data) async {
-    await Get.offAll<void>(() => const BottomNavPage());
+    await Get.offAll<void>(() => const HomePage());
   }
 }

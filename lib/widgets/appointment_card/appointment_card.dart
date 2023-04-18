@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/api.dart';
+import 'package:better_life_customer/widgets/appointment_card/time_button.dart';
+import 'package:better_life_customer/widgets/service_rating.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
@@ -7,12 +10,14 @@ class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     required this.isViewButttonVisible,
     required this.appointment,
+    required this.showRateService,
     this.onPressed,
     super.key,
   });
 
   final FutureVoidCallback? onPressed;
   final bool isViewButttonVisible;
+  final bool showRateService;
   final Appointment appointment;
 
   @override
@@ -38,21 +43,22 @@ class AppointmentCard extends StatelessWidget {
             'Assigned Caretaker: ${appointment.caretakerName}',
           ),
           const Gap(10),
-          _buildRow(Icons.location_on, appointment.caretakerName),
+          _buildRow(Icons.location_on, appointment.pickaddress ?? ''),
           const Gap(10),
           _buildRow(
             Icons.local_hospital,
             'Hospital: ${appointment.hospital ?? ''}',
           ),
-          const Gap(20),
-          const HeaderText(
-            text: 'OTP: ',
-            style: TextStyle(color: Colors.red),
-          ),
+          // const Gap(20),
+          // const HeaderText(
+          //   text: 'OTP: ',
+          //   style: TextStyle(color: Colors.red),
+          // ),
           const Gap(10),
           Visibility(
             visible: isViewButttonVisible,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MyElevatedButton(
                   text: 'View',
@@ -68,6 +74,27 @@ class AppointmentCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                Visibility(
+                  visible: showRateService,
+                  child: MyElevatedButton(
+                    height: 30,
+                    width: 120,
+                    child: const Text(
+                      'Rate Service',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    onPressed: () async {
+                      await Get.to<void>(
+                        () => ServiceRating(
+                          appointmentId: appointment.apptid!,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -80,11 +107,11 @@ class AppointmentCard extends StatelessWidget {
     return Row(
       children: [
         HeaderText(
-          text: appointment.visitdate ?? '',
+          text: MyDateFormat.formatAppointmentDate(appointment.visitdate),
           fontSize: 18,
         ),
         const Spacer(),
-        _buildButton(context),
+        _buildButton(context, appointment.visitdate),
       ],
     );
   }
@@ -110,29 +137,9 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  MyElevatedButton _buildButton(BuildContext context) {
-    return MyElevatedButton(
-      width: 100,
-      height: 35,
-      color: context.theme.primaryColor.withOpacity(0.2),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.access_time,
-            color: context.theme.primaryColor,
-            size: 20,
-          ),
-          const Gap(5),
-          Text(
-            appointment.pickuptime ?? '',
-            style: TextStyle(
-              color: context.theme.primaryColor,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
+  Widget _buildButton(BuildContext context, DateTime? time) {
+    return TimeButton(
+      time: MyDateFormat.formatTime(time),
     );
   }
 }

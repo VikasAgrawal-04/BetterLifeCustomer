@@ -5,6 +5,12 @@ class MyDateFormat {
     return date == null ? '' : DateFormat(format).format(date);
   }
 
+  static String formatAppointmentDate(DateTime? date,
+      {String format = 'dd/MM/yyyy'}) {
+    if (date == null) return '';
+    return '${DateFormat('dd MMM yyyy').format(date)} (${DateFormat('E').format(date)})';
+  }
+
   static String formatDateYYYYMMDD(DateTime? date) {
     return date == null ? '' : DateFormat('yyyy-MM-dd').format(date);
   }
@@ -13,8 +19,8 @@ class MyDateFormat {
     return date == null ? '' : DateFormat('hh:mm').format(date);
   }
 
-  static String formatTime(DateTime? date) {
-    return date == null ? '' : DateFormat('hh:mm:ss a').format(date);
+  static String formatTime(DateTime? date, {String format = 'hh:mm a'}) {
+    return date == null ? '' : DateFormat(format).format(date);
   }
 
   static String formatDateInYMMMED(DateTime? date) {

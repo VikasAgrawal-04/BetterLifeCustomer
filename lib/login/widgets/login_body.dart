@@ -2,6 +2,7 @@ import 'package:better_life_customer/login/cubit/cubit.dart';
 import 'package:better_life_customer/register/view/register_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
 
@@ -29,9 +30,10 @@ class LoginBody extends StatelessWidget {
                   SizedBox.square(
                     dimension: 200,
                     child: Transform.scale(
-                      scale: 1.8,
-                      child: Image.asset(
-                        'assets/logo.png',
+                      scale: 1.4,
+                      child: SvgPicture.asset(
+                        'assets/logo_svg.svg',
+                        // scale: 0.5,
                       ),
                     ),
                   ),
@@ -76,13 +78,13 @@ class LoginBody extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: [
-          const TextSpan(
+          TextSpan(
             text: "Don't have an account?",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Colors.grey,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey,
+                ),
           ),
           TextSpan(
             text: ' Register Now',
@@ -90,11 +92,11 @@ class LoginBody extends StatelessWidget {
               ..onTap = () => Get.offAll<void>(
                     () => const RegisterPage(),
                   ),
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: context.theme.primaryColor,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: context.theme.primaryColor,
+                ),
           ),
         ],
       ),

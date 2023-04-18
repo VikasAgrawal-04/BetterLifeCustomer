@@ -16,14 +16,14 @@ class HeaderText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle style = TextStyle(
-      fontSize: fontSize ?? 20,
-      fontWeight: FontWeight.bold,
-      color: const Color(0xff0B2451),
-    );
+    final style = Theme.of(context).textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: const Color(0xff0B2451),
+          fontSize: fontSize ?? 20,
+        );
     return AutoSizeText(
       text,
-      style: style.merge(this.style),
+      style: style?.merge(this.style),
       maxLines: maxlines,
     );
   }

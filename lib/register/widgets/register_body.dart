@@ -108,13 +108,13 @@ class RegisterBody extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           children: [
-            const TextSpan(
+            TextSpan(
               text: 'Already have an account?',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.grey,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey,
+                  ),
             ),
             TextSpan(
               text: ' Login Now',
@@ -122,11 +122,11 @@ class RegisterBody extends StatelessWidget {
                 ..onTap = () => Get.offAll<void>(
                       () => const LoginPage(),
                     ),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: context.theme.primaryColor,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: context.theme.primaryColor,
+                  ),
             ),
           ],
         ),

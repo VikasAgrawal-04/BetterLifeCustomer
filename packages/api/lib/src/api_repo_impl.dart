@@ -129,4 +129,15 @@ class ApiRepoImpl implements ApiRepo {
       {required RescheduleAppointmentParams params}) {
     return _userRepo.rescheduleAppointment(params: params);
   }
+
+  @override
+  Future<ApiResult<String>> cancelAppointment({required int appointmendId}) {
+    return _userRepo.cancelAppointment(appointmendId: appointmendId);
+  }
+
+  @override
+  Future<ApiResult<String>> serviceRating(
+      {required ServiceRatingParams params}) {
+    return _userRepo.serviceRating(params: params);
+  }
 }

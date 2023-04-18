@@ -118,4 +118,13 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
       failure: DialogService.failure,
     );
   }
+
+  Future<void> cancel() async {
+    final resutl =
+        await api.cancelAppointment(appointmendId: appointment.apptid!);
+    resutl.when(
+      success: (data) => DialogService.success(data, onTap: () => Get.close(2)),
+      failure: DialogService.failure,
+    );
+  }
 }

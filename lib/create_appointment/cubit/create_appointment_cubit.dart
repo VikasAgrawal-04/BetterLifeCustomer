@@ -47,6 +47,10 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     emit(state.copyWith(caretakerLanguage: p1));
   }
 
+  void onCareTakerOtherLanguageChanged(String? p1) {
+    emit(state.copyWith(caretakerOtherLanguage: p1));
+  }
+
   void onRelationsWithApplicantChange(String? p1) {
     emit(state.copyWith(relationWithApplicant: p1));
   }
@@ -66,6 +70,13 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
 
   Future<void> createNewAppointment() async {
     try {
+      final visitDate = state.pickupTime!.add(
+        Duration(
+          hours: state.pickupTime!.hour,
+          minutes: state.pickupTime!.minute,
+        ),
+      );
+
       final params = CreateAppointmentParams(
         patientName: state.patientNameController.text,
         patientGender: state.gender!,
@@ -73,11 +84,13 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
         mobileNumber: state.mobileNumberController.text,
         noOfCaretakers: state.caretakersCount,
         caretakerGender: state.caretakerGender!,
-        caretakerLanguage: state.caretakerLanguage!,
+        caretakerLanguage: state.getCaretakerLanguage(),
         taxiNeeded: state.taxiRequired,
         acTaxi: state.taxiType == 'AC',
-        visitDate: state.dateOfVisit!,
-        pickUpTime: state.pickupTime!,
+        visitDate: visitDate,
+        // pickUpTime: state.pickupTime!,
+        // pickUpTime: pickUpTime,
+        drivetaxi: state.caretakerWhoCanDriveCar,
         pickUpAddress: state.pickupAddressController.text,
         pickUpPinCode: state.pickupPincodeController.text,
         hospital: state.hospitalController.text,

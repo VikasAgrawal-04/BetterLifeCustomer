@@ -2,7 +2,9 @@ import 'package:api/api.dart';
 import 'package:better_life_customer/services/bottom_sheet_service.dart';
 import 'package:better_life_customer/view_appointment/cubit/cubit.dart';
 import 'package:better_life_customer/view_appointment/widgets/reschedule_appointment.dart';
+import 'package:better_life_customer/view_appointment/widgets/show_data_grid.dart';
 import 'package:better_life_customer/widgets/appointment_card/card_header.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
@@ -30,8 +32,8 @@ class ViewAppointmentBody extends StatelessWidget {
                   child: Column(
                     children: [
                       CardHeader(
-                        date: app.visitdate,
-                        time: app.pickuptime,
+                        date: MyDateFormat.formatAppointmentDate(app.visitdate),
+                        time: MyDateFormat.formatTime(app.pickuptime),
                       ),
                       _buildDivider(),
                       const Gap(10),
@@ -50,32 +52,83 @@ class ViewAppointmentBody extends StatelessWidget {
                 const Gap(20),
                 _buildCaretakers(app.caretakers ?? []),
                 const Gap(20),
-                _buildImages(state.diets, 'Diets'),
-                const Gap(20),
-                _buildImages(state.notes, 'Notes'),
-                const Gap(20),
-                _buildImages(state.tests, 'Tests'),
-                const Gap(20),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: MyElevatedButton(
-                        text: 'Reschedule',
-                        color: const Color(0xffF4B85B),
-                        height: 38,
-                        onPressed: () async => reschedule(context),
-                      ),
+
+                Visibility(
+                  visible: context.read<ViewAppointmentCubit>().type ==
+                      AppointmentType.past,
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 10 / 3,
                     ),
-                    const Gap(30),
-                    const Expanded(
-                      child: MyElevatedButton(
-                        text: 'Cancel',
-                        color: Colors.red,
-                        height: 38,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shrinkWrap: true,
+                    children: [
+                      MyElevatedButton(
+                        text: 'Diets',
+                        onPressed: () async => Get.to<void>(
+                          () => ShowDataGrid(
+                            heading: 'Diets',
+                            list: state.diets,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      MyElevatedButton(
+                        text: 'Notes',
+                        onPressed: () async => Get.to<void>(
+                          () => ShowDataGrid(
+                            heading: 'Notes',
+                            list: state.notes,
+                          ),
+                        ),
+                      ),
+                      MyElevatedButton(
+                        text: 'Tests',
+                        onPressed: () async => Get.to<void>(
+                          () => ShowDataGrid(
+                            heading: 'Tests',
+                            list: state.tests,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // _buildImages(state.diets, 'Diets'),
+                // const Gap(20),
+                // _buildImages(state.notes, 'Notes'),
+                // const Gap(20),
+                // _buildImages(state.tests, 'Tests'),
+                // const Gap(20),
+                Visibility(
+                  visible: context.read<ViewAppointmentCubit>().type ==
+                      AppointmentType.future,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: MyElevatedButton(
+                          text: 'Reschedule',
+                          color: const Color(0xffF4B85B),
+                          height: 38,
+                          onPressed: () async => reschedule(context),
+                        ),
+                      ),
+                      const Gap(30),
+                      Expanded(
+                        child: MyElevatedButton(
+                          text: 'Cancel',
+                          color: Colors.red,
+                          height: 38,
+                          onPressed:
+                              context.read<ViewAppointmentCubit>().cancel,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 // _buildRow(Icons.dashboard_customize_sharp, 'Doctor: }'),
                 // _buildRow(Icons.dashboard_customize_sharp, 'Doctor: }'),
@@ -118,7 +171,11 @@ class ViewAppointmentBody extends StatelessWidget {
           const HeaderText(text: 'Caretakers'),
           const Gap(20),
           ListView.separated(
-            separatorBuilder: (context, index) => const Gap(10),
+            physics: const NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: _buildDivider(),
+            ),
             shrinkWrap: true,
             itemCount: caretakers.length,
             itemBuilder: (context, index) {
@@ -129,7 +186,7 @@ class ViewAppointmentBody extends StatelessWidget {
                     Icons.person_outlined,
                     '${caretaker.fullname}',
                   ),
-                  _buildDivider(),
+                  const Gap(10),
                   _buildRow(
                     Icons.phone_outlined,
                     '${caretaker.mobile}',
@@ -170,34 +227,34 @@ class ViewAppointmentBody extends StatelessWidget {
     );
   }
 
-  Widget _buildImages(List<String> list, String heading) {
-    return _container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          HeaderText(text: heading),
-          const Gap(20),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
-            ),
-            // separatorBuilder: (context, index) => const Gap(10),
-            shrinkWrap: true,
-            itemCount: list.length,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final diet = list[index];
-              return MyNetworkImage(
-                urlToImage: diet,
-                // height: 100,
-                // width: 1.sw,
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildImages(List<String> list, String heading) {
+  //   return _container(
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         HeaderText(text: heading),
+  //         const Gap(20),
+  //         GridView.builder(
+  //           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+  //             crossAxisCount: 2,
+  //             mainAxisSpacing: 20,
+  //             crossAxisSpacing: 20,
+  //           ),
+  //           // separatorBuilder: (context, index) => const Gap(10),
+  //           shrinkWrap: true,
+  //           itemCount: list.length,
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           itemBuilder: (context, index) {
+  //             final diet = list[index];
+  //             return MyNetworkImage(
+  //               urlToImage: diet,
+  //               // height: 100,
+  //               // width: 1.sw,
+  //             );
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

@@ -29,26 +29,14 @@ class App extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Pearl Hotel',
-            // You can use the library anywhere in the app even in theme
-            theme: MyTheme.light,
+            theme: MyTheme.light(context),
             home: BlocProvider<BottomNavCubit>(
               create: (context) => BottomNavCubit(),
               child: const SplashPage(),
             ),
           );
         },
-        // child: BlocProvider<BottomNavCubit>(
-        //   create: (context) => BottomNavCubit(),
-        //   child: const SplashPage(),
-        // ),
       ),
     );
-    // return GetMaterialApp(
-    //   theme: MyTheme.light,
-    //   home: const SplashPage(),
-    //   builder: (context, child) {
-
-    //   },
-    // );
   }
 }

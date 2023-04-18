@@ -74,7 +74,7 @@ class MyTextField extends StatelessWidget {
         if (hintText != null)
           Text(
             hintText!,
-            style: TextInputDecoration.labelTextStyle,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         if (hintText != null) const SizedBox(height: 5),
         TextFormField(

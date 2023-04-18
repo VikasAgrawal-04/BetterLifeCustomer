@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:api/converters/date_converter.dart';
 import 'package:date_format/date_format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,16 +9,16 @@ part 'reschedule_appointment_params.g.dart';
 class RescheduleAppointmentParams {
   final int appointmentId;
 
-  @JsonKey(toJson: _dateToJson)
+  // @JsonKey(toJson: _dateToJson)
+  @DateConverter()
   final DateTime appointmentDate;
 
-  @JsonKey(toJson: _timeToJson)
-  final DateTime appointmentTime;
+  // final DateTime appointmentTime;
 
   RescheduleAppointmentParams({
     required this.appointmentId,
     required this.appointmentDate,
-    required this.appointmentTime,
+    // required this.appointmentTime,
   });
 
   factory RescheduleAppointmentParams.fromJson(Map<String, dynamic> json) =>
@@ -25,7 +26,7 @@ class RescheduleAppointmentParams {
 
   Map<String, dynamic> toJson() => _$RescheduleAppointmentParamsToJson(this);
 
-  static String _dateToJson(DateTime date) =>
-      MyDateFormat.formatDateYYYYMMDD(date);
-  static String _timeToJson(DateTime date) => MyDateFormat.formatTimeHHMM(date);
+  // static String _dateToJson(DateTime date) =>
+  //     MyDateFormat.formatDateYYYYMMDD(date);
+  // static String _timeToJson(DateTime date) => MyDateFormat.formatTimeHHMM(date);
 }

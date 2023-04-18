@@ -32,4 +32,12 @@ abstract class UserRepo {
   Future<ApiResult<String>> rescheduleAppointment({
     required RescheduleAppointmentParams params,
   });
+
+  Future<ApiResult<String>> cancelAppointment({
+    required int appointmendId,
+  });
+
+  Future<ApiResult<String>> serviceRating({
+    required ServiceRatingParams params,
+  });
 }

@@ -30,7 +30,7 @@ class NetworkErrorDialog extends StatelessWidget {
           AspectRatio(
             aspectRatio: 4 / 2,
             child: Lottie.asset(
-              'assets/animations/network_error.json',
+              'assets/animations/error.json',
               frameRate: FrameRate.max,
               fit: BoxFit.contain,
               // width: 1.5.width,

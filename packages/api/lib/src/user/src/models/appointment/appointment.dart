@@ -16,6 +16,7 @@
 //   });
 // }
 
+import 'package:api/converters/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'appointment.g.dart';
@@ -38,8 +39,12 @@ class AppointmentResponseModel {
 @JsonSerializable()
 class Appointment {
   int? apptid;
-  String? visitdate;
-  String? pickuptime;
+
+  @DateConverter()
+  DateTime? visitdate;
+
+  @DateConverter()
+  DateTime? pickuptime;
   String? pickaddress;
   String? hospital;
   int? caretakerid;

@@ -39,13 +39,17 @@ class HomeBody extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         separatorBuilder: (context, index) => const Gap(20),
                         itemCount: state.appointments.length,
-                        itemBuilder: (context, index) => AppointmentCard(
-                          isViewButttonVisible: state.currentIndex != 0,
-                          appointment: state.appointments[index],
-                          onPressed: () => context
-                              .read<HomeCubit>()
-                              .viewAppointment(state.appointments[index]),
-                        ),
+                        itemBuilder: (context, index) {
+                          final appointment = state.appointments[index];
+                          return AppointmentCard(
+                            showRateService: state.currentIndex == 1,
+                            isViewButttonVisible: state.currentIndex != 0,
+                            appointment: state.appointments[index],
+                            onPressed: () => context
+                                .read<HomeCubit>()
+                                .viewAppointment(state.appointments[index]),
+                          );
+                        },
                       ),
                     ),
                   ],

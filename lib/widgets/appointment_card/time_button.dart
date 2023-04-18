@@ -17,17 +17,21 @@ class TimeButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const Gap(5),
           Icon(
             Icons.access_time,
             color: context.theme.primaryColor,
             size: 20,
           ),
           const Gap(5),
-          Text(
-            time,
-            style: TextStyle(
-              color: context.theme.primaryColor,
-              fontSize: 14,
+          Expanded(
+            child: Text(
+              time,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: context.theme.primaryColor,
+                fontSize: 14,
+              ),
             ),
           ),
         ],

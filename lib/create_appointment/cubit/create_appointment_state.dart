@@ -27,44 +27,46 @@ class CreateAppointmentState extends Equatable {
   final bool caretakerWhoCanDriveCar;
   final String? gender;
   final String? caretakerGender;
-  final List<String> caretakerLanguageList;
+  final List<Language> caretakerLanguageList;
   final List<int> apppointmentDurationList;
   final int appointmentDuration;
 
   final String? caretakerLanguage;
+  final String? caretakerOtherLanguage;
   final PageController pageController;
   final int step;
   final GlobalKey<FormState> formKey;
 
   const CreateAppointmentState({
+    this.dateOfVisit,
+    this.pickupTime,
     required this.pickupAddressController,
     required this.pickupPincodeController,
     required this.hospitalController,
     required this.doctorsNameController,
     required this.patientNameController,
     required this.mobileNumberController,
+    this.purposeOfVisit,
+    this.purposeOfVisitList = const [],
     required this.relationsWithApplicant,
+    this.relationWithApplicant,
     required this.caretakersCount,
     required this.genders,
     required this.caretakersCountList,
     required this.taxiTypes,
     required this.taxiType,
     required this.taxiRequired,
+    this.caretakerWhoCanDriveCar = false,
+    this.gender,
+    this.caretakerGender,
     required this.caretakerLanguageList,
     required this.apppointmentDurationList,
     required this.appointmentDuration,
+    this.caretakerLanguage,
+    this.caretakerOtherLanguage,
     required this.pageController,
     required this.step,
     required this.formKey,
-    this.caretakerWhoCanDriveCar = false,
-    this.dateOfVisit,
-    this.pickupTime,
-    this.purposeOfVisit,
-    this.purposeOfVisitList = const [],
-    this.relationWithApplicant,
-    this.gender,
-    this.caretakerGender,
-    this.caretakerLanguage,
   });
 
   factory CreateAppointmentState.initial() {
@@ -81,8 +83,16 @@ class CreateAppointmentState extends Equatable {
       'Other'
     ];
     const taxiTypes2 = ['AC', 'Non AC'];
-    const caretakerLanguageList2 = ['English', 'Hindi', 'Other'];
-    const genders2 = ['M', 'F'];
+    // const caretakerLanguageList2 = [
+    //   'English',
+    //   'Hindi',
+    //   'Konkani',
+    //   'Marathi',
+    //   'Kannada',
+    //   'Malayalam',
+    //   'Other'
+    // ];
+    const genders2 = ['Male', 'Female', 'Other'];
     return CreateAppointmentState(
       apppointmentDurationList:
           List.generate(10, (index) => index + 1).toList(),
@@ -105,14 +115,13 @@ class CreateAppointmentState extends Equatable {
       taxiTypes: taxiTypes2,
       taxiType: taxiTypes2.first,
       taxiRequired: false,
-      caretakerLanguageList: caretakerLanguageList2,
+      caretakerLanguageList: Language.values,
     );
   }
 
   @override
   List<Object?> get props {
     return [
-      caretakerWhoCanDriveCar,
       dateOfVisit,
       pickupTime,
       pickupAddressController,
@@ -131,12 +140,14 @@ class CreateAppointmentState extends Equatable {
       taxiTypes,
       taxiType,
       taxiRequired,
+      caretakerWhoCanDriveCar,
       gender,
       caretakerGender,
       caretakerLanguageList,
       apppointmentDurationList,
       appointmentDuration,
       caretakerLanguage,
+      caretakerOtherLanguage,
       pageController,
       step,
       formKey,
@@ -165,10 +176,11 @@ class CreateAppointmentState extends Equatable {
     bool? caretakerWhoCanDriveCar,
     String? gender,
     String? caretakerGender,
-    List<String>? caretakerLanguageList,
+    List<Language>? caretakerLanguageList,
     List<int>? apppointmentDurationList,
     int? appointmentDuration,
     String? caretakerLanguage,
+    String? caretakerOtherLanguage,
     PageController? pageController,
     int? step,
     GlobalKey<FormState>? formKey,
@@ -209,9 +221,16 @@ class CreateAppointmentState extends Equatable {
           apppointmentDurationList ?? this.apppointmentDurationList,
       appointmentDuration: appointmentDuration ?? this.appointmentDuration,
       caretakerLanguage: caretakerLanguage ?? this.caretakerLanguage,
+      caretakerOtherLanguage:
+          caretakerOtherLanguage ?? this.caretakerOtherLanguage,
       pageController: pageController ?? this.pageController,
       step: step ?? this.step,
       formKey: formKey ?? this.formKey,
     );
   }
+
+  String getCaretakerLanguage() =>
+      caretakerLanguage?.toLowerCase() == Language.other.name.toLowerCase()
+          ? caretakerOtherLanguage ?? ''
+          : caretakerLanguage ?? '';
 }

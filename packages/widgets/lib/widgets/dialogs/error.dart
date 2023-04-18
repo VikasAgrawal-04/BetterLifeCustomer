@@ -27,7 +27,7 @@ class ErrorDialog extends StatelessWidget {
           const Gap(20),
           Center(
             child: Lottie.asset(
-              'packages/widgets/assets/animations/error.json',
+              'assets/animations/error.json',
               height: 100,
               // width: 50,
               fit: BoxFit.cover,

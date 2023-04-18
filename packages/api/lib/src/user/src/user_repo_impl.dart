@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/constants/endpoints.dart';
 import 'package:api/src/auth/src/models/user.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
@@ -12,7 +13,10 @@ class UserRepoImpl implements UserRepo {
   final Client client;
   final StorageService storage;
 
-  UserRepoImpl({required this.storage, required this.client});
+  UserRepoImpl({
+    required this.client,
+    required this.storage,
+  });
 
   @override
   Future<ApiResult<List<Appointment>>> getAppointments(
@@ -245,6 +249,90 @@ class UserRepoImpl implements UserRepo {
     try {
       final result = await client.post(
         Endpoints.rescheduleAppointment,
+        queryParameters: params.toJson(),
+      );
+
+      if (result.data['code'] == '404') {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            (result.data['message']),
+          ),
+        );
+      }
+      if (result.data['status'] == false) {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            _parseError(result.data),
+          ),
+        );
+      }
+
+      final String message = result.data['message'] as String;
+
+      return ApiResult.success(
+        data: message,
+      );
+    } catch (e) {
+      if (e is DioError) {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            _parseError(e.response?.data),
+          ),
+        );
+      }
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<String>> cancelAppointment({
+    required int appointmendId,
+  }) async {
+    try {
+      final result = await client.post(
+        Endpoints.cancelAppointment,
+        queryParameters: {'appointmentId': appointmendId},
+      );
+
+      if (result.data['code'] == '404') {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            (result.data['message']),
+          ),
+        );
+      }
+      if (result.data['status'] == false) {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            _parseError(result.data),
+          ),
+        );
+      }
+
+      final String message = result.data['message'] as String;
+
+      return ApiResult.success(
+        data: message,
+      );
+    } catch (e) {
+      if (e is DioError) {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(
+            _parseError(e.response?.data),
+          ),
+        );
+      }
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<String>> serviceRating({
+    required ServiceRatingParams params,
+  }) async {
+    try {
+      final result = await client.post(
+        Endpoints.serviceRating,
         queryParameters: params.toJson(),
       );
 

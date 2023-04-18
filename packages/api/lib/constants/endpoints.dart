@@ -22,4 +22,7 @@ class Endpoints {
   static String viewTests = '/viewTests';
   static String viewNotes = '/viewNotes';
   static String rescheduleAppointment = '/rescheduleAppointment';
+
+  static String cancelAppointment = '/cancleAppointment';
+  static String serviceRating = '/serviceRating';
 }

@@ -1,5 +1,7 @@
+import 'package:api/api.dart';
 import 'package:better_life_customer/create_appointment/cubit/create_appointment_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
@@ -74,31 +76,41 @@ class AppointmentStep2 extends StatelessWidget {
               //     onChanged: cubit.onTaxiRequiredChanged,
               //   ),
               // ),
-              MyDropdownField(
+              MyDropdownField<String>(
                 title: 'Preferred caretaker language',
                 value: state.caretakerLanguage,
-                items: state.caretakerLanguageList,
+                items: state.caretakerLanguageList
+                    .map((e) => e.name.capitalize!)
+                    .toList(),
                 onChanged: cubit.onCareTakersLanguageChanged,
               ),
-              MyDropdownField(
-                title: 'Appointment duration (in hours)',
-                value: state.appointmentDuration,
-                items: state.apppointmentDurationList,
-                onChanged: cubit.onAppointmentDurationChanged,
+              Visibility(
+                visible: state.caretakerLanguage?.toLowerCase() ==
+                    Language.other.name.toLowerCase(),
+                child: MyTextField(
+                  hintText: 'Please Specify Language',
+                  onChanged: cubit.onCareTakerOtherLanguageChanged,
+                ),
+              ),
+              // _buildAppointmentDurationField(cubit, state, context),
+              MyTextField(
+                hintText: 'Appointment duration (in hours)',
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                textInputType: TextInputType.number,
+                onChanged: (s) =>
+                    cubit.onAppointmentDurationChanged(int.parse(s)),
               ),
               ChoiceWidget(
                 title: 'Want caretaker who can drive your car',
                 value: state.caretakerWhoCanDriveCar,
                 onChanged: cubit.caretakerWhoCanDriveCarChanged,
               ),
-              // ChoiceWidget(
-              //   title: 'Taxi Required',
-              //   value: state.taxiRequired,
-              //   onChanged: cubit.onTaxiRequiredChanged,
-              // ),
+
               const Gap(10),
               Row(
-                children: [
+              children: [
                   Expanded(
                     child: MyElevatedButton(
                       text: 'Back',
