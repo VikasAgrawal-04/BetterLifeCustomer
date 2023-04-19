@@ -110,12 +110,13 @@ class AppointmentStep2 extends StatelessWidget {
 
               const Gap(10),
               Row(
-              children: [
+                children: [
                   Expanded(
                     child: MyElevatedButton(
                       text: 'Back',
                       color: Colors.black,
-                      onPressed: () async => cubit.changeStep(state.step - 1),
+                      onPressed: () async =>
+                          cubit.changeStep(state.step - 1, validate: false),
                     ),
                   ),
                   SizedBox(width: 1.sw * 0.15),

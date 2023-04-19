@@ -111,7 +111,7 @@ class AppointmentCard extends StatelessWidget {
           fontSize: 18,
         ),
         const Spacer(),
-        _buildButton(context, appointment.visitdate),
+        _buildButton(context, appointment.pickuptime),
       ],
     );
   }

@@ -55,10 +55,12 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     emit(state.copyWith(relationWithApplicant: p1));
   }
 
-  Future<void> changeStep(int i) async {
-    final isValidated = state.formKey.currentState?.validate() ?? false;
-    if (!isValidated) {
-      return;
+  Future<void> changeStep(int i, {bool validate = true}) async {
+    if (validate) {
+      final isValidated = state.formKey.currentState?.validate() ?? false;
+      if (!isValidated) {
+        return;
+      }
     }
 
     await state.pageController.animateToPage(

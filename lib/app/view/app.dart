@@ -28,7 +28,7 @@ class App extends StatelessWidget {
         builder: (context, child) {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Pearl Hotel',
+            title: 'Better Life',
             theme: MyTheme.light(context),
             home: BlocProvider<BottomNavCubit>(
               create: (context) => BottomNavCubit(),
