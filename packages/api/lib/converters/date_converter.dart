@@ -6,7 +6,7 @@ class DateConverter implements JsonConverter<DateTime?, String?> {
   @override
   DateTime? fromJson(String? json) {
     if (json == null) return null;
-    return DateTime.parse(json).toLocal();
+    return DateTime.parse(json);
   }
 
   @override

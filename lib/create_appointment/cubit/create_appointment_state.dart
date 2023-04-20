@@ -29,6 +29,9 @@ class CreateAppointmentState extends Equatable {
   final String? caretakerGender;
   final List<Language> caretakerLanguageList;
   final List<int> apppointmentDurationList;
+
+  final List<Caretaker> previousCaretakers;
+
   final int appointmentDuration;
 
   final String? caretakerLanguage;
@@ -61,6 +64,7 @@ class CreateAppointmentState extends Equatable {
     this.caretakerGender,
     required this.caretakerLanguageList,
     required this.apppointmentDurationList,
+    required this.previousCaretakers,
     required this.appointmentDuration,
     this.caretakerLanguage,
     this.caretakerOtherLanguage,
@@ -94,6 +98,7 @@ class CreateAppointmentState extends Equatable {
     // ];
     const genders2 = ['Male', 'Female', 'Other'];
     return CreateAppointmentState(
+      previousCaretakers: const [],
       apppointmentDurationList:
           List.generate(10, (index) => index + 1).toList(),
       appointmentDuration: 1,
@@ -145,6 +150,7 @@ class CreateAppointmentState extends Equatable {
       caretakerGender,
       caretakerLanguageList,
       apppointmentDurationList,
+      previousCaretakers,
       appointmentDuration,
       caretakerLanguage,
       caretakerOtherLanguage,
@@ -178,6 +184,7 @@ class CreateAppointmentState extends Equatable {
     String? caretakerGender,
     List<Language>? caretakerLanguageList,
     List<int>? apppointmentDurationList,
+    List<Caretaker>? previousCaretakers,
     int? appointmentDuration,
     String? caretakerLanguage,
     String? caretakerOtherLanguage,
@@ -219,6 +226,7 @@ class CreateAppointmentState extends Equatable {
           caretakerLanguageList ?? this.caretakerLanguageList,
       apppointmentDurationList:
           apppointmentDurationList ?? this.apppointmentDurationList,
+      previousCaretakers: previousCaretakers ?? this.previousCaretakers,
       appointmentDuration: appointmentDuration ?? this.appointmentDuration,
       caretakerLanguage: caretakerLanguage ?? this.caretakerLanguage,
       caretakerOtherLanguage:

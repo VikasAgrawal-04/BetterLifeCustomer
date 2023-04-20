@@ -45,7 +45,7 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<ApiResult<User>> signIn({required LoginParams data}) async {
+  Future<ApiResult<SignInResponse>> signIn({required LoginParams data}) async {
     try {
       final result = await client.post(
         Endpoints.loginCustomer,
@@ -54,6 +54,14 @@ class AuthRepoImpl implements AuthRepo {
 
       // // final code = result.data['code'];
       if (result.data['code'] != '200') {
+        if (result.data['data']['isOtpVerified'] == '0') {
+          final response = SignInResponse(
+            isOtpVerified: false,
+            message: result.data['message'],
+          );
+          return ApiResult.success(data: response);
+        }
+
         return ApiResult.failure(
           error: NetworkExceptions.defaultError(_parseError(result.data)),
         );
@@ -67,7 +75,7 @@ class AuthRepoImpl implements AuthRepo {
           storage.setIsLoggedIn(true),
         ],
       );
-      return ApiResult.success(data: model.user!);
+      return ApiResult.success(data: model);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }

@@ -4,7 +4,6 @@ import 'package:better_life_customer/view_appointment/cubit/cubit.dart';
 import 'package:better_life_customer/view_appointment/widgets/reschedule_appointment.dart';
 import 'package:better_life_customer/view_appointment/widgets/show_data_grid.dart';
 import 'package:better_life_customer/widgets/appointment_card/card_header.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
@@ -32,8 +31,8 @@ class ViewAppointmentBody extends StatelessWidget {
                   child: Column(
                     children: [
                       CardHeader(
-                        date: MyDateFormat.formatAppointmentDate(app.visitdate),
-                        time: MyDateFormat.formatTime(app.pickuptime),
+                        date: app.visitdate,
+                        time: app.pickuptime,
                       ),
                       _buildDivider(),
                       const Gap(10),
@@ -54,8 +53,7 @@ class ViewAppointmentBody extends StatelessWidget {
                 const Gap(20),
 
                 Visibility(
-                  visible: context.read<ViewAppointmentCubit>().type ==
-                      AppointmentType.past,
+                  visible: state.type.isPast,
                   child: GridView(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -94,18 +92,21 @@ class ViewAppointmentBody extends StatelessWidget {
                           ),
                         ),
                       ),
+                      MyElevatedButton(
+                        text: 'Prescriptions',
+                        onPressed: () async => Get.to<void>(
+                          () => ShowDataGrid(
+                            heading: 'Prescriptions',
+                            list: state.prescriptions,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                // _buildImages(state.diets, 'Diets'),
-                // const Gap(20),
-                // _buildImages(state.notes, 'Notes'),
-                // const Gap(20),
-                // _buildImages(state.tests, 'Tests'),
-                // const Gap(20),
+
                 Visibility(
-                  visible: context.read<ViewAppointmentCubit>().type ==
-                      AppointmentType.future,
+                  visible: state.type.isFuture,
                   child: Row(
                     children: [
                       Expanded(
@@ -164,6 +165,9 @@ class ViewAppointmentBody extends StatelessWidget {
   }
 
   Widget _buildCaretakers(List<Caretaker> caretakers) {
+    if (caretakers.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return _container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,35 +230,4 @@ class ViewAppointmentBody extends StatelessWidget {
       ],
     );
   }
-
-  // Widget _buildImages(List<String> list, String heading) {
-  //   return _container(
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         HeaderText(text: heading),
-  //         const Gap(20),
-  //         GridView.builder(
-  //           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-  //             crossAxisCount: 2,
-  //             mainAxisSpacing: 20,
-  //             crossAxisSpacing: 20,
-  //           ),
-  //           // separatorBuilder: (context, index) => const Gap(10),
-  //           shrinkWrap: true,
-  //           itemCount: list.length,
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           itemBuilder: (context, index) {
-  //             final diet = list[index];
-  //             return MyNetworkImage(
-  //               urlToImage: diet,
-  //               // height: 100,
-  //               // width: 1.sw,
-  //             );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

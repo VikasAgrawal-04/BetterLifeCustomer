@@ -39,7 +39,7 @@ class ApiRepoImpl implements ApiRepo {
   Future<void> logout() => _authRepo.logout();
 
   @override
-  Future<ApiResult<User>> signIn({required LoginParams data}) {
+  Future<ApiResult<SignInResponse>> signIn({required LoginParams data}) {
     return _authRepo.signIn(data: data);
   }
 
@@ -99,7 +99,8 @@ class ApiRepoImpl implements ApiRepo {
   }
 
   @override
-  Future<ApiResult<String>> createAppointment(CreateAppointmentParams params) {
+  Future<ApiResult<AppointmentResponse>> createAppointment(
+      CreateAppointmentParams params) {
     return _userRepo.createAppointment(params);
   }
 
@@ -139,5 +140,27 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<String>> serviceRating(
       {required ServiceRatingParams params}) {
     return _userRepo.serviceRating(params: params);
+  }
+
+  @override
+  Future<ApiResult<List<String>>> viewPrescriptions(
+      {required int appointmentId}) {
+    return _userRepo.viewPrescriptions(appointmentId: appointmentId);
+  }
+
+  @override
+  Future<ApiResult<List<Caretaker>>> previousCaretaker() {
+    return _userRepo.previousCaretaker();
+  }
+
+  @override
+  Future<ApiResult<String>> selectPreviousCareTakers(
+      SelectCaretakerParams params) {
+    return _userRepo.selectPreviousCareTakers(params);
+  }
+  
+  @override
+  Stream<List<Appointment>> getAppointmentStream({required AppointmentType type}) {
+    return _userRepo.getAppointmentStream(type: type);
   }
 }

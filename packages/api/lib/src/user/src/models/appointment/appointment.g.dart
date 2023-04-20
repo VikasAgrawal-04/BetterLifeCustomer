@@ -28,8 +28,8 @@ Map<String, dynamic> _$AppointmentResponseModelToJson(
 
 Appointment _$AppointmentFromJson(Map<String, dynamic> json) => Appointment(
       apptid: json['apptid'] as int?,
-      visitdate: const DateConverter().fromJson(json['visitdate'] as String?),
-      pickuptime: const DateConverter().fromJson(json['pickuptime'] as String?),
+      visitdate: json['visitdate'] as String?,
+      pickuptime: json['pickuptime'] as String?,
       pickaddress: json['pickaddress'] as String?,
       hospital: json['hospital'] as String?,
       caretakerid: json['caretakerid'] as int?,
@@ -38,17 +38,18 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) => Appointment(
       caretakers: (json['caretakers'] as List<dynamic>?)
           ?.map((e) => Caretaker.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..otp = json['otp'] as String?;
 
 Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
     <String, dynamic>{
       'apptid': instance.apptid,
-      'visitdate': const DateConverter().toJson(instance.visitdate),
-      'pickuptime': const DateConverter().toJson(instance.pickuptime),
+      'visitdate': instance.visitdate,
+      'pickuptime': instance.pickuptime,
       'pickaddress': instance.pickaddress,
       'hospital': instance.hospital,
       'caretakerid': instance.caretakerid,
       'doctor': instance.doctor,
+      'otp': instance.otp,
       'taxineeded': instance.taxineeded,
       'caretakers': instance.caretakers,
     };

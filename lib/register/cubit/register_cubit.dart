@@ -49,7 +49,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> success(SignupResponseModel data) async {
-    Future<void>? onTap() => Get.to<void>(
+    Future<void>? onTap() => Get.offAll<void>(
           OtpPage(
             contactNumber: state.mobile.text,
           ),
@@ -60,16 +60,5 @@ class RegisterCubit extends Cubit<RegisterState> {
         onContinue: onTap,
       ),
     );
-
-    // DialogService.success(
-    //   data.message,
-
-    //   onTap: () => Get.to<void>(
-    //     OtpPage(
-    //       contactNumber: state.mobile.text,
-    //     ),
-    //   ),
-    // );
-    // return null;
   }
 }

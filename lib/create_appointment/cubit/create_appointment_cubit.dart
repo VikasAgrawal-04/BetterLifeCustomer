@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:better_life_customer/select_previous_caretaker/view/select_previous_caretaker_page.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,7 +9,9 @@ import 'package:widgets/widgets.dart';
 part 'create_appointment_state.dart';
 
 class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
-  CreateAppointmentCubit(this.api) : super(CreateAppointmentState.initial());
+  CreateAppointmentCubit(this.api) : super(CreateAppointmentState.initial()) {
+    getPreviousCaretaker();
+  }
   final ApiRepo api;
 
   void onPickupTimeChanged(DateTime value) {
@@ -27,6 +30,7 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     emit(state.copyWith(gender: p1));
   }
 
+  // ignore: avoid_positional_boolean_parameters
   void onTaxiRequiredChanged(bool value) {
     emit(state.copyWith(taxiRequired: value));
   }
@@ -66,16 +70,17 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     await state.pageController.animateToPage(
       i,
       duration: kDuration,
-      curve: Curves.easeIn,
+      curve: Curves.fastLinearToSlowEaseIn,
     );
   }
 
   Future<void> createNewAppointment() async {
     try {
-      final visitDate = state.pickupTime!.add(
+      final visitDate = state.dateOfVisit!.add(
         Duration(
           hours: state.pickupTime!.hour,
           minutes: state.pickupTime!.minute,
+          seconds: state.pickupTime!.second,
         ),
       );
 
@@ -90,8 +95,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
         taxiNeeded: state.taxiRequired,
         acTaxi: state.taxiType == 'AC',
         visitDate: visitDate,
-        // pickUpTime: state.pickupTime!,
-        // pickUpTime: pickUpTime,
         drivetaxi: state.caretakerWhoCanDriveCar,
         pickUpAddress: state.pickupAddressController.text,
         pickUpPinCode: state.pickupPincodeController.text,
@@ -104,17 +107,48 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       final result = await api.createAppointment(params);
       result.when(
         success: (value) {
-          DialogService.success(
-            value,
-            onTap: () => Get.close(2),
+          final hasCaretakers = state.previousCaretakers.isNotEmpty;
+          DialogService.showDialog<void>(
+            child: SuccessDialog(
+              buttonText: hasCaretakers ? 'Select Previous Caretaker' : 'Close',
+              message: value.message,
+              onTap: () async {
+                if (hasCaretakers) {
+                  Get.close(2);
+                  await Get.to<void>(
+                    () => SelectPreviousCaretakerPage(
+                      caretakers: state.previousCaretakers,
+                      appointmentId: value.id,
+                    ),
+                  );
+                } else {
+                  await api.getAppointments(type: AppointmentType.future);
+                  Get.close(2);
+                }
+              },
+            ),
           );
+        },
+        failure: DialogService.failure,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> getPreviousCaretaker() async {
+    try {
+      final result = await api.previousCaretaker();
+      result.when(
+        success: (value) {
+          emit(state.copyWith(previousCaretakers: value));
         },
         failure: (e) {
           DialogService.failure(e);
         },
       );
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

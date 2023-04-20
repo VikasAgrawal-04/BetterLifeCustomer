@@ -1,4 +1,5 @@
 import 'package:better_life_customer/create_appointment/cubit/cubit.dart';
+import 'package:better_life_customer/create_appointment/widgets/appointment_step3.dart';
 import 'package:better_life_customer/create_appointment/widgets/appointment_step_1.dart';
 import 'package:better_life_customer/create_appointment/widgets/appointment_step_2.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +36,11 @@ class CreateAppointmentBody extends StatelessWidget {
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: state.pageController,
-                  children: [const AppointmentStep1(), const AppointmentStep2()]
-                      .map((e) => SingleChildScrollView(child: e))
-                      .toList(),
+                  children: [
+                    const AppointmentStep1(),
+                    const AppointmentStep2(),
+                    const AppointmentStep3(),
+                  ].map((e) => SingleChildScrollView(child: e)).toList(),
                 ),
               ),
             ],

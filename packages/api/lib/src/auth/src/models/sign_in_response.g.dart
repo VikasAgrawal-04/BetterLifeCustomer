@@ -8,6 +8,9 @@ part of 'sign_in_response.dart';
 
 SignInResponse _$SignInResponseFromJson(Map<String, dynamic> json) =>
     SignInResponse(
+      isOtpVerified: json['isOtpVerified'] == null
+          ? true
+          : const BoolConverter().fromJson(json['isOtpVerified'] as int),
       status: json['status'] as bool?,
       balancePoints: json['balance_points'] as int?,
       token: json['token'] as String?,
@@ -24,4 +27,5 @@ Map<String, dynamic> _$SignInResponseToJson(SignInResponse instance) =>
       'token': instance.token,
       'message': instance.message,
       'data': instance.user,
+      'isOtpVerified': const BoolConverter().toJson(instance.isOtpVerified),
     };

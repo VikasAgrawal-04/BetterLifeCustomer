@@ -81,6 +81,9 @@ class RegisterBody extends StatelessWidget {
                   hintText: 'Alternate Contact Number',
                   controller: state.alternateNumber,
                   validator: (p0) {
+                    if (p0!.isNotEmpty) {
+                      return 'Mobile number must be 10 digits';
+                    }
                     return null;
                   },
                   // textInputAction: TextInputAction.next,

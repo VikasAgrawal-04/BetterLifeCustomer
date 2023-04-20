@@ -98,8 +98,15 @@ class MyTheme {
       //     fontFamily: fontFamily,
       //   ),
       // ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.all(kPrimaryColor),
+        checkColor: MaterialStateProperty.all(Colors.white),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+      ),
       colorScheme: ThemeData.light().colorScheme.copyWith(
-            secondary: kSecondaryLightColor,
+            secondary: kPrimaryColor,
             background: kPrimaryColor,
           ),
     );

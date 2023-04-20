@@ -11,4 +11,7 @@ abstract class ApiResult<T> with _$ApiResult<T> {
 
   const factory ApiResult.failure({required NetworkExceptions error}) =
       Failure<T>;
+
+  
+  
 }

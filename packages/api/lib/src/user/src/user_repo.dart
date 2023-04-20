@@ -12,7 +12,7 @@ abstract class UserRepo {
   Future<ApiResult<ProfileUpdateResponseModel>> updateProfile(
       {required UpdateProfileParams params});
   Future<ApiResult<User>> resetPassword(ResetPasswordParams params);
-  Future<ApiResult<String>> createAppointment(
+  Future<ApiResult<AppointmentResponse>> createAppointment(
     CreateAppointmentParams params,
   );
   Future<ApiResult<Appointment>> viewAppointment({
@@ -40,4 +40,16 @@ abstract class UserRepo {
   Future<ApiResult<String>> serviceRating({
     required ServiceRatingParams params,
   });
+
+  Future<ApiResult<List<String>>> viewPrescriptions({
+    required int appointmentId,
+  });
+
+  Future<ApiResult<String>> selectPreviousCareTakers(
+      SelectCaretakerParams params);
+
+  Future<ApiResult<List<Caretaker>>> previousCaretaker();
+
+  Stream<List<Appointment>> getAppointmentStream(
+      {required AppointmentType type});
 }

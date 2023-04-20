@@ -1,3 +1,4 @@
+import 'package:api/converters/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'user.dart';
@@ -15,7 +16,12 @@ class SignInResponse {
   @JsonKey(name: 'data')
   User? user;
 
+  @BoolConverter()
+  @JsonKey(defaultValue: true)
+  bool isOtpVerified;
+
   SignInResponse({
+    this.isOtpVerified = true,
     this.status,
     this.balancePoints,
     this.token,

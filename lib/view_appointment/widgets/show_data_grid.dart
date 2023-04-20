@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:better_life_customer/view_appointment/widgets/photo_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
@@ -27,16 +28,16 @@ class ShowDataGrid extends StatelessWidget {
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
         ),
-        // separatorBuilder: (context, index) => const Gap(10),
-        // shrinkWrap: false,
         itemCount: list.length,
-        // physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final diet = list[index];
           return MyNetworkImage(
             urlToImage: diet,
-            // height: 100,
-            // width: 1.sw,
+            onTap: () => Get.to<void>(
+              () => PhotoViewer(
+                url: diet,
+              ),
+            ),
           );
         },
       ),

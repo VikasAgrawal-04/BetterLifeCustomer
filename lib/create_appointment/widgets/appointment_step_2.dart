@@ -68,14 +68,6 @@ class AppointmentStep2 extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              // Visibility(
-
-              //   child: ChoiceWidget(
-              //     title: 'Taxi Required',
-              //     value: state.taxiRequired,
-              //     onChanged: cubit.onTaxiRequiredChanged,
-              //   ),
-              // ),
               MyDropdownField<String>(
                 title: 'Preferred caretaker language',
                 value: state.caretakerLanguage,
@@ -92,7 +84,6 @@ class AppointmentStep2 extends StatelessWidget {
                   onChanged: cubit.onCareTakerOtherLanguageChanged,
                 ),
               ),
-              // _buildAppointmentDurationField(cubit, state, context),
               MyTextField(
                 hintText: 'Appointment duration (in hours)',
                 inputFormatters: [
@@ -101,13 +92,13 @@ class AppointmentStep2 extends StatelessWidget {
                 textInputType: TextInputType.number,
                 onChanged: (s) =>
                     cubit.onAppointmentDurationChanged(int.parse(s)),
+                initialValue: state.appointmentDuration.toString(),
               ),
               ChoiceWidget(
                 title: 'Want caretaker who can drive your car',
                 value: state.caretakerWhoCanDriveCar,
                 onChanged: cubit.caretakerWhoCanDriveCarChanged,
               ),
-
               const Gap(10),
               Row(
                 children: [
@@ -126,44 +117,12 @@ class AppointmentStep2 extends StatelessWidget {
                       onPressed: cubit.submitAppointment,
                     ),
                   ),
-                  // MyElevatedButton(
-                  //   text: 'Back',
-                  //   onPressed: cubit.submitAppointment,
-                  // ),
-                  // MyElevatedButton(
-                  //   text: 'Next',
-                  //   onPressed: cubit.submitAppointment,
-                  // ),
                 ],
               ),
-
-              // _buildCareTakerWithCarDriving(),
             ],
           ),
         );
       },
     );
   }
-
-  // Column _buildCareTakerWithCarDriving() {
-  //   return Column(
-  //     children: [
-  //       const HeaderText(text: 'Want caretaker who can drive your car?'),
-  //       Row(
-  //         children: [
-  //           MyRadio(
-  //             label: 'Yes',
-  //             value: true,
-  //             onChanged: onChanged,
-  //           ),
-  //           MyRadio(
-  //             label: 'No',
-  //             value: false,
-  //             onChanged: onChanged,
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
 }

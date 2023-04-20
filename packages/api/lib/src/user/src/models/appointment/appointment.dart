@@ -40,15 +40,14 @@ class AppointmentResponseModel {
 class Appointment {
   int? apptid;
 
-  @DateConverter()
-  DateTime? visitdate;
+  String? visitdate;
 
-  @DateConverter()
-  DateTime? pickuptime;
+  String? pickuptime;
   String? pickaddress;
   String? hospital;
   int? caretakerid;
   String? doctor;
+  String? otp;
 
   @JsonKey(name: 'taxineeded', fromJson: _boolFromJson)
   bool taxineeded;

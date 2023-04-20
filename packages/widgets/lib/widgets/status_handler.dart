@@ -49,8 +49,7 @@ class StatusHandler extends StatelessWidget {
     switch (status) {
       case Status.initial:
       case Status.loading:
-        child = Center(
-            child: loadingBuilder?.call(context) ?? const MyLoadingIndicator());
+        child = loadingBuilder?.call(context) ?? const MyLoadingIndicator();
         break;
       case Status.empty:
         child = emptyBuilder?.call(context) ??

@@ -9,34 +9,39 @@ import 'package:widgets/widgets.dart';
 part 'view_appointment_state.dart';
 
 class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
-  ViewAppointmentCubit(this.appointment, this.api, this.type)
+  ViewAppointmentCubit(Appointment appointment, this.api, AppointmentType type)
       : super(
           ViewAppointmentState(
+            type: type,
             appointment: appointment,
             status: Status.loading,
             diets: const [],
             notes: const [],
             tests: const [],
+            prescriptions: const [],
           ),
         ) {
     init();
   }
   final ApiRepo api;
-  final Appointment appointment;
-  final AppointmentType type;
+  // final Appointment appointment;
+  // final AppointmentType type;
 
   Future<void> init() async {
     fetchAppointmentDetails();
-    fetchDiets();
-    fetchNotes();
-    fetchTests();
+    if (state.type.isPast) {
+      fetchDiets();
+      fetchNotes();
+      fetchTests();
+      fetchPresciptions();
+    }
   }
 
   /// A description for yourCustomFunction
   FutureOr<void> fetchAppointmentDetails() async {
     final result = await api.viewAppointment(
-      appointmentId: appointment.apptid!,
-      type: type,
+      appointmentId: state.appointment.apptid!,
+      type: state.type,
     );
     result.when(
       success: (data) {
@@ -56,7 +61,7 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
 
   FutureOr<void> fetchDiets() async {
     final result = await api.viewDiets(
-      appointmentId: appointment.apptid!,
+      appointmentId: state.appointment.apptid!,
     );
     result.when(
       success: (data) {
@@ -75,7 +80,7 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
 
   FutureOr<void> fetchNotes() async {
     final result = await api.viewNotes(
-      appointmentId: appointment.apptid!,
+      appointmentId: state.appointment.apptid!,
     );
     result.when(
       success: (data) {
@@ -94,13 +99,32 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
 
   FutureOr<void> fetchTests() async {
     final result = await api.viewTests(
-      appointmentId: appointment.apptid!,
+      appointmentId: state.appointment.apptid!,
     );
     result.when(
       success: (data) {
         emit(
           state.copyWith(
             tests: data,
+          ),
+        );
+      },
+      failure: (e) {
+        emit(state.copyWith(status: Status.error));
+        DialogService.failure(e);
+      },
+    );
+  }
+
+  FutureOr<void> fetchPresciptions() async {
+    final result = await api.viewPrescriptions(
+      appointmentId: state.appointment.apptid!,
+    );
+    result.when(
+      success: (data) {
+        emit(
+          state.copyWith(
+            prescriptions: data,
           ),
         );
       },
@@ -121,9 +145,15 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
 
   Future<void> cancel() async {
     final resutl =
-        await api.cancelAppointment(appointmendId: appointment.apptid!);
+        await api.cancelAppointment(appointmendId: state.appointment.apptid!);
     resutl.when(
-      success: (data) => DialogService.success(data, onTap: () => Get.close(2)),
+      success: (data) => DialogService.success(
+        data,
+        onTap: () async {
+          await api.getAppointments(type: AppointmentType.future);
+          Get.close(2);
+        },
+      ),
       failure: DialogService.failure,
     );
   }

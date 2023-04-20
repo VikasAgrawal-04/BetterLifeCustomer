@@ -55,7 +55,7 @@ class MyElevatedButton extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
-      child: _showLoading(),
+      child: const MyLoadingIndicator(),
     );
   }
 

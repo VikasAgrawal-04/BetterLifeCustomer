@@ -4,6 +4,7 @@ import 'package:api/src/auth/src/models/user.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api_client/api_client.dart';
 import 'package:api_client/configs/client.dart';
+import 'package:rxdart/subjects.dart';
 
 import '../../auth/src/models/reset_password_params.dart';
 import 'models/models.dart';
@@ -18,9 +19,17 @@ class UserRepoImpl implements UserRepo {
     required this.storage,
   });
 
+  final BehaviorSubject<List<Appointment>> _pastAppointments =
+      BehaviorSubject<List<Appointment>>.seeded([]);
+  final BehaviorSubject<List<Appointment>> _presentAppointments =
+      BehaviorSubject<List<Appointment>>.seeded([]);
+  final BehaviorSubject<List<Appointment>> _futureAppointments =
+      BehaviorSubject<List<Appointment>>.seeded([]);
+
   @override
-  Future<ApiResult<List<Appointment>>> getAppointments(
-      {required AppointmentType type}) async {
+  Future<ApiResult<List<Appointment>>> getAppointments({
+    required AppointmentType type,
+  }) async {
     try {
       final endpoint = {
         AppointmentType.present: Endpoints.presentAppointments,
@@ -28,9 +37,18 @@ class UserRepoImpl implements UserRepo {
         AppointmentType.future: Endpoints.futureAppointments,
       };
       final result = await client.post(endpoint[type]!);
-      final AppointmentResponseModel model =
-          AppointmentResponseModel.fromJson(result.data);
-
+      final model = AppointmentResponseModel.fromJson(result.data);
+      switch (type) {
+        case AppointmentType.present:
+          _presentAppointments.add(model.data ?? []);
+          break;
+        case AppointmentType.past:
+          _pastAppointments.add(model.data ?? []);
+          break;
+        case AppointmentType.future:
+          _futureAppointments.add(model.data ?? []);
+          break;
+      }
       return ApiResult.success(data: model.data ?? []);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
@@ -111,7 +129,7 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<ApiResult<String>> createAppointment(
+  Future<ApiResult<AppointmentResponse>> createAppointment(
     CreateAppointmentParams params,
   ) async {
     try {
@@ -119,14 +137,24 @@ class UserRepoImpl implements UserRepo {
         Endpoints.createNewAppointment,
         queryParameters: params.toJson(),
       );
-      if (result.data['status'] == false) {
-        return ApiResult.failure(
-            error: NetworkExceptions.defaultError(_parseError(result.data)));
+      final parser = ApiResultParser.parse(data: result.data);
+
+      if (parser.hasError) {
+        return ApiResult.failure(error: parser.failure);
       }
 
-      final String message = result.data['message'];
+      // if (result.data['status'] == false) {
+      //   return ApiResult.failure(
+      //       error: NetworkExceptions.defaultError(_parseError(result.data)));
+      // }
 
-      return ApiResult.success(data: message);
+      // final String message = result.data['message'];
+      final response = AppointmentResponse(
+        id: result.data['data']['appointmentId'],
+        message: result.data['message'],
+      );
+
+      return ApiResult.success(data: response);
     } catch (e) {
       if (e is DioError) {
         return ApiResult.failure(
@@ -240,6 +268,26 @@ class UserRepoImpl implements UserRepo {
       }
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
+  }
+
+  @override
+  Future<ApiResult<List<String>>> viewPrescriptions({
+    required int appointmentId,
+  }) async {
+    final result = await client.post(
+      Endpoints.viewPrescriptions,
+      queryParameters: {'appointmentId': appointmentId},
+    );
+
+    final ApiResultParser parser = ApiResultParser.parse(
+      data: result.data,
+    );
+
+    if (parser.hasError) {
+      return ApiResult.failure(error: parser.failure);
+    }
+
+    return ApiResult.success(data: parser.success['data'] as List<String>);
   }
 
   @override
@@ -368,6 +416,30 @@ class UserRepoImpl implements UserRepo {
     }
   }
 
+  @override
+  Future<ApiResult<List<Caretaker>>> previousCaretaker() async {
+    final result = await client.post(Endpoints.previousCaretakers);
+    final ApiResultParser parser = ApiResultParser.parse(data: result.data);
+    if (parser.hasError) return ApiResult.failure(error: parser.failure);
+    final List data = parser.success['data'] as List;
+    return ApiResult.success(
+      data: data.map((e) => Caretaker.fromJson(e)).toList(),
+    );
+  }
+
+  @override
+  Future<ApiResult<String>> selectPreviousCareTakers(
+      SelectCaretakerParams params) async {
+    final result = await client.post(
+      Endpoints.selectPreviousCareTakers,
+      data: params.toJson(),
+    );
+    final ApiResultParser parser = ApiResultParser.parse(data: result.data);
+    if (parser.hasError) return ApiResult.failure(error: parser.failure);
+    final String data = parser.success['message'] as String;
+    return ApiResult.success(data: data);
+  }
+
   String _parseError(Map? data) {
     String error = 'Something went wrong';
     if (data?.isEmpty ?? true) return error;
@@ -387,5 +459,21 @@ class UserRepoImpl implements UserRepo {
       }
     }
     return error;
+  }
+
+  @override
+  Stream<List<Appointment>> getAppointmentStream({
+    required AppointmentType type,
+  }) {
+    switch (type) {
+      case AppointmentType.future:
+        return _futureAppointments.stream;
+      case AppointmentType.past:
+        return _pastAppointments.stream;
+      case AppointmentType.present:
+        return _presentAppointments.stream;
+      default:
+        return _presentAppointments.stream;
+    }
   }
 }

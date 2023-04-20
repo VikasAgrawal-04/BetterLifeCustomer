@@ -4,7 +4,7 @@ import 'models/models.dart';
 
 abstract class AuthRepo {
   Future<ApiResult<SignupResponseModel>> signUp({required SignUpModel data});
-  Future<ApiResult<User>> signIn({required LoginParams data});
+  Future<ApiResult<SignInResponse>> signIn({required LoginParams data});
   Future<ApiResult<ResponseModel>> forgotPassword(
       {required ResetPasswordParams params});
   Future<ApiResult<ResetPasswordData>> verifyOtp({required OtpModel model});

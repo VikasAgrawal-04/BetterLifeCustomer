@@ -2,35 +2,27 @@
 import 'package:api/api.dart';
 import 'package:better_life_customer/widgets/appointment_card/time_button.dart';
 import 'package:better_life_customer/widgets/service_rating.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
-    required this.isViewButttonVisible,
     required this.appointment,
-    required this.showRateService,
-    this.onPressed,
+    required this.type,
     super.key,
+    this.onPressed,
   });
 
   final FutureVoidCallback? onPressed;
-  final bool isViewButttonVisible;
-  final bool showRateService;
+
   final Appointment appointment;
+  final AppointmentType type;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: kPadding,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.3),
-        ),
-      ),
+      decoration: _decoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,51 +41,20 @@ class AppointmentCard extends StatelessWidget {
             Icons.local_hospital,
             'Hospital: ${appointment.hospital ?? ''}',
           ),
-          // const Gap(20),
-          // const HeaderText(
-          //   text: 'OTP: ',
-          //   style: TextStyle(color: Colors.red),
-          // ),
+          Visibility(
+            visible: type.isFuture || type.isPresent,
+            child: _buildOtp(),
+          ),
           const Gap(10),
           Visibility(
-            visible: isViewButttonVisible,
+            visible: !type.isPresent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MyElevatedButton(
-                  text: 'View',
-                  height: 30,
-                  width: 70,
-                  color: const Color(0xff7DE773),
-                  onPressed: onPressed,
-                  child: const Text(
-                    'View',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
+                _buildViewButton(),
                 Visibility(
-                  visible: showRateService,
-                  child: MyElevatedButton(
-                    height: 30,
-                    width: 120,
-                    child: const Text(
-                      'Rate Service',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                    onPressed: () async {
-                      await Get.to<void>(
-                        () => ServiceRating(
-                          appointmentId: appointment.apptid!,
-                        ),
-                      );
-                    },
-                  ),
+                  visible: type.isPast,
+                  child: _buildRateServiceButton(),
                 ),
               ],
             ),
@@ -103,11 +64,71 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
+  MyElevatedButton _buildRateServiceButton() {
+    return MyElevatedButton(
+      height: 30,
+      width: 120,
+      child: const Text(
+        'Rate Service',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
+      ),
+      onPressed: () async {
+        await Get.to<void>(
+          () => ServiceRating(
+            appointmentId: appointment.apptid!,
+          ),
+        );
+      },
+    );
+  }
+
+  MyElevatedButton _buildViewButton() {
+    return MyElevatedButton(
+      text: 'View',
+      height: 30,
+      width: 70,
+      color: const Color(0xff7DE773),
+      onPressed: onPressed,
+      child: const Text(
+        'View',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  Column _buildOtp() {
+    return Column(
+      children: [
+        const Gap(20),
+        HeaderText(
+          text: 'OTP: ${appointment.otp}',
+          style: const TextStyle(color: Colors.red),
+        ),
+      ],
+    );
+  }
+
+  BoxDecoration _decoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: Colors.grey.withOpacity(0.3),
+      ),
+    );
+  }
+
   Row _buildHeader(BuildContext context) {
     return Row(
       children: [
         HeaderText(
-          text: MyDateFormat.formatAppointmentDate(appointment.visitdate),
+          text: appointment.visitdate ?? '',
           fontSize: 18,
         ),
         const Spacer(),
@@ -137,9 +158,9 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(BuildContext context, DateTime? time) {
+  Widget _buildButton(BuildContext context, String? time) {
     return TimeButton(
-      time: MyDateFormat.formatTime(time),
+      time: time ?? '',
     );
   }
 }

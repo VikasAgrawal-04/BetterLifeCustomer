@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:api/api.dart';
+import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/core/cubit_base.dart';
 import 'package:better_life_customer/create_appointment/view/create_appointment_page.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
@@ -23,27 +24,48 @@ class HomeCubit extends CubitBase<HomeState> {
   }
   final ApiRepo api;
 
-  Future<void> init() async {
-    await fetchUser();
+  StreamSubscription<List<Appointment>>? _appointmentsSubscription;
+  StreamSubscription<ApiResult<List<Appointment>>>?
+      _fetchAppointmentSubscription;
+
+  void _appointmentStream() {
+    _appointmentsSubscription?.cancel();
+    _appointmentsSubscription = appointmentsStream.listen((appointments) {
+      emit(
+        state.copyWith(
+          appointments: appointments,
+          status: appointments.isEmpty ? Status.empty : Status.success,
+        ),
+      );
+    });
   }
 
-  Future<void> fetchUser() async {
-    emit(state.copyWith(status: Status.loading));
-    final result = await api.getAppointments(
-      type: AppointmentType.values[state.currentIndex],
-    );
-    result.when(
-      success: (appointments) {
-        emit(
-          state.copyWith(
-            appointments: appointments,
-            status: appointments.isEmpty ? Status.empty : Status.success,
-          ),
-        );
-      },
-      failure: (error) {
-        DialogService.failure(error);
-      },
+  Future<void> init() async {
+    await fetchAppointment();
+    _appointmentStream();
+  }
+
+  AppointmentType get currentAppointmentType =>
+      AppointmentType.values[state.currentIndex];
+  Stream<List<Appointment>> get appointmentsStream => api.getAppointmentStream(
+        type: currentAppointmentType,
+      );
+
+  Future<void> fetchAppointment() async {
+    await _fetchAppointmentSubscription?.cancel();
+    if (state.appointments.isEmpty) {
+      emit(state.copyWith(status: Status.loading));
+    }
+    _fetchAppointmentSubscription = api
+        .getAppointments(type: currentAppointmentType)
+        .asStream()
+        .listen(_apiResultHandler);
+  }
+
+  void _apiResultHandler(ApiResult<List<Appointment>> event) {
+    event.when(
+      success: (appointments) {},
+      failure: DialogService.failure,
     );
   }
 
@@ -58,6 +80,8 @@ class HomeCubit extends CubitBase<HomeState> {
 
   void onTabTapped(int value) {
     emit(state.copyWith(currentIndex: value));
+    _appointmentStream();
+    fetchAppointment();
   }
 
   Future<void> onCreateAppointmentPressed() async {
