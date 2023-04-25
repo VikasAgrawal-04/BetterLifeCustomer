@@ -9,6 +9,7 @@ class MyDropdownField<T> extends StatelessWidget {
   final String? title;
   final String Function(T)? labelBuilder;
   final void Function(T?)? onChanged;
+  final bool readOnly;
 
   const MyDropdownField({
     Key? key,
@@ -17,6 +18,7 @@ class MyDropdownField<T> extends StatelessWidget {
     this.title,
     this.labelBuilder,
     this.onChanged,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -46,18 +48,24 @@ class MyDropdownField<T> extends StatelessWidget {
   }
 
   Widget _buildDropdown() {
-    return Container(
-      padding: TextInputDecoration.contentPadding.copyWith(top: 0, bottom: 0),
-      decoration: decoration,
-      child: DropdownButton(
-        hint: const Text('Please select'),
-        icon: const Icon(Icons.keyboard_arrow_down_sharp),
-        items: items.map(_dropdownItem).toList(),
-        onChanged: onChanged,
-        isExpanded: true,
-        underline: const SizedBox.shrink(),
-        borderRadius: TextInputDecoration.inputBorderRadius,
-        value: value,
+    return Opacity(
+      opacity: readOnly ? 0.7 : 1.0,
+      child: Container(
+        padding: TextInputDecoration.contentPadding.copyWith(top: 0, bottom: 0),
+        decoration: decoration,
+        child: IgnorePointer(
+          ignoring: readOnly,
+          child: DropdownButton(
+            hint: const Text('Please select'),
+            icon: const Icon(Icons.keyboard_arrow_down_sharp),
+            items: items.map(_dropdownItem).toList(),
+            onChanged: onChanged,
+            isExpanded: true,
+            underline: const SizedBox.shrink(),
+            borderRadius: TextInputDecoration.inputBorderRadius,
+            value: value,
+          ),
+        ),
       ),
     );
   }

@@ -15,32 +15,32 @@ class ShowDataGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (list.isEmpty) return const EmptyScreen();
-
     return Scaffold(
       appBar: MyAppBar(
         title: Text(heading),
       ),
-      body: GridView.builder(
-        padding: kPadding,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-        ),
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          final diet = list[index];
-          return MyNetworkImage(
-            urlToImage: diet,
-            onTap: () => Get.to<void>(
-              () => PhotoViewer(
-                url: diet,
+      body: list.isEmpty
+          ? const EmptyScreen()
+          : GridView.builder(
+              padding: kPadding,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20,
               ),
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                final diet = list[index];
+                return MyNetworkImage(
+                  urlToImage: diet,
+                  onTap: () => Get.to<void>(
+                    () => PhotoViewer(
+                      url: diet,
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

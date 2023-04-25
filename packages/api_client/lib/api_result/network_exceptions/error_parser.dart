@@ -19,7 +19,7 @@ class ApiResultParser<T> {
     if (data?['code'] == '404' || data?['status'] == false) {
       return ApiResultParser(
         failure: NetworkExceptions.defaultError(
-          (data?['message']),
+          _parseError(data),
         ),
         success: data!,
         hasError: true,
@@ -28,7 +28,7 @@ class ApiResultParser<T> {
 
     return ApiResultParser(
       failure: NetworkExceptions.defaultError(
-        (data?['message']),
+        _parseError(data),
       ),
       success: data!,
       hasError: false,
@@ -51,6 +51,10 @@ class ApiResultParser<T> {
             error += '$value\n';
           }
         });
+      }
+    } else {
+      if (data.containsKey('message')) {
+        error = data['message'];
       }
     }
     return error;

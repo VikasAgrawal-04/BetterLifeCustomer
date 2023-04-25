@@ -27,7 +27,7 @@ class AppointmentStep2 extends StatelessWidget {
               MyDropdownField<String>(
                 title: 'Patient Gender',
                 items: state.genders,
-                value: state.gender,
+                value: _getValue(state.genders, state.gender),
                 onChanged: cubit.onGenderChanged,
               ),
               MyDropdownField(
@@ -48,28 +48,14 @@ class AppointmentStep2 extends StatelessWidget {
               ),
               MyDropdownField(
                 title: 'Preferred caretaker gender',
-                value: state.caretakerGender,
+                readOnly: !state.isCaretakerGenderEditable,
+                value: _getValue(state.genders, state.caretakerGender),
                 items: state.genders,
                 onChanged: cubit.onCaretakerGenderChanged,
               ),
-              ChoiceWidget(
-                title: 'Taxi Required',
-                value: state.taxiRequired,
-                onChanged: cubit.onTaxiRequiredChanged,
-              ),
-              AnimatedSize(
-                duration: 300.milliseconds,
-                child: state.taxiRequired
-                    ? MyDropdownField(
-                        title: 'Preferred taxi type',
-                        items: state.taxiTypes,
-                        value: state.taxiType,
-                        onChanged: cubit.onTaxiTypeChanged,
-                      )
-                    : const SizedBox.shrink(),
-              ),
               MyDropdownField<String>(
                 title: 'Preferred caretaker language',
+                readOnly: !state.isCaretakerLanguageEditable,
                 value: state.caretakerLanguage,
                 items: state.caretakerLanguageList
                     .map((e) => e.name.capitalize!)
@@ -90,11 +76,29 @@ class AppointmentStep2 extends StatelessWidget {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 textInputType: TextInputType.number,
-                onChanged: (s) =>
-                    cubit.onAppointmentDurationChanged(int.parse(s)),
-                initialValue: state.appointmentDuration.toString(),
+                controller: state.appointmentDuration,
+                // onChanged: (s) =>
+                //     cubit.onAppointmentDurationChanged(int.parse(s)),
+                // initialValue: state.appointmentDuration.toString(),
               ),
               ChoiceWidget(
+                title: 'Taxi Required',
+                value: state.taxiRequired,
+                onChanged: cubit.onTaxiRequiredChanged,
+              ),
+              AnimatedSize(
+                duration: 300.milliseconds,
+                child: state.taxiRequired
+                    ? MyDropdownField(
+                        title: 'Preferred taxi type',
+                        items: state.taxiTypes,
+                        value: state.taxiType,
+                        onChanged: cubit.onTaxiTypeChanged,
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              ChoiceWidget(
+                readOnly: !state.iscaretakerWhoCanDriveCarEditable,
                 title: 'Want caretaker who can drive your car',
                 value: state.caretakerWhoCanDriveCar,
                 onChanged: cubit.caretakerWhoCanDriveCarChanged,
@@ -124,5 +128,21 @@ class AppointmentStep2 extends StatelessWidget {
         );
       },
     );
+  }
+
+  String? _getValue(List<String> genders, String? gender) {
+    if (genders.contains(gender)) {
+      return gender;
+    }
+
+    final values = genders.where(
+      (String element) => element.characters.first == gender?.characters.first,
+    );
+
+    if (values.isNotEmpty) {
+      return values.first;
+    }
+
+    return null;
   }
 }

@@ -7,10 +7,10 @@ part 'select_caretakers_params.g.dart';
 @JsonSerializable()
 class SelectCaretakerParams {
   final List<int> caretakerIds;
-  final int appointmentId;
+  final int? appointmentId;
   SelectCaretakerParams({
     required this.caretakerIds,
-    required this.appointmentId,
+    this.appointmentId,
   });
 
   factory SelectCaretakerParams.fromJson(Map<String, dynamic> json) =>

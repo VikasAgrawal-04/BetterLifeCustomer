@@ -2,8 +2,10 @@ import 'package:better_life_customer/create_appointment/cubit/cubit.dart';
 import 'package:better_life_customer/create_appointment/widgets/appointment_step3.dart';
 import 'package:better_life_customer/create_appointment/widgets/appointment_step_1.dart';
 import 'package:better_life_customer/create_appointment/widgets/appointment_step_2.dart';
+import 'package:better_life_customer/select_previous_caretaker/view/select_previous_caretaker_page.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
+import 'package:widgets/widgets/my_loading_indicator.dart';
 
 /// {@template create_appointment_body}
 /// Body of the CreateAppointmentPage.
@@ -18,6 +20,7 @@ class CreateAppointmentBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CreateAppointmentCubit, CreateAppointmentState>(
       builder: (context, state) {
+        final cubit = context.read<CreateAppointmentCubit>();
         return Form(
           key: state.formKey,
           child: Column(
@@ -37,6 +40,13 @@ class CreateAppointmentBody extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   controller: state.pageController,
                   children: [
+                    if (state.previousCaretakersLoading)
+                      const MyLoadingIndicator()
+                    else
+                      SelectPreviousCaretakerPage(
+                        caretakers: state.previousCaretakers,
+                        onProceed: cubit.onPreviousCaretakerSelected,
+                      ),
                     const AppointmentStep1(),
                     const AppointmentStep2(),
                     const AppointmentStep3(),

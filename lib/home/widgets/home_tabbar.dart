@@ -20,9 +20,6 @@ class HomeTabbar extends StatelessWidget {
     return Container(
       width: 0.9.sw,
       alignment: Alignment.center,
-      // margin: const EdgeInsets.symmetric(
-      //   horizontal: 30,
-      // ),
       child: ClipRRect(
         borderRadius: kBorderRadius,
         child: ColoredBox(
@@ -36,7 +33,6 @@ class HomeTabbar extends StatelessWidget {
                     : const Color(0xffF4F4F6);
                 final textColor = isSelectedIndex ? Colors.white : Colors.black;
                 return Expanded(
-                  // left: 0 + (tabs.indexOf(e) * 0.3.sw),
                   child: _tab(e, bgColor, textColor),
                 );
               },

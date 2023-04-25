@@ -7,6 +7,7 @@ import 'package:better_life_customer/otp/view/otp_page.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:notifications/notifications.dart';
 import 'package:widgets/widgets.dart';
 
 part 'register_state.dart';
@@ -25,6 +26,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       return;
     }
 
+    final token = await PushNotificationService().getFCMtoken();
+
     final result = await api.signUp(
       data: SignUpModel(
         confirmPassword: state.confirmPassword.text,
@@ -37,7 +40,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         fathersName: state.fathersName.text,
         mothersName: state.mothersName.text,
         pincode: state.pinCode.text,
-        firebaseDeviceToken: 'asfasefd',
+        firebaseDeviceToken: token,
       ),
     );
     result.when(success: success, failure: failure);

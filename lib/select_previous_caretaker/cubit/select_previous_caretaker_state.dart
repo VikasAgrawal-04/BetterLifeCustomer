@@ -13,7 +13,7 @@ class SelectPreviousCaretakerState extends Equatable {
   final Set<int> selectedCaretakers;
 
   @override
-  List<Object> get props => [selectedCaretakers];
+  List<Object?> get props => [selectedCaretakers];
 
   SelectPreviousCaretakerState copyWith({
     Set<int>? selectedCaretakers,

@@ -6,18 +6,23 @@ part 'service_rating_params.g.dart';
 
 @JsonSerializable()
 class ServiceRatingParams {
-  final int appointmentId;
-  final int rating1;
-  final String comment1;
-  final String? comment2;
-  final int? rating2;
   ServiceRatingParams({
     required this.appointmentId,
-    required this.rating1,
-    required this.comment1,
-    this.comment2,
-    this.rating2,
+    required this.rating,
+    required this.comment,
+    required this.caretakerId,
   });
+
+  final int appointmentId;
+
+  @JsonKey(name: 'rating1')
+  final int rating;
+
+  @JsonKey(name: 'comment1')
+  final String comment;
+
+  @JsonKey(name: 'caretaker1')
+  final int caretakerId;
 
   factory ServiceRatingParams.fromJson(Map<String, dynamic> json) =>
       _$ServiceRatingParamsFromJson(json);

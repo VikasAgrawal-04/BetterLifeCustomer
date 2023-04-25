@@ -1,10 +1,12 @@
 import 'package:api/api.dart';
+import 'package:better_life_customer/service_rating/widgets/service_rating_stars.dart';
 import 'package:better_life_customer/services/bottom_sheet_service.dart';
 import 'package:better_life_customer/view_appointment/cubit/cubit.dart';
 import 'package:better_life_customer/view_appointment/widgets/reschedule_appointment.dart';
 import 'package:better_life_customer/view_appointment/widgets/show_data_grid.dart';
 import 'package:better_life_customer/widgets/appointment_card/card_header.dart';
 import 'package:flutter/material.dart';
+import 'package:intents/intents.dart';
 import 'package:widgets/widgets.dart';
 
 /// {@template view_appointment_body}
@@ -184,17 +186,25 @@ class ViewAppointmentBody extends StatelessWidget {
             itemCount: caretakers.length,
             itemBuilder: (context, index) {
               final caretaker = caretakers[index];
-              return Column(
+              return Row(
                 children: [
-                  _buildRow(
-                    Icons.person_outlined,
-                    '${caretaker.fullname}',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildRow(
+                        Icons.person_outlined,
+                        '${caretaker.fullname}',
+                      ),
+                      const Gap(10),
+                      _buildRow(
+                        Icons.phone_outlined,
+                        '${caretaker.mobile}',
+                        isPhone: true,
+                      ),
+                    ],
                   ),
-                  const Gap(10),
-                  _buildRow(
-                    Icons.phone_outlined,
-                    '${caretaker.mobile}',
-                  ),
+                  const Spacer(),
+                  _buildRateServiceButton(caretaker.rating),
                 ],
               );
             },
@@ -204,30 +214,69 @@ class ViewAppointmentBody extends StatelessWidget {
     );
   }
 
+  Widget _buildRateServiceButton(int? rating) {
+    if (rating != null) {
+      return ServiceRatingStars(
+        starSize: 30,
+        value: rating.toDouble(),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+
+    // return MyElevatedButton(
+    //   height: 30,
+    //   width: 120,
+    //   child: const Text(
+    //     'Rate Service',
+    //     style: TextStyle(
+    //       color: Colors.white,
+    //       fontSize: 14,
+    //     ),
+    //   ),
+    //   onPressed: () async {
+    //     await Get.to<void>(
+    //       () => ServiceRating(
+    //         appointmentId: appointment.apptid!,
+    //       ),
+    //     );
+    //   },
+    // );
+  }
+
   Widget _buildDivider() => const Divider(
         color: Color(0xffD7E5FC),
         height: 15,
         thickness: 1,
       );
 
-  Widget _buildRow(IconData icon, String text) {
+  Widget _buildRow(IconData icon, String text, {bool isPhone = false}) {
     final color = Colors.grey.shade700;
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-          size: 20,
-        ),
-        const Gap(10),
-        Text(
-          text,
-          style: TextStyle(
+    return GestureDetector(
+      onTap: () => Intents.dialIntent(text),
+      child: Row(
+        children: [
+          Icon(
+            icon,
             color: color,
-            fontSize: 16,
+            size: 20,
           ),
-        ),
-      ],
+          const Gap(10),
+          if (isPhone)
+            DialPhone(
+              phone: text,
+              onTap: () => Intents.dialIntent(text),
+            )
+          else
+            Text(
+              text,
+              style: TextStyle(
+                color: color,
+                fontSize: 16,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

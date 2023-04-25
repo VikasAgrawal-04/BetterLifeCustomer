@@ -25,20 +25,31 @@ class CreateAppointmentState extends Equatable {
   final String taxiType;
   final bool taxiRequired;
   final bool caretakerWhoCanDriveCar;
+
   final String? gender;
   final String? caretakerGender;
   final List<Language> caretakerLanguageList;
   final List<int> apppointmentDurationList;
 
   final List<Caretaker> previousCaretakers;
+  final bool previousCaretakersLoading;
 
-  final int appointmentDuration;
+  final TextEditingController appointmentDuration;
 
   final String? caretakerLanguage;
   final String? caretakerOtherLanguage;
   final PageController pageController;
   final int step;
   final GlobalKey<FormState> formKey;
+
+  final AppointmentDetails? appointmentDetails;
+  final bool lastAppointmentLoading;
+  final bool isLoading;
+
+  final bool isCaretakerLanguageEditable;
+  final bool isCaretakerGenderEditable;
+  final bool iscaretakerWhoCanDriveCarEditable;
+  final bool isPincodeEditable;
 
   const CreateAppointmentState({
     this.dateOfVisit,
@@ -65,16 +76,30 @@ class CreateAppointmentState extends Equatable {
     required this.caretakerLanguageList,
     required this.apppointmentDurationList,
     required this.previousCaretakers,
+    required this.previousCaretakersLoading,
     required this.appointmentDuration,
     this.caretakerLanguage,
     this.caretakerOtherLanguage,
     required this.pageController,
     required this.step,
     required this.formKey,
+    this.appointmentDetails,
+    required this.lastAppointmentLoading,
+    required this.isLoading,
+    required this.isCaretakerLanguageEditable,
+    required this.isCaretakerGenderEditable,
+    required this.iscaretakerWhoCanDriveCarEditable,
+    required this.isPincodeEditable,
   });
 
-  factory CreateAppointmentState.initial() {
+  factory CreateAppointmentState.initial({
+    AppointmentDetails? appointment,
+    int step = 0,
+    PageController? pageController,
+  }) {
     const puposeOfVisitList = ['Check Up', 'Consultation', 'Surgery', 'Other'];
+    const taxiTypes2 = ['AC', 'Non AC'];
+    const genders2 = ['Male', 'Female', 'Other'];
     const relationsWithApplicant2 = [
       'Self',
       'Spouse',
@@ -86,41 +111,88 @@ class CreateAppointmentState extends Equatable {
       'Sister',
       'Other'
     ];
-    const taxiTypes2 = ['AC', 'Non AC'];
-    // const caretakerLanguageList2 = [
-    //   'English',
-    //   'Hindi',
-    //   'Konkani',
-    //   'Marathi',
-    //   'Kannada',
-    //   'Malayalam',
-    //   'Other'
-    // ];
-    const genders2 = ['Male', 'Female', 'Other'];
+
     return CreateAppointmentState(
+      isCaretakerGenderEditable: true,
+      isCaretakerLanguageEditable: true,
+      isPincodeEditable: true,
+      iscaretakerWhoCanDriveCarEditable: true,
+      isLoading: false,
+      previousCaretakersLoading: false,
+      lastAppointmentLoading: false,
       previousCaretakers: const [],
-      apppointmentDurationList:
-          List.generate(10, (index) => index + 1).toList(),
-      appointmentDuration: 1,
+      apppointmentDurationList: List.generate(2, (index) => index + 1).toList(),
+      appointmentDuration: TextEditingController(),
       formKey: GlobalKey<FormState>(),
-      pageController: PageController(),
-      step: 0,
-      pickupAddressController: TextEditingController(),
-      pickupPincodeController: TextEditingController(),
-      hospitalController: TextEditingController(),
-      doctorsNameController: TextEditingController(),
-      patientNameController: TextEditingController(),
-      mobileNumberController: TextEditingController(),
+      pageController: pageController ?? PageController(initialPage: step),
+      step: step,
+      pickupAddressController:
+          TextEditingController(text: appointment?.pickAddress),
+      pickupPincodeController:
+          TextEditingController(text: appointment?.pickPincode),
+      hospitalController: TextEditingController(text: appointment?.hospital),
+      doctorsNameController: TextEditingController(text: appointment?.doctor),
+      patientNameController:
+          TextEditingController(text: appointment?.patientName),
+      mobileNumberController:
+          TextEditingController(text: appointment?.patientMobile),
       purposeOfVisitList: puposeOfVisitList,
       relationsWithApplicant: relationsWithApplicant2,
       caretakersCount: '1',
       genders: genders2,
       caretakersCountList:
-          List.generate(10, (index) => (index + 1).toString()).toList(),
+          List.generate(2, (index) => (index + 1).toString()).toList(),
       taxiTypes: taxiTypes2,
       taxiType: taxiTypes2.first,
-      taxiRequired: false,
+      taxiRequired: appointment?.taxiNeeded ?? false,
       caretakerLanguageList: Language.values,
+      caretakerGender: appointment?.caretakerGender,
+      caretakerLanguage: appointment?.caretakerLanguage,
+      gender: appointment?.patientGender,
+      purposeOfVisit: appointment?.purpose,
+      relationWithApplicant: appointment?.realationship,
+    );
+  }
+
+  CreateAppointmentState merge(AppointmentDetails? appointment) {
+    return CreateAppointmentState(
+      isCaretakerGenderEditable: false,
+      isCaretakerLanguageEditable: false,
+      isPincodeEditable: false,
+      iscaretakerWhoCanDriveCarEditable: false,
+      isLoading: isLoading,
+      previousCaretakersLoading: previousCaretakersLoading,
+      lastAppointmentLoading: lastAppointmentLoading,
+      previousCaretakers: previousCaretakers,
+      apppointmentDurationList: apppointmentDurationList,
+      appointmentDuration: appointmentDuration,
+      formKey: formKey,
+      pageController: pageController,
+      step: step,
+      pickupAddressController:
+          TextEditingController(text: appointment?.pickAddress),
+      pickupPincodeController:
+          TextEditingController(text: appointment?.pickPincode),
+      hospitalController: TextEditingController(text: appointment?.hospital),
+      doctorsNameController: TextEditingController(text: appointment?.doctor),
+      patientNameController:
+          TextEditingController(text: appointment?.patientName),
+      mobileNumberController:
+          TextEditingController(text: appointment?.patientMobile),
+      purposeOfVisitList: purposeOfVisitList,
+      relationsWithApplicant: relationsWithApplicant,
+      caretakersCount: caretakersCount,
+      genders: genders,
+      caretakersCountList: caretakersCountList,
+      taxiTypes: taxiTypes,
+      taxiType: appointment?.acTaxi ?? false ? 'AC' : 'Non AC',
+      taxiRequired: appointment?.taxiNeeded ?? false,
+      caretakerLanguageList: caretakerLanguageList,
+      caretakerGender: appointment?.caretakerGender,
+      caretakerLanguage: appointment?.caretakerLanguage,
+      gender: appointment?.patientGender,
+      purposeOfVisit: appointment?.purpose,
+      relationWithApplicant: appointment?.realationship,
     );
   }
 
@@ -151,12 +223,20 @@ class CreateAppointmentState extends Equatable {
       caretakerLanguageList,
       apppointmentDurationList,
       previousCaretakers,
+      previousCaretakersLoading,
       appointmentDuration,
       caretakerLanguage,
       caretakerOtherLanguage,
       pageController,
       step,
       formKey,
+      appointmentDetails,
+      lastAppointmentLoading,
+      isLoading,
+      isCaretakerLanguageEditable,
+      isCaretakerGenderEditable,
+      iscaretakerWhoCanDriveCarEditable,
+      isPincodeEditable,
     ];
   }
 
@@ -185,12 +265,20 @@ class CreateAppointmentState extends Equatable {
     List<Language>? caretakerLanguageList,
     List<int>? apppointmentDurationList,
     List<Caretaker>? previousCaretakers,
-    int? appointmentDuration,
+    bool? previousCaretakersLoading,
+    TextEditingController? appointmentDuration,
     String? caretakerLanguage,
     String? caretakerOtherLanguage,
     PageController? pageController,
     int? step,
     GlobalKey<FormState>? formKey,
+    AppointmentDetails? appointmentDetails,
+    bool? lastAppointmentLoading,
+    bool? isLoading,
+    bool? isCaretakerLanguageEditable,
+    bool? isCaretakerGenderEditable,
+    bool? iscaretakerWhoCanDriveCarEditable,
+    bool? isPincodeEditable,
   }) {
     return CreateAppointmentState(
       dateOfVisit: dateOfVisit ?? this.dateOfVisit,
@@ -227,6 +315,8 @@ class CreateAppointmentState extends Equatable {
       apppointmentDurationList:
           apppointmentDurationList ?? this.apppointmentDurationList,
       previousCaretakers: previousCaretakers ?? this.previousCaretakers,
+      previousCaretakersLoading:
+          previousCaretakersLoading ?? this.previousCaretakersLoading,
       appointmentDuration: appointmentDuration ?? this.appointmentDuration,
       caretakerLanguage: caretakerLanguage ?? this.caretakerLanguage,
       caretakerOtherLanguage:
@@ -234,6 +324,17 @@ class CreateAppointmentState extends Equatable {
       pageController: pageController ?? this.pageController,
       step: step ?? this.step,
       formKey: formKey ?? this.formKey,
+      appointmentDetails: appointmentDetails ?? this.appointmentDetails,
+      lastAppointmentLoading:
+          lastAppointmentLoading ?? this.lastAppointmentLoading,
+      isLoading: isLoading ?? this.isLoading,
+      isCaretakerLanguageEditable:
+          isCaretakerLanguageEditable ?? this.isCaretakerLanguageEditable,
+      isCaretakerGenderEditable:
+          isCaretakerGenderEditable ?? this.isCaretakerGenderEditable,
+      iscaretakerWhoCanDriveCarEditable: iscaretakerWhoCanDriveCarEditable ??
+          this.iscaretakerWhoCanDriveCarEditable,
+      isPincodeEditable: isPincodeEditable ?? this.isPincodeEditable,
     );
   }
 

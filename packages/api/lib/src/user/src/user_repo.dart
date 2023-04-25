@@ -52,4 +52,7 @@ abstract class UserRepo {
 
   Stream<List<Appointment>> getAppointmentStream(
       {required AppointmentType type});
+
+  Future<ApiResult<AppointmentDetails>> getLastAppointment(
+      LastAppointmentParams params);
 }

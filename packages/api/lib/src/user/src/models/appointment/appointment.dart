@@ -16,7 +16,6 @@
 //   });
 // }
 
-import 'package:api/converters/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'appointment.g.dart';
@@ -41,6 +40,8 @@ class Appointment {
   int? apptid;
 
   String? visitdate;
+  int? rating;
+  int? rating2;
 
   String? pickuptime;
   String? pickaddress;
@@ -58,11 +59,14 @@ class Appointment {
   Appointment({
     this.apptid,
     this.visitdate,
+    this.rating,
+    this.rating2,
     this.pickuptime,
     this.pickaddress,
     this.hospital,
     this.caretakerid,
     this.doctor,
+    this.otp,
     required this.taxineeded,
     this.caretakers,
   });
@@ -117,24 +121,17 @@ class Appointment {
   }
 }
 
+@JsonSerializable()
 class Caretaker {
   int? userid;
   String? fullname;
   String? mobile;
+  int? rating;
 
   Caretaker({this.userid, this.fullname, this.mobile});
 
-  Caretaker.fromJson(Map<String, dynamic> json) {
-    userid = json['userid'];
-    fullname = json['fullname'];
-    mobile = json['mobile'];
-  }
+  factory Caretaker.fromJson(Map<String, dynamic> json) =>
+      _$CaretakerFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['userid'] = userid;
-    data['fullname'] = fullname;
-    data['mobile'] = mobile;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$CaretakerToJson(this);
 }

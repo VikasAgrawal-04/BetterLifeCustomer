@@ -33,7 +33,7 @@ workflows:
       events:
         - push
       branch_patterns:
-        - pattern: 'main'
+        - pattern: '*'
           include: true
           source: true
     cache:

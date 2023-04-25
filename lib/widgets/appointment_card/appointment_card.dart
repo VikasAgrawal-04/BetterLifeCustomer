@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/api.dart';
+import 'package:better_life_customer/service_rating/service_rating.dart';
 import 'package:better_life_customer/widgets/appointment_card/time_button.dart';
-import 'package:better_life_customer/widgets/service_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
@@ -42,18 +42,19 @@ class AppointmentCard extends StatelessWidget {
             'Hospital: ${appointment.hospital ?? ''}',
           ),
           Visibility(
-            visible: type.isFuture || type.isPresent,
+            visible: type.isPresent,
             child: _buildOtp(),
           ),
           const Gap(10),
           Visibility(
             visible: !type.isPresent,
+            // visible: hasRating(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildViewButton(),
                 Visibility(
-                  visible: type.isPast,
+                  visible: type.isPast && !hasRating(),
                   child: _buildRateServiceButton(),
                 ),
               ],
@@ -64,7 +65,14 @@ class AppointmentCard extends StatelessWidget {
     );
   }
 
-  MyElevatedButton _buildRateServiceButton() {
+  Widget _buildRateServiceButton() {
+    // if (appointment.rating != null) {
+    //   return ServiceRatingStars(
+    //     starSize: 30,
+    //     value: (appointment.rating ?? 0).toDouble(),
+    //   );
+    // }
+
     return MyElevatedButton(
       height: 30,
       width: 120,
@@ -77,8 +85,9 @@ class AppointmentCard extends StatelessWidget {
       ),
       onPressed: () async {
         await Get.to<void>(
-          () => ServiceRating(
-            appointmentId: appointment.apptid!,
+          () => ServiceRatingPage(
+            apptId: appointment.apptid!,
+            caretakers: appointment.caretakers ?? [],
           ),
         );
       },
@@ -162,5 +171,12 @@ class AppointmentCard extends StatelessWidget {
     return TimeButton(
       time: time ?? '',
     );
+  }
+
+  bool hasRating() {
+    if (appointment.rating != null || appointment.rating2 != null) {
+      return true;
+    }
+    return false;
   }
 }

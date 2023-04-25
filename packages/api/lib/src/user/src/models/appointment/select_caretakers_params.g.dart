@@ -11,7 +11,7 @@ SelectCaretakerParams _$SelectCaretakerParamsFromJson(
     SelectCaretakerParams(
       caretakerIds:
           (json['caretakerIds'] as List<dynamic>).map((e) => e as int).toList(),
-      appointmentId: json['appointmentId'] as int,
+      appointmentId: json['appointmentId'] as int?,
     );
 
 Map<String, dynamic> _$SelectCaretakerParamsToJson(

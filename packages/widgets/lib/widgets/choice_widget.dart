@@ -6,8 +6,10 @@ class ChoiceWidget extends StatelessWidget {
   final bool value;
   final String title;
   final ValueChanged<bool> onChanged;
+  final bool readOnly;
   const ChoiceWidget({
     super.key,
+    this.readOnly = false,
     required this.value,
     required this.title,
     required this.onChanged,
@@ -15,33 +17,39 @@ class ChoiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      dense: true,
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
+    return IgnorePointer(
+      ignoring: readOnly,
+      child: Opacity(
+        opacity: readOnly ? 0.5 : 1,
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+            ),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MyRadio(
+                groupValue: value,
+                label: 'YES',
+                value: true,
+                onChanged: onChanged,
+              ),
+              const Gap(5),
+              MyRadio(
+                groupValue: value,
+                label: 'NO',
+                value: false,
+                onChanged: onChanged,
+              ),
+            ],
+          ),
         ),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          MyRadio(
-            groupValue: value,
-            label: 'YES',
-            value: true,
-            onChanged: onChanged,
-          ),
-          const Gap(5),
-          MyRadio(
-            groupValue: value,
-            label: 'NO',
-            value: false,
-            onChanged: onChanged,
-          ),
-        ],
       ),
     );
   }

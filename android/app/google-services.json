@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "139851246172",
+    "project_id": "betterlife-6d6b1",
+    "storage_bucket": "betterlife-6d6b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139851246172:android:9aea2091d15f28fc7f5499",
+        "android_client_info": {
+          "package_name": "com.codanto.betterlife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139851246172-9ng1jns1hgef6glvrkqrnmb6p83oo235.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTk_2Qdhfeuj3lCNhNMIsRlnd5zwIcI7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139851246172-9ng1jns1hgef6glvrkqrnmb6p83oo235.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

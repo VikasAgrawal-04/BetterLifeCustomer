@@ -1,5 +1,4 @@
 import 'package:api/api.dart';
-import 'package:better_life_customer/select_previous_caretaker/view/select_previous_caretaker_page.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -67,6 +66,8 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       }
     }
 
+    emit(state.copyWith(step: i));
+
     await state.pageController.animateToPage(
       i,
       duration: kDuration,
@@ -101,7 +102,7 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
         hospital: state.hospitalController.text,
         doctorsName: state.doctorsNameController.text,
         visitPurpose: state.purposeOfVisit!,
-        apptDuration: state.appointmentDuration.toString(),
+        apptDuration: state.appointmentDuration.text,
       );
 
       final result = await api.createAppointment(params);
@@ -110,21 +111,23 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
           final hasCaretakers = state.previousCaretakers.isNotEmpty;
           DialogService.showDialog<void>(
             child: SuccessDialog(
-              buttonText: hasCaretakers ? 'Select Previous Caretaker' : 'Close',
+              // buttonText: hasCaretakersx ? 'Select Previous Caretaker' : 'Close',
+              buttonText: 'Close',
               message: value.message,
               onTap: () async {
-                if (hasCaretakers) {
-                  Get.close(2);
-                  await Get.to<void>(
-                    () => SelectPreviousCaretakerPage(
-                      caretakers: state.previousCaretakers,
-                      appointmentId: value.id,
-                    ),
-                  );
-                } else {
-                  await api.getAppointments(type: AppointmentType.future);
-                  Get.close(2);
-                }
+                // if (hasCaretakers) {
+                //   Get.close(2);
+                //   await Get.to<void>(
+                //     () => SelectPreviousCaretakerPage(
+                //       caretakers: state.previousCaretakers,
+                //       onProceed: (value) {},
+                //       // appointmentId: value.id,
+                //     ),
+                //   );
+                // } else {
+                await api.getAppointments(type: AppointmentType.future);
+                Get.close(2);
+                // }
               },
             ),
           );
@@ -138,19 +141,53 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
 
   Future<void> getPreviousCaretaker() async {
     try {
+      emit(state.copyWith(previousCaretakersLoading: true));
       final result = await api.previousCaretaker();
       result.when(
         success: (value) {
-          emit(state.copyWith(previousCaretakers: value));
+          emit(
+            state.copyWith(
+              previousCaretakers: value,
+              previousCaretakersLoading: false,
+            ),
+          );
+          if (value.isEmpty) {
+            changeStep(state.step + 1);
+          }
         },
         failure: (e) {
-          DialogService.failure(e);
+          emit(
+            state.copyWith(
+              previousCaretakersLoading: false,
+              // step: state.step + 1,
+            ),
+          );
         },
       );
     } catch (e) {
       debugPrint(e.toString());
     }
   }
+
+  // Future<void> getLastAppointment(int caretakerId) async {
+  //   try {
+  //     emit(state.copyWith(lastAppointmentLoading: true));
+  //     final result = await api.getLastAppointment(caretakerId);
+  //     result.when(
+  //       success: (value) {
+  //         emit(
+  //           state.copyWith(
+  //             appointmentDetails: value,
+  //             lastAppointmentLoading: false,
+  //           ),
+  //         );
+  //       },
+  //       failure: (e) {},
+  //     );
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   bool validateFields() {
     final isValidated = state.formKey.currentState?.validate() ?? false;
@@ -216,11 +253,20 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     }
   }
 
-  void onAppointmentDurationChanged(int? p1) {
-    emit(state.copyWith(appointmentDuration: p1));
-  }
+  // void onAppointmentDurationChanged(int? p1) {
+  //   emit(state.copyWith(appointmentDuration: p1));
+  // }
 
   void caretakerWhoCanDriveCarChanged(bool value) {
-    emit(state.copyWith(caretakerWhoCanDriveCar: value));
+    // emit(state.copyWith(caretakerWhoCanDriveCar: value));
+  }
+
+  Future<void> onPreviousCaretakerSelected(AppointmentDetails? value) async {
+    emit(
+      state.merge(value),
+    );
+    await changeStep(state.step + 1);
+    // await getLastAppointment(value!);
+    // await changeStep(state.step);
   }
 }

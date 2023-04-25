@@ -163,4 +163,9 @@ class ApiRepoImpl implements ApiRepo {
   Stream<List<Appointment>> getAppointmentStream({required AppointmentType type}) {
     return _userRepo.getAppointmentStream(type: type);
   }
+  
+  @override
+  Future<ApiResult<AppointmentDetails>> getLastAppointment(LastAppointmentParams params) {
+    return _userRepo.getLastAppointment(params);
+  }
 }

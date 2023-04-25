@@ -52,20 +52,33 @@ class AuthRepoImpl implements AuthRepo {
         queryParameters: (data.toJson()),
       );
 
-      // // final code = result.data['code'];
-      if (result.data['code'] != '200') {
-        if (result.data['data']['isOtpVerified'] == '0') {
-          final response = SignInResponse(
-            isOtpVerified: false,
-            message: result.data['message'],
-          );
-          return ApiResult.success(data: response);
+      final map = result.data as Map;
+      final isSuccess = map['code'] == '200';
+      if (!isSuccess) {
+        const key = 'isOtpVerified';
+        if (map.containsKey('data')) {
+          final data = map['data'];
+          if (data is Map) {
+            if (data.containsKey(key)) {
+              final isOtpVerified = data[key] != '0';
+              if (!isOtpVerified) {
+                final response = SignInResponse(
+                  isOtpVerified: false,
+                  message: map['message'],
+                );
+                return ApiResult.success(data: response);
+              }
+            }
+          }
         }
-
-        return ApiResult.failure(
-          error: NetworkExceptions.defaultError(_parseError(result.data)),
-        );
       }
+
+      final ApiResultParser parser = ApiResultParser.parse(data: result.data);
+
+      if (parser.hasError) {
+        return ApiResult.failure(error: parser.failure);
+      }
+      
       final model = SignInResponse.fromJson(result.data);
 
       await Future.wait(

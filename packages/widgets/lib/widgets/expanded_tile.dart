@@ -7,6 +7,9 @@ class ExpandedTile extends StatefulWidget {
   final Widget title, subtitle, trailing;
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;
+  final EdgeInsets? padding, margin;
+  final BoxDecoration? decoration;
+
   final bool isExpanded, hideArrow;
 
   const ExpandedTile({
@@ -18,6 +21,9 @@ class ExpandedTile extends StatefulWidget {
     this.children = const [],
     this.hideArrow = false,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.padding,
+    this.margin,
+    this.decoration,
   }) : super(key: key);
 
   @override
@@ -48,10 +54,13 @@ class _ExpandedTileState extends State<ExpandedTile> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () => widget.children.isEmpty ? null : setIsExpanded(!isExpanded),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        margin: widget.margin,
+        decoration: widget.decoration,
         child: AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.linearToEaseOut,

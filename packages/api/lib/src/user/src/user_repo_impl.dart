@@ -143,12 +143,6 @@ class UserRepoImpl implements UserRepo {
         return ApiResult.failure(error: parser.failure);
       }
 
-      // if (result.data['status'] == false) {
-      //   return ApiResult.failure(
-      //       error: NetworkExceptions.defaultError(_parseError(result.data)));
-      // }
-
-      // final String message = result.data['message'];
       final response = AppointmentResponse(
         id: result.data['data']['appointmentId'],
         message: result.data['message'],
@@ -158,8 +152,8 @@ class UserRepoImpl implements UserRepo {
     } catch (e) {
       if (e is DioError) {
         return ApiResult.failure(
-            error:
-                NetworkExceptions.defaultError(_parseError(e.response?.data)));
+          error: NetworkExceptions.defaultError(_parseError(e.response?.data)),
+        );
       }
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
@@ -287,7 +281,7 @@ class UserRepoImpl implements UserRepo {
       return ApiResult.failure(error: parser.failure);
     }
 
-    return ApiResult.success(data: parser.success['data'] as List<String>);
+    return ApiResult.success(data: List<String>.from(parser.success['data']));
   }
 
   @override
@@ -380,7 +374,7 @@ class UserRepoImpl implements UserRepo {
   }) async {
     try {
       final result = await client.post(
-        Endpoints.serviceRating,
+        Endpoints.serviceRatingCaretaker,
         queryParameters: params.toJson(),
       );
 
@@ -437,6 +431,19 @@ class UserRepoImpl implements UserRepo {
     final ApiResultParser parser = ApiResultParser.parse(data: result.data);
     if (parser.hasError) return ApiResult.failure(error: parser.failure);
     final String data = parser.success['message'] as String;
+    return ApiResult.success(data: data);
+  }
+
+  @override
+  Future<ApiResult<AppointmentDetails>> getLastAppointment(
+      LastAppointmentParams params) async {
+    final result = await client.post(
+      Endpoints.getLastAppointment,
+      data: params.toJson(),
+    );
+    final ApiResultParser parser = ApiResultParser.parse(data: result.data);
+    if (parser.hasError) return ApiResult.failure(error: parser.failure);
+    final data = AppointmentDetails.fromJson(parser.success['data']);
     return ApiResult.success(data: data);
   }
 

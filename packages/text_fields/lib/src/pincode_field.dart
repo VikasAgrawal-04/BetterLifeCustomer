@@ -8,16 +8,20 @@ class PincodeField extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final String? hintText;
+  final bool readOnly;
   const PincodeField({
     Key? key,
     this.controller,
     this.onChanged,
     this.hintText,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MyTextField(
+      readOnly: readOnly,
+      enabled: !readOnly,
       hintText: hintText ?? 'Pincode',
       controller: controller,
       onChanged: onChanged,

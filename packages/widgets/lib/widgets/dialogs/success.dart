@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-
 import '../../constants/constants.dart';
 import '../buttons/buttons.dart';
 import 'dialog_layout.dart';
@@ -30,6 +29,7 @@ class SuccessDialog extends StatelessWidget {
             const Gap(20),
             Text(
               message ?? 'Success',
+              textAlign: TextAlign.center,
               style: context.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),

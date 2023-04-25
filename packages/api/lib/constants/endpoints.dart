@@ -28,4 +28,6 @@ class Endpoints {
 
   static String cancelAppointment = '/cancleAppointment';
   static String serviceRating = '/serviceRating';
+  static String serviceRatingCaretaker = '/serviceRatingCaretaker';
+  static String getLastAppointment = '/getLastAppointment';
 }

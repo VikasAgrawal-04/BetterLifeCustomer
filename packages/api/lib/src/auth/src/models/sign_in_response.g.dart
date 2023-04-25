@@ -10,7 +10,7 @@ SignInResponse _$SignInResponseFromJson(Map<String, dynamic> json) =>
     SignInResponse(
       isOtpVerified: json['isOtpVerified'] == null
           ? true
-          : const BoolConverter().fromJson(json['isOtpVerified'] as int),
+          : const BoolConverter().fromJson(json['isOtpVerified']),
       status: json['status'] as bool?,
       balancePoints: json['balance_points'] as int?,
       token: json['token'] as String?,

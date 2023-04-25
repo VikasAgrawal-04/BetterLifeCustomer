@@ -1,9 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/api.dart';
 import 'package:better_life_customer/select_previous_caretaker/cubit/cubit.dart';
 import 'package:better_life_customer/select_previous_caretaker/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:widgets/widgets.dart';
 
 /// {@template select_previous_caretaker_page}
 /// A description for SelectPreviousCaretakerPage
@@ -11,12 +11,13 @@ import 'package:widgets/widgets.dart';
 class SelectPreviousCaretakerPage extends StatelessWidget {
   /// {@macro select_previous_caretaker_page}
   const SelectPreviousCaretakerPage({
-    required this.appointmentId,
     required this.caretakers,
+    required this.onProceed,
     super.key,
   });
-  final int appointmentId;
+  // final int appointmentId;
   final List<Caretaker> caretakers;
+  final ValueChanged<AppointmentDetails?> onProceed;
 
   /// The static route for SelectPreviousCaretakerPage
   // static Route<dynamic> route() {
@@ -29,16 +30,18 @@ class SelectPreviousCaretakerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SelectPreviousCaretakerCubit(
-        appointmentId,
+        // appointmentId,
         caretakers,
         context.read<ApiRepo>(),
+        onProceed,
       ),
-      child: const Scaffold(
-        appBar: MyAppBar(
-          title: Text('Better-Life'),
-        ),
-        body: SelectPreviousCaretakerView(),
-      ),
+      child: const SelectPreviousCaretakerView(),
+      // child: const Scaffold(
+      //   appBar: MyAppBar(
+      //     title: Text('Better-Life'),
+      //   ),
+      //   body: SelectPreviousCaretakerView(),
+      // ),
     );
   }
 }

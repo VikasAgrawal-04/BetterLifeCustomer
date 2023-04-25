@@ -2,7 +2,6 @@ import 'package:better_life_customer/login/login.dart';
 import 'package:better_life_customer/register/cubit/cubit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
@@ -54,17 +53,17 @@ class RegisterBody extends StatelessWidget {
                   controller: state.adress,
                   textInputAction: TextInputAction.next,
                 ),
-                MyTextField(
+                PincodeField(
                   hintText: 'Pin Code',
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  textInputType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'This field is required';
-                    }
-                    return null;
-                  },
+                  // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  // textInputType: TextInputType.number,
+                  // textInputAction: TextInputAction.next,
+                  // validator: (value) {
+                  //   if (value!.isEmpty ) {
+                  //     return 'This field is required';
+                  //   }
+                  //   return null;
+                  // },
                   controller: state.pinCode,
                 ),
                 MyTextField(
@@ -80,12 +79,14 @@ class RegisterBody extends StatelessWidget {
                 PhoneTextField(
                   hintText: 'Alternate Contact Number',
                   controller: state.alternateNumber,
+                  textInputAction: TextInputAction.done,
                   validator: (p0) {
-                    if (p0!.isNotEmpty) {
+                    if (p0!.isNotEmpty && p0.length < 10) {
                       return 'Mobile number must be 10 digits';
                     }
                     return null;
                   },
+
                   // textInputAction: TextInputAction.next,
                 ),
 
