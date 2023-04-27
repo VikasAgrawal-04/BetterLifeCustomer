@@ -15,8 +15,17 @@ SelectCaretakerParams _$SelectCaretakerParamsFromJson(
     );
 
 Map<String, dynamic> _$SelectCaretakerParamsToJson(
-        SelectCaretakerParams instance) =>
-    <String, dynamic>{
-      'caretakerIds': instance.caretakerIds,
-      'appointmentId': instance.appointmentId,
-    };
+    SelectCaretakerParams instance) {
+  final val = <String, dynamic>{
+    'caretakerIds': instance.caretakerIds,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appointmentId', instance.appointmentId);
+  return val;
+}

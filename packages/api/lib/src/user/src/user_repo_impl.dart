@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/constants/endpoints.dart';
-import 'package:api/src/auth/src/models/user.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api_client/api_client.dart';
 import 'package:api_client/configs/client.dart';
@@ -84,13 +83,12 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<ApiResult<User>> resetPassword(ResetPasswordParams params) async {
+  Future<ApiResult<String>> resetPassword(ResetPasswordParams params) async {
     try {
       final result =
-          await client.put(Endpoints.changeUserPassword, data: params.toJson());
-      final model = User.fromJson(result.data['user']);
-      storage.setUser(model.toJson());
-      return ApiResult.success(data: model);
+          await client.post(Endpoints.resetPassword, data: params.toJson());
+      final message = result.data['message'];
+      return ApiResult.success(data: message);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
@@ -280,8 +278,11 @@ class UserRepoImpl implements UserRepo {
     if (parser.hasError) {
       return ApiResult.failure(error: parser.failure);
     }
-
-    return ApiResult.success(data: List<String>.from(parser.success['data']));
+    final prescriptions = parser.success['data'] as List;
+    final List<String> data = prescriptions
+        .map((e) => e['filename'] as String)
+        .toList(growable: false);
+    return ApiResult.success(data: data);
   }
 
   @override

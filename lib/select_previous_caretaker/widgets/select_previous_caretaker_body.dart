@@ -54,7 +54,7 @@ class SelectPreviousCaretakerBody extends StatelessWidget {
               MyElevatedButton(
                 text: 'Skip',
                 color: Colors.black,
-                onPressed: () async => Get.back<void>(),
+                onPressed: () async => cubit.onSkip.call(),
               ),
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:better_life_customer/create_appointment/widgets/appointment_step
 import 'package:better_life_customer/create_appointment/widgets/appointment_step_2.dart';
 import 'package:better_life_customer/select_previous_caretaker/view/select_previous_caretaker_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/widgets.dart';
 import 'package:widgets/widgets/my_loading_indicator.dart';
 
@@ -41,11 +42,15 @@ class CreateAppointmentBody extends StatelessWidget {
                   controller: state.pageController,
                   children: [
                     if (state.previousCaretakersLoading)
-                      const MyLoadingIndicator()
+                      SizedBox.square(
+                        dimension: 1.sh * 0.4,
+                        child: const MyLoadingIndicator(),
+                      )
                     else
                       SelectPreviousCaretakerPage(
                         caretakers: state.previousCaretakers,
                         onProceed: cubit.onPreviousCaretakerSelected,
+                        onSkip: () => cubit.changeStep(state.step + 1),
                       ),
                     const AppointmentStep1(),
                     const AppointmentStep2(),

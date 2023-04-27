@@ -45,6 +45,7 @@ class LoginCubit extends Cubit<LoginState> {
         success: (data) async {
           await Get.offAll<bool>(
             () => OtpPage(
+              fromForgotPassword: false,
               contactNumber: state.mobile.text,
             ),
           );

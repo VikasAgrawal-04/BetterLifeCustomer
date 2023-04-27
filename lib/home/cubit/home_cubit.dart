@@ -87,4 +87,8 @@ class HomeCubit extends CubitBase<HomeState> {
   Future<void> onCreateAppointmentPressed() async {
     await Get.to<void>(CreateAppointmentPage.new);
   }
+
+  Future<void> refresh() async {
+    await fetchAppointment();
+  }
 }

@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SelectPreviousCaretakerPage extends StatelessWidget {
   /// {@macro select_previous_caretaker_page}
   const SelectPreviousCaretakerPage({
+    required this.onSkip,
     required this.caretakers,
     required this.onProceed,
     super.key,
@@ -18,6 +19,7 @@ class SelectPreviousCaretakerPage extends StatelessWidget {
   // final int appointmentId;
   final List<Caretaker> caretakers;
   final ValueChanged<AppointmentDetails?> onProceed;
+  final VoidCallback onSkip;
 
   /// The static route for SelectPreviousCaretakerPage
   // static Route<dynamic> route() {
@@ -34,6 +36,7 @@ class SelectPreviousCaretakerPage extends StatelessWidget {
         caretakers,
         context.read<ApiRepo>(),
         onProceed,
+        onSkip,
       ),
       child: const SelectPreviousCaretakerView(),
       // child: const Scaffold(

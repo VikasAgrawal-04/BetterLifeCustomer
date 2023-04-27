@@ -8,24 +8,21 @@ import 'package:widgets/widgets.dart';
 /// A description for ResetPasswordPage
 /// {@endtemplate}
 class ResetPasswordPage extends StatelessWidget {
-  /// {@macro reset_password_page}
-  const ResetPasswordPage({super.key});
-
-  /// The static route for ResetPasswordPage
-  static Route<dynamic> route() {
-    return MaterialPageRoute<dynamic>(
-      builder: (_) => const ResetPasswordPage(),
-    );
-  }
+  const ResetPasswordPage({super.key, this.mobileNumber});
+  final String? mobileNumber;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ResetPasswordCubit(context.read<ApiRepo>()),
+      create: (context) => ResetPasswordCubit(
+        context.read<ApiRepo>(),
+        mobileNumber,
+      ),
       child: Scaffold(
         appBar: MyAppBar(
           title: const Text('Reset Password'),
           backgroundColor: context.theme.primaryColor,
+          showBackButton: false,
         ),
         body: const ResetPasswordView(),
       ),

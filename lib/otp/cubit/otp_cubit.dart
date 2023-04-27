@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/login/login.dart';
@@ -7,8 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
 class OtpCubit extends Cubit<OtpState> {
-  OtpCubit(this.authRepo, this.contactNumber)
-      : super(OtpState(otp: TextEditingController()));
+  final bool fromForgotPassword;
+  OtpCubit(
+    this.fromForgotPassword,
+    this.authRepo,
+    this.contactNumber,
+  ) : super(OtpState(otp: TextEditingController()));
   final AuthRepo authRepo;
   final String contactNumber;
 
@@ -36,8 +41,15 @@ class OtpCubit extends Cubit<OtpState> {
     }
 
     final model = OtpModel(mobileNumber: contactNumber, otp: state.otp.text);
-    final result = await authRepo.verifyOtp(model: model);
-    result.when(success: _onSuccess, failure: _onFailure);
+    final result = !fromForgotPassword
+        ? authRepo.verifyOtp(model: model)
+        : authRepo.verifyPasswordOtp(model: model);
+    (await result).when(
+      success: (data) => fromForgotPassword
+          ? Get.back<ResetPasswordData>(result: data)
+          : _onSuccess(data),
+      failure: _onFailure,
+    );
     // emit(state.copyWith(isLoading: false, showCountdown: false));
   }
 

@@ -78,7 +78,7 @@ class AuthRepoImpl implements AuthRepo {
       if (parser.hasError) {
         return ApiResult.failure(error: parser.failure);
       }
-      
+
       final model = SignInResponse.fromJson(result.data);
 
       await Future.wait(
@@ -142,6 +142,39 @@ class AuthRepoImpl implements AuthRepo {
           // userToken: result.data['data']['userToken'] as String,
           contactNumber: model.mobileNumber,
           message: result.data['message']);
+      return ApiResult.success(data: data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<ResetPasswordData>> verifyPasswordOtp(
+      {required OtpModel model}) async {
+    try {
+      final result = await client.post(
+        Endpoints.verifyPasswordOTP,
+        queryParameters: model.toJson(),
+      );
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+          error: NetworkExceptions.defaultError(result.data['message']),
+        );
+      }
+
+      final token = result.data['data']['userToken'];
+      if (token == null) {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+
+      client.setToken(token);
+
+      final data = ResetPasswordData(
+        // userToken: result.data['data']['userToken'] as String,
+        contactNumber: model.mobileNumber,
+        message: result.data['message'],
+      );
       return ApiResult.success(data: data);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));

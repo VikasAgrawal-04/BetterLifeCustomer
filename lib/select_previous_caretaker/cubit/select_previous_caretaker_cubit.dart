@@ -14,12 +14,14 @@ class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
     this.caretakers,
     this.apiRepo,
     this.onProceed,
+    this.onSkip,
   ) : super(const SelectPreviousCaretakerState());
 
   final ApiRepo apiRepo;
   // final int appointmentId;
   final List<Caretaker> caretakers;
   final ValueChanged<AppointmentDetails?> onProceed;
+  final VoidCallback onSkip;
 
   Future<void> getLastAppointment(LastAppointmentParams params) async {
     try {
@@ -38,36 +40,37 @@ class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
   /// A description for yourCustomFunction
   Future<void> selectPreviousCaretakers() async {
     // Get.back<void>();
-    await getLastAppointment(
-      LastAppointmentParams(
+    // await getLastAppointment(
+    //   LastAppointmentParams(
+    //     caretakerIds: state.selectedCaretakers.toList(),
+    //   ),
+    // );
+
+    try {
+      if (state.selectedCaretakers.isEmpty) {
+        DialogService.error('Please select at least one caretaker');
+        return;
+      }
+      final params = LastAppointmentParams(
         caretakerIds: state.selectedCaretakers.toList(),
-      ),
-    );
-
-    // try {
-    //   if (state.selectedCaretakers == null) {
-    //     DialogService.error('Please select at least one caretaker');
-    //     return;
-    //   }
-
-    //   final result = await apiRepo.selectPreviousCareTakers(
-    //     SelectCaretakerParams(
-    //       caretakerIds: [state.selectedCaretakers!],
-    //       // appointmentId: appointmentId,
-    //     ),
-    //   );
-    //   await result.when(
-    //     success: (value) async {
-    //       // DialogService.success(value, onTap: () => Get.close(2));
-    //       await getLastAppointment(state.selectedCaretakers!);
-    //     },
-    //     failure: (e) {
-    //       DialogService.failure(e);
-    //     },
-    //   );
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
+      );
+      final result = await apiRepo.selectPreviousCareTakers(
+        SelectCaretakerParams(
+          caretakerIds: state.selectedCaretakers.toList(),
+        ),
+      );
+      await result.when(
+        success: (value) async {
+          // DialogService.success(value, onTap: () => Get.close(2));
+          await getLastAppointment(params);
+        },
+        failure: (e) {
+          DialogService.failure(e);
+        },
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   void selectCaretaker(int? userid) {

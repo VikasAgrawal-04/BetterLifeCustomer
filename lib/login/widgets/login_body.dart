@@ -1,8 +1,10 @@
+import 'package:better_life_customer/forgot_password/view/forgot_password_page.dart';
 import 'package:better_life_customer/login/cubit/cubit.dart';
 import 'package:better_life_customer/register/view/register_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_theme/my_theme.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
 
@@ -52,10 +54,10 @@ class LoginBody extends StatelessWidget {
                     hidePrefixIcon: false,
                     onSubmitted: (p0) => context.read<LoginCubit>().login(),
                   ),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: _forgotPassword(),
-                  // ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: _forgotPassword(),
+                  ),
                   const SizedBox(height: 20),
                   MyElevatedButton(
                     text: 'Login',
@@ -105,17 +107,17 @@ class LoginBody extends StatelessWidget {
 
   TextButton _forgotPassword() {
     return TextButton(
-      onPressed: () {},
+      onPressed: () => Get.to<void>(const ForgotPasswordPage()),
       style: TextButton.styleFrom(
-        foregroundColor: Colors.grey.shade900,
+        foregroundColor: kPrimaryColor,
         alignment: Alignment.centerRight,
       ),
-      child: Text(
+      child: const Text(
         'Forgot Password?',
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w700,
-          color: Colors.grey.shade500,
+          // color: Colors.grey.shade500,
         ),
       ),
     );

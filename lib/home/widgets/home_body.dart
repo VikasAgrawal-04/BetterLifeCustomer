@@ -15,21 +15,24 @@ class HomeBody extends StatelessWidget {
         final cubit = context.read<HomeCubit>();
         return Padding(
           padding: kPadding,
-          child: MySliverList<Appointment>(
-            title: '${state.tabs[state.currentIndex]} Appointments',
-            status: state.status,
-            list: state.appointments,
-            itemBuilder: (context, index) {
-              final appointment = state.appointments[index];
-              return Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: AppointmentCard(
-                  type: AppointmentType.values[state.currentIndex],
-                  appointment: appointment,
-                  onPressed: () => cubit.viewAppointment(appointment),
-                ),
-              );
-            },
+          child: RefreshIndicator(
+            onRefresh: cubit.refresh,
+            child: MySliverList<Appointment>(
+              title: '${state.tabs[state.currentIndex]} Appointments',
+              status: state.status,
+              list: state.appointments,
+              itemBuilder: (context, index) {
+                final appointment = state.appointments[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: AppointmentCard(
+                    type: AppointmentType.values[state.currentIndex],
+                    appointment: appointment,
+                    onPressed: () => cubit.viewAppointment(appointment),
+                  ),
+                );
+              },
+            ),
           ),
         );
       },

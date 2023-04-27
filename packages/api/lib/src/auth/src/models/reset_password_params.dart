@@ -3,15 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'reset_password_params.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ResetPasswordParams {
-  final String mobile;
   final String password;
   final String passwordConfirmation;
   // final String userToken;
 
   ResetPasswordParams({
-    required this.mobile,
     required this.password,
     required this.passwordConfirmation,
     // required this.userToken,

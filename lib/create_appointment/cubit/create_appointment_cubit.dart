@@ -258,7 +258,7 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
   // }
 
   void caretakerWhoCanDriveCarChanged(bool value) {
-    // emit(state.copyWith(caretakerWhoCanDriveCar: value));
+    emit(state.copyWith(caretakerWhoCanDriveCar: value));
   }
 
   Future<void> onPreviousCaretakerSelected(AppointmentDetails? value) async {

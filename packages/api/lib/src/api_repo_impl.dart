@@ -71,7 +71,7 @@ class ApiRepoImpl implements ApiRepo {
 
   // @override
   // @override
-  // Future<ApiResult<User>> resetPassword(ResetPasswordParams params) {
+  // Future<ApiResult<String>> resetPassword(ResetPasswordParams params) {
   //   throw UnimplementedError();
   //   // return _authRepo.(params);
   // }
@@ -93,9 +93,8 @@ class ApiRepoImpl implements ApiRepo {
   }
 
   @override
-  Future<ApiResult<User>> resetPassword(params) {
-    // TODO: implement resetPassword
-    throw UnimplementedError();
+  Future<ApiResult<String>> resetPassword(ResetPasswordParams params) {
+    return _userRepo.resetPassword(params);
   }
 
   @override
@@ -158,14 +157,22 @@ class ApiRepoImpl implements ApiRepo {
       SelectCaretakerParams params) {
     return _userRepo.selectPreviousCareTakers(params);
   }
-  
+
   @override
-  Stream<List<Appointment>> getAppointmentStream({required AppointmentType type}) {
+  Stream<List<Appointment>> getAppointmentStream(
+      {required AppointmentType type}) {
     return _userRepo.getAppointmentStream(type: type);
   }
-  
+
   @override
-  Future<ApiResult<AppointmentDetails>> getLastAppointment(LastAppointmentParams params) {
+  Future<ApiResult<AppointmentDetails>> getLastAppointment(
+      LastAppointmentParams params) {
     return _userRepo.getLastAppointment(params);
+  }
+
+  @override
+  Future<ApiResult<ResetPasswordData>> verifyPasswordOtp(
+      {required OtpModel model}) {
+    return _authRepo.verifyPasswordOtp(model: model);
   }
 }

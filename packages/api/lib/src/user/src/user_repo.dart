@@ -1,7 +1,6 @@
 import 'package:api_client/api_client.dart';
 
 import '../../auth/src/models/reset_password_params.dart';
-import '../../auth/src/models/user.dart';
 import 'models/models.dart';
 
 abstract class UserRepo {
@@ -11,7 +10,7 @@ abstract class UserRepo {
       {required String id});
   Future<ApiResult<ProfileUpdateResponseModel>> updateProfile(
       {required UpdateProfileParams params});
-  Future<ApiResult<User>> resetPassword(ResetPasswordParams params);
+  Future<ApiResult<String>> resetPassword(ResetPasswordParams params);
   Future<ApiResult<AppointmentResponse>> createAppointment(
     CreateAppointmentParams params,
   );

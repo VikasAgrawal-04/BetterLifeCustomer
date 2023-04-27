@@ -52,15 +52,17 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> success(SignupResponseModel data) async {
-    Future<void>? onTap() => Get.offAll<void>(
-          OtpPage(
-            contactNumber: state.mobile.text,
-          ),
-        );
     await DialogService.showDialog<void>(
       child: MailSentDialog(
         message: data.message,
-        onContinue: onTap,
+        onContinue: () {
+          Get.offAll<void>(
+            OtpPage(
+              fromForgotPassword: false,
+              contactNumber: state.mobile.text,
+            ),
+          );
+        },
       ),
     );
   }
