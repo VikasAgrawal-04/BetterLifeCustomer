@@ -22,6 +22,10 @@ AppointmentDetails _$AppointmentDetailsFromJson(Map<String, dynamic> json) =>
       hospital: json['hospital'] as String,
       doctor: json['doctor'] as String,
       purpose: json['purpose'] as String,
+      caretaker: (json['caretaker'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$AppointmentDetailsToJson(AppointmentDetails instance) =>
@@ -40,4 +44,5 @@ Map<String, dynamic> _$AppointmentDetailsToJson(AppointmentDetails instance) =>
       'hospital': instance.hospital,
       'doctor': instance.doctor,
       'purpose': instance.purpose,
+      'caretaker': instance.caretaker,
     };

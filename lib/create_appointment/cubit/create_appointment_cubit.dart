@@ -86,6 +86,7 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       );
 
       final params = CreateAppointmentParams(
+        caretaker: state.caretaker,
         patientName: state.patientNameController.text,
         patientGender: state.gender!,
         patientRelationship: state.relationWithApplicant!,

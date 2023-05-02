@@ -26,6 +26,8 @@ CreateAppointmentParams _$CreateAppointmentParamsFromJson(
       doctorsName: json['doctorsName'] as String,
       visitPurpose: json['visitPurpose'] as String,
       apptDuration: json['apptDuration'] as String,
+      caretaker:
+          (json['caretaker'] as List<dynamic>).map((e) => e as int).toList(),
     );
 
 Map<String, dynamic> _$CreateAppointmentParamsToJson(
@@ -48,4 +50,5 @@ Map<String, dynamic> _$CreateAppointmentParamsToJson(
       'doctorsName': instance.doctorsName,
       'visitPurpose': instance.visitPurpose,
       'apptDuration': instance.apptDuration,
+      'caretaker': instance.caretaker,
     };

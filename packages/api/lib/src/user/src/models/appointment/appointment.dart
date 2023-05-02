@@ -50,6 +50,9 @@ class Appointment {
   String? doctor;
   String? otp;
 
+  @JsonKey(defaultValue: [])
+  List<int> caretaker;
+
   @JsonKey(name: 'taxineeded', fromJson: _boolFromJson)
   bool taxineeded;
 
@@ -67,6 +70,7 @@ class Appointment {
     this.caretakerid,
     this.doctor,
     this.otp,
+    this.caretaker = const [],
     required this.taxineeded,
     this.caretakers,
   });

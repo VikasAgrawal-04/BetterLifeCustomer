@@ -37,6 +37,10 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) => Appointment(
       caretakerid: json['caretakerid'] as int?,
       doctor: json['doctor'] as String?,
       otp: json['otp'] as String?,
+      caretaker: (json['caretaker'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
       taxineeded: Appointment._boolFromJson(json['taxineeded']),
       caretakers: (json['caretakers'] as List<dynamic>?)
           ?.map((e) => Caretaker.fromJson(e as Map<String, dynamic>))
@@ -55,6 +59,7 @@ Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
       'caretakerid': instance.caretakerid,
       'doctor': instance.doctor,
       'otp': instance.otp,
+      'caretaker': instance.caretaker,
       'taxineeded': instance.taxineeded,
       'caretakers': instance.caretakers,
     };

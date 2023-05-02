@@ -41,6 +41,7 @@ class CreateAppointmentParams {
   final String doctorsName;
   final String visitPurpose;
   final String apptDuration;
+  final List<int> caretaker;
 
   CreateAppointmentParams({
     required this.patientName,
@@ -60,6 +61,7 @@ class CreateAppointmentParams {
     required this.doctorsName,
     required this.visitPurpose,
     required this.apptDuration,
+    required this.caretaker,
   });
 
   // static String _dateToJson(DateTime date, DateTime time) {
@@ -81,4 +83,46 @@ class CreateAppointmentParams {
   // static String _genderToJson(String value) {
   //   return value.characters.first.toUpperCase();
   // }
+
+  CreateAppointmentParams copyWith({
+    String? patientName,
+    String? patientGender,
+    String? patientRelationship,
+    String? mobileNumber,
+    String? noOfCaretakers,
+    String? caretakerGender,
+    String? caretakerLanguage,
+    bool? taxiNeeded,
+    bool? acTaxi,
+    bool? drivetaxi,
+    DateTime? visitDate,
+    String? pickUpAddress,
+    String? pickUpPinCode,
+    String? hospital,
+    String? doctorsName,
+    String? visitPurpose,
+    String? apptDuration,
+    List<int>? caretaker,
+  }) {
+    return CreateAppointmentParams(
+      patientName: patientName ?? this.patientName,
+      patientGender: patientGender ?? this.patientGender,
+      patientRelationship: patientRelationship ?? this.patientRelationship,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      noOfCaretakers: noOfCaretakers ?? this.noOfCaretakers,
+      caretakerGender: caretakerGender ?? this.caretakerGender,
+      caretakerLanguage: caretakerLanguage ?? this.caretakerLanguage,
+      taxiNeeded: taxiNeeded ?? this.taxiNeeded,
+      acTaxi: acTaxi ?? this.acTaxi,
+      drivetaxi: drivetaxi ?? this.drivetaxi,
+      visitDate: visitDate ?? this.visitDate,
+      pickUpAddress: pickUpAddress ?? this.pickUpAddress,
+      pickUpPinCode: pickUpPinCode ?? this.pickUpPinCode,
+      hospital: hospital ?? this.hospital,
+      doctorsName: doctorsName ?? this.doctorsName,
+      visitPurpose: visitPurpose ?? this.visitPurpose,
+      apptDuration: apptDuration ?? this.apptDuration,
+      caretaker: caretaker ?? this.caretaker,
+    );
+  }
 }

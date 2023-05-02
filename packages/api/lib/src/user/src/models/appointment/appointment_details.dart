@@ -22,6 +22,7 @@ class AppointmentDetails {
     required this.hospital,
     required this.doctor,
     required this.purpose,
+    this.caretaker = const [],
   });
 
   final int appointmentId;
@@ -44,6 +45,9 @@ class AppointmentDetails {
   final String doctor;
   final String purpose;
 
+  @JsonKey(defaultValue: [])
+  final List<int> caretaker;
+
   factory AppointmentDetails.fromJson(Map<String, dynamic> json) =>
       _$AppointmentDetailsFromJson(json);
 
@@ -64,6 +68,7 @@ class AppointmentDetails {
     String? hospital,
     String? doctor,
     String? purpose,
+    List<int>? caretaker,
   }) {
     return AppointmentDetails(
       appointmentId: appointmentId ?? this.appointmentId,
@@ -80,6 +85,7 @@ class AppointmentDetails {
       hospital: hospital ?? this.hospital,
       doctor: doctor ?? this.doctor,
       purpose: purpose ?? this.purpose,
+      caretaker: caretaker ?? this.caretaker,
     );
   }
 }

@@ -97,11 +97,14 @@ class AppointmentStep2 extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              ChoiceWidget(
-                readOnly: !state.iscaretakerWhoCanDriveCarEditable,
-                title: 'Want caretaker who can drive your car',
-                value: state.caretakerWhoCanDriveCar,
-                onChanged: cubit.caretakerWhoCanDriveCarChanged,
+              Visibility(
+                visible: !state.taxiRequired,
+                child: ChoiceWidget(
+                  readOnly: !state.iscaretakerWhoCanDriveCarEditable,
+                  title: 'Want caretaker who can drive your car',
+                  value: state.caretakerWhoCanDriveCar,
+                  onChanged: cubit.caretakerWhoCanDriveCarChanged,
+                ),
               ),
               const Gap(10),
               Row(

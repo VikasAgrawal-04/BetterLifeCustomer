@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:api/constants/endpoints.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api_client/api_client.dart';
@@ -133,7 +135,7 @@ class UserRepoImpl implements UserRepo {
     try {
       final result = await client.post(
         Endpoints.createNewAppointment,
-        queryParameters: params.toJson(),
+        data: jsonEncode(params.toJson()),
       );
       final parser = ApiResultParser.parse(data: result.data);
 

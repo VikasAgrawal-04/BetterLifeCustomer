@@ -50,6 +50,7 @@ class CreateAppointmentState extends Equatable {
   final bool isCaretakerGenderEditable;
   final bool iscaretakerWhoCanDriveCarEditable;
   final bool isPincodeEditable;
+  final List<int> caretaker;
 
   const CreateAppointmentState({
     this.dateOfVisit,
@@ -90,6 +91,7 @@ class CreateAppointmentState extends Equatable {
     required this.isCaretakerGenderEditable,
     required this.iscaretakerWhoCanDriveCarEditable,
     required this.isPincodeEditable,
+    this.caretaker = const [],
   });
 
   factory CreateAppointmentState.initial({
@@ -156,6 +158,7 @@ class CreateAppointmentState extends Equatable {
 
   CreateAppointmentState merge(AppointmentDetails? appointment) {
     return CreateAppointmentState(
+      caretaker: appointment?.caretaker ?? [],
       isCaretakerGenderEditable: false,
       isCaretakerLanguageEditable: false,
       isPincodeEditable: false,
@@ -279,6 +282,7 @@ class CreateAppointmentState extends Equatable {
     bool? isCaretakerGenderEditable,
     bool? iscaretakerWhoCanDriveCarEditable,
     bool? isPincodeEditable,
+    List<int>? caretaker,
   }) {
     return CreateAppointmentState(
       dateOfVisit: dateOfVisit ?? this.dateOfVisit,
@@ -335,6 +339,7 @@ class CreateAppointmentState extends Equatable {
       iscaretakerWhoCanDriveCarEditable: iscaretakerWhoCanDriveCarEditable ??
           this.iscaretakerWhoCanDriveCarEditable,
       isPincodeEditable: isPincodeEditable ?? this.isPincodeEditable,
+      caretaker: caretaker ?? this.caretaker,
     );
   }
 
@@ -342,4 +347,7 @@ class CreateAppointmentState extends Equatable {
       caretakerLanguage?.toLowerCase() == Language.other.name.toLowerCase()
           ? caretakerOtherLanguage ?? ''
           : caretakerLanguage ?? '';
+
+  // generate toString method
+  // @override
 }
