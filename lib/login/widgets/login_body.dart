@@ -27,7 +27,6 @@ class LoginBody extends StatelessWidget {
             child: Form(
               key: state.formKey,
               child: Column(
-                // padding: kPadding,
                 children: [
                   SizedBox.square(
                     dimension: 200,

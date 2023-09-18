@@ -7,7 +7,6 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
   final Widget? title;
   final Widget? leading;
   final VoidCallback? onBackPressed;
-
   final PreferredSizeWidget? bottom;
   final double elevation;
   final Color? iconColor;
