@@ -175,4 +175,20 @@ class ApiRepoImpl implements ApiRepo {
       {required OtpModel model}) {
     return _authRepo.verifyPasswordOtp(model: model);
   }
+
+  @override
+  Future<ApiResult<List<String>>> fetchLanguage() {
+    return _authRepo.fetchLanguage();
+  }
+
+  @override
+  Future<ApiResult<List<Map<String, dynamic>>>> fetchPincodes() {
+    return _authRepo.fetchPincodes();
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> registerCaretaker(
+      {required SignUpCaretakerModel data}) {
+    return _authRepo.registerCaretaker(data: data);
+  }
 }

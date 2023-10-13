@@ -33,10 +33,6 @@ class OtpView extends StatelessWidget {
               'OTP sent to mobile',
               textAlign: TextAlign.center,
               style: context.textTheme.bodyMedium?.copyWith(
-                // fontFamily:
-                // color: context.theme.primaryColor,
-                // /
-                // fontFamily: TextDecorations.monsterratFont,
                 fontSize: 12.sp,
               ),
             ),
@@ -45,10 +41,6 @@ class OtpView extends StatelessWidget {
               context.read<OtpCubit>().contactNumber,
               textAlign: TextAlign.center,
               style: context.textTheme.bodySmall?.copyWith(
-                // fontFamily:
-                // color: context.theme.primaryColor,
-                // color: kTextFieldTextColor,
-                // fontFamily: TextDecorations.monsterratFont,
                 fontSize: 12.sp,
               ),
             ),
@@ -63,11 +55,6 @@ class OtpView extends StatelessWidget {
                     pinBoxOuterPadding:
                         const EdgeInsets.symmetric(horizontal: 10),
                     highlightColor: context.theme.primaryColor,
-
-                    // onTextChanged: (v) {
-                    //   cubit.onOtpChange(v);
-                    // },
-
                     onDone: (text) {
                       cubit.verityOtp();
                     },
@@ -78,35 +65,6 @@ class OtpView extends StatelessWidget {
                     hasTextBorderColor: kLightGrey,
                     pinBoxRadius: kBorderRadius.topLeft.x,
                     highlight: true,
-                    // highlightPinBoxColor: context.theme.primaryColor,
-
-                    // activeColor: kLightGrey,
-                    // shape: PinCodeFieldShape.box,
-                    // activeFillColor: kLightGrey,
-                    // disabledColor: kLightGrey,
-                    // inactiveColor: kLightGrey,
-                    // inactiveFillColor: kLightGrey,
-                    // fieldOuterPadding: const EdgeInsets.all(5),
-
-                    // // borderWidth: 2,
-                    // fieldHeight: 50,
-                    // fieldWidth: 50,
-                    // borderRadius: BorderRadius.circular(7.r),
-                    // selectedColor: kLightGrey,
-                    // selectedFillColor: kLightGrey,
-
-                    // length: 4,
-                    // cursorColor: context.theme.primaryColor,
-                    // pinTheme: PinTheme(
-                    // ),
-                    // enableActiveFill: true,
-                    // onCompleted: (v) {
-                    //   cubit.onOtpChange(v);
-                    //   cubit.verityOtp();
-                    // },
-                    // onChanged: cubit.onOtpChange,
-                    // beforeTextPaste: (text) => true,
-                    // appContext: context,
                   );
                 },
               ),
@@ -126,7 +84,6 @@ class OtpView extends StatelessWidget {
                 style: context.textTheme.bodySmall?.copyWith(
                   color: context.theme.primaryColor,
                   decoration: TextDecoration.underline,
-                  // fontFamily: TextDecorations.monsterratFont,
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -6,9 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpPage extends StatelessWidget {
   const OtpPage({
-    super.key,
-    required this.contactNumber,
-    required this.fromForgotPassword,
+    required this.contactNumber, required this.fromForgotPassword, super.key,
   });
   final String contactNumber;
   final bool fromForgotPassword;

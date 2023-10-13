@@ -1,5 +1,6 @@
 class Endpoints {
   static const String signUp = '/customerRegistration';
+  static const String signUpCaretaker = '/caretaker-register';
   static const String loginCustomer = '/login';
 
   static const String showProfile = '/show-profile';
@@ -8,7 +9,6 @@ class Endpoints {
   static const String resetPassword = '/resetPassword',
       sendOtp = '/resendOTP',
       verifyPasswordOTP = '/verifyPasswordOTP',
-      
       verifyOtp = '/verifyOTP';
 
   static const String showTransactionHistory = '/show-transaction-history';
@@ -32,4 +32,7 @@ class Endpoints {
   static String serviceRating = '/serviceRating';
   static String serviceRatingCaretaker = '/serviceRatingCaretaker';
   static String getLastAppointment = '/getLastAppointment';
+
+  static const String languages = '/show-language';
+  static const String pincodes = '/show-pincode';
 }

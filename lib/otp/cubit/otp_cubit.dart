@@ -50,7 +50,6 @@ class OtpCubit extends Cubit<OtpState> {
           : _onSuccess(data),
       failure: _onFailure,
     );
-    // emit(state.copyWith(isLoading: false, showCountdown: false));
   }
 
   Future<void> resendOtp() async {
@@ -73,7 +72,6 @@ class OtpCubit extends Cubit<OtpState> {
           await Get.offAll<void>(
             LoginPage.new,
           );
-          // await Get.offAll(() => const SelectRolesRegistrationPage());
         },
       ),
     );

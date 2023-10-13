@@ -6,7 +6,6 @@ part 'user.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class User {
-
   String? fullName;
   @JsonKey(name: 'emailId')
   String? email;
@@ -15,7 +14,6 @@ class User {
 
   String? userType;
   String? userToken;
-  
 
   @JsonKey(name: 'balance_points')
   int? balancePoints;
@@ -32,24 +30,4 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
-
-  // User.fromJson(Map<String, dynamic> json) {
-  //   customerId = json['CustomerId'];
-  //   fullName = json['FullName'];
-  //   email = json['Email'];
-  //   mobile = json['Mobile'];
-  //   membershipId = json['MembershipId'];
-  //   balancePoints = json['balancePoints'];
-  // }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data['CustomerId'] = customerId;
-  //   data['FullName'] = fullName;
-  //   data['Email'] = email;
-  //   data['Mobile'] = mobile;
-  //   data['MembershipId'] = membershipId;
-  //   data['balancePoints'] = balancePoints;
-  //   return data;
-  // }
 }

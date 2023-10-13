@@ -28,10 +28,6 @@ class AutoSpacing extends StatelessWidget {
     if (children.isEmpty) return children;
 
     final list = <Widget>[];
-    // for (var i = 0; i < children.length; i++) {
-    //   list.add(children[i]);
-    //   list.add(spacing ?? SizedBox(height: 24.h));
-    // }
     if (startSpacing != null) startSpacing;
     for (final item in children) {
       list.add(item);

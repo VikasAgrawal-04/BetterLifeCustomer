@@ -185,7 +185,6 @@ class Client {
       cancelToken: cancelToken,
       data: data,
     );
-    // log('$baseUrl$path');
     return result;
   }
 

@@ -10,14 +10,14 @@ class PhoneTextField extends StatelessWidget {
   final bool hidePrefixIcon;
   final String? Function(String?)? validator;
   final TextInputAction textInputAction;
-  const PhoneTextField({
-    Key? key,
-    this.controller,
-    this.hintText,
-    this.hidePrefixIcon = true,
-    this.validator,
-    this.textInputAction = TextInputAction.next,
-  }) : super(key: key);
+  const PhoneTextField(
+      {Key? key,
+      this.controller,
+      this.hintText,
+      this.hidePrefixIcon = true,
+      this.validator,
+      this.textInputAction = TextInputAction.next})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

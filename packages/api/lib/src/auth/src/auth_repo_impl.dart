@@ -27,7 +27,6 @@ class AuthRepoImpl implements AuthRepo {
     try {
       final result =
           await client.post(Endpoints.signUp, queryParameters: data.toJson());
-      // final model = SignupResponseModel.fromJson(result.data);
       final model = SignupResponseModel(
         status: int.parse(result.data['code']),
         message: result.data['message'],
@@ -197,23 +196,6 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Stream<User?> get userStream => storage.userStream;
 
-  // @override
-  // Future<ApiResult<ResponseModel>> forgotPassword(
-  //     {required String email}) async {
-  //   try {
-  //     final result =
-  //         await client.post(Endpoints.forgotPassword, data: {'email': email});
-  //     if (result.data['code'] != '200') {
-  //       return ApiResult.failure(
-  //           error: NetworkExceptions.defaultError(result.data['message']));
-  //     }
-  //     final model = ResponseModel.fromMap(result.data);
-  //     return ApiResult.success(data: model);
-  //   } catch (e) {
-  //     return ApiResult.failure(error: NetworkExceptions.getDioException(e));
-  //   }
-  // }
-
   String _parseError(Map? data) {
     String error = 'Something went wrong';
     if (data?.isEmpty ?? true) return error;
@@ -240,5 +222,56 @@ class AuthRepoImpl implements AuthRepo {
       }
     }
     return error;
+  }
+
+  @override
+  Future<ApiResult<List<String>>> fetchLanguage() async {
+    try {
+      List<String> language = [];
+      final result = await client.get(Endpoints.languages);
+      if (result.statusCode != 200) {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      language.addAll((result.data['data'] as List<dynamic>)
+          .map((e) => e['language'].toString())
+          .toList());
+      return ApiResult.success(data: language);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<Map<String, dynamic>>>> fetchPincodes() async {
+    try {
+      final pincodes = <Map<String, dynamic>>[];
+      final result = await client.get(Endpoints.pincodes);
+      if (result.statusCode != 200) {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      pincodes.addAll(
+          (result.data['data'] as List<dynamic>).map((e) => Map.from(e)));
+      return ApiResult.success(data: pincodes);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> registerCaretaker(
+      {required SignUpCaretakerModel data}) async {
+    try {
+      final result = await client.post(Endpoints.signUpCaretaker,
+          queryParameters: data.toJson());
+      if (result.statusCode != 200) {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
   }
 }

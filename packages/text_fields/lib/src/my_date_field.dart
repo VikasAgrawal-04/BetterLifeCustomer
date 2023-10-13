@@ -5,10 +5,12 @@ import '../text_fields.dart';
 
 class MyDateField extends StatefulWidget {
   final String? hintText;
+  final DateTime? firstDate;
   final DateTime? value;
   final ValueChanged<DateTime>? onChanged;
 
-  const MyDateField({super.key, this.hintText, this.onChanged, this.value});
+  const MyDateField(
+      {super.key, this.firstDate, this.hintText, this.onChanged, this.value});
 
   @override
   State<MyDateField> createState() => _MyDateFieldState();
@@ -35,7 +37,7 @@ class _MyDateFieldState extends State<MyDateField> {
         final date = await showDatePicker(
           context: context,
           initialDate: initDate,
-          firstDate: initDate,
+          firstDate: widget.firstDate ?? initDate,
           lastDate: DateTime.now().add(const Duration(days: 365)),
         );
         if (date != null) {

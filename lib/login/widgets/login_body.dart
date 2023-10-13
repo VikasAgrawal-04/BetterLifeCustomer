@@ -1,7 +1,7 @@
 import 'package:better_life_customer/forgot_password/view/forgot_password_page.dart';
 import 'package:better_life_customer/login/cubit/cubit.dart';
+import 'package:better_life_customer/register/view/register_caretaker_page.dart';
 import 'package:better_life_customer/register/view/register_page.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_theme/my_theme.dart';
@@ -29,19 +29,18 @@ class LoginBody extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox.square(
-                    dimension: 200,
+                    dimension: 100,
                     child: Transform.scale(
-                      scale: 1.4,
+                      scale: 1.2,
                       child: SvgPicture.asset(
                         'assets/logo_svg.svg',
-                        // scale: 0.5,
                       ),
                     ),
                   ),
                   const HeaderText(
                     text: 'Welcome to Better Life',
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   PhoneTextField(
                     controller: state.mobile,
                     hidePrefixIcon: false,
@@ -63,7 +62,6 @@ class LoginBody extends StatelessWidget {
                     onPressed: context.read<LoginCubit>().login,
                   ),
                   const SizedBox(height: 20),
-                  // const Spacer(),
                   _dontHaveAnAccount(context),
                   const Gap(10),
                 ],
@@ -75,33 +73,52 @@ class LoginBody extends StatelessWidget {
     );
   }
 
-  RichText _dontHaveAnAccount(BuildContext context) {
-    return RichText(
-      text: TextSpan(
+  Widget _dontHaveAnAccount(BuildContext context) {
+    return Column(children: [
+      Row(
         children: [
-          TextSpan(
-            text: "Don't have an account?",
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.grey,
-                ),
-          ),
-          TextSpan(
-            text: ' Register Now',
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => Get.offAll<void>(
-                    () => const RegisterPage(),
-                  ),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: context.theme.primaryColor,
-                ),
-          ),
+          Expanded(
+              child: Container(
+                  height: 1,
+                  margin: const EdgeInsets.only(right: 15),
+                  color: Colors.grey.shade500)),
+          const Text('New to the app?'),
+          Expanded(
+              child: Container(
+                  height: 1,
+                  margin: const EdgeInsets.only(left: 15),
+                  color: Colors.grey.shade500))
         ],
       ),
-    );
+      const SizedBox(height: 10),
+      MyElevatedButton(
+          onPressed: () async => Get.offAll<void>(
+                () => const RegisterPage(),
+              ),
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade500),
+          child: Text(
+            'Register as normal user',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
+          )),
+      const SizedBox(height: 10),
+      MyElevatedButton(
+        onPressed: () async =>
+            Get.to<void>(() => const RegisterCaretakerPage()),
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade500),
+        child: Text(
+          'Register as caretaker',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.blue, fontWeight: FontWeight.w500),
+        ),
+      ),
+    ]);
   }
 
   TextButton _forgotPassword() {
@@ -113,11 +130,7 @@ class LoginBody extends StatelessWidget {
       ),
       child: const Text(
         'Forgot Password?',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          // color: Colors.grey.shade500,
-        ),
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
       ),
     );
   }

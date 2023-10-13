@@ -13,20 +13,22 @@ class MyElevatedButton extends StatelessWidget {
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final double? width, height;
+  final BoxBorder? border;
 
-  const MyElevatedButton({
-    super.key,
-    this.child,
-    this.text,
-    this.color,
-    this.isLoading = false,
-    this.isDisabled = false,
-    this.onPressed,
-    this.padding,
-    this.height,
-    this.width,
-    this.margin,
-  }) : assert(text != null || child != null);
+  const MyElevatedButton(
+      {super.key,
+      this.child,
+      this.text,
+      this.color,
+      this.isLoading = false,
+      this.isDisabled = false,
+      this.onPressed,
+      this.padding,
+      this.height,
+      this.width,
+      this.margin,
+      this.border})
+      : assert(text != null || child != null);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class MyElevatedButton extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
+      border: border,
       child: _getChild(),
     );
   }
@@ -55,6 +58,7 @@ class MyElevatedButton extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
+      border: border,
       child: const MyLoadingIndicator(),
     );
   }
@@ -75,16 +79,9 @@ class MyElevatedButton extends StatelessWidget {
   }
 
   Row _showLoading() {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        // SizedBox(
-        //   height: 20,
-        //   width: 20,
-        //   child: CircularProgressIndicator.adaptive(
-        //     strokeWidth: 2,
-        //   ),
-        // )
+      children: [
         MyLoadingIndicator(),
       ],
     );
@@ -122,6 +119,7 @@ class _MyElevatedButtonLayout extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
+  final BoxBorder? border;
 
   const _MyElevatedButtonLayout({
     Key? key,
@@ -131,6 +129,7 @@ class _MyElevatedButtonLayout extends StatelessWidget {
     this.padding,
     this.margin,
     required this.child,
+    this.border,
   }) : super(key: key);
 
   @override
@@ -142,15 +141,13 @@ class _MyElevatedButtonLayout extends StatelessWidget {
       alignment: Alignment.center,
       width: width ?? context.mediaQuery.size.width,
       height: height ?? 50,
-      decoration: _decoration(),
+      decoration: _decoration(border),
       child: child,
     );
   }
 
-  BoxDecoration _decoration() {
+  BoxDecoration _decoration(border) {
     return BoxDecoration(
-      color: color,
-      borderRadius: kBorderRadius,
-    );
+        color: color, borderRadius: kBorderRadius, border: border);
   }
 }

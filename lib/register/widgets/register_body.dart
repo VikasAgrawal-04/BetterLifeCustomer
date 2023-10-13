@@ -24,7 +24,6 @@ class RegisterBody extends StatelessWidget {
           child: SingleChildScrollView(
             padding: kPadding,
             child: AutoSpacing(
-              // padding: kPadding,
               spacing: const Gap(10),
               children: [
                 const HeaderText(text: 'Hello! Register to get started.'),
@@ -55,15 +54,6 @@ class RegisterBody extends StatelessWidget {
                 ),
                 PincodeField(
                   hintText: 'Pin Code',
-                  // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  // textInputType: TextInputType.number,
-                  // textInputAction: TextInputAction.next,
-                  // validator: (value) {
-                  //   if (value!.isEmpty ) {
-                  //     return 'This field is required';
-                  //   }
-                  //   return null;
-                  // },
                   controller: state.pinCode,
                 ),
                 MyTextField(
@@ -86,8 +76,6 @@ class RegisterBody extends StatelessWidget {
                     }
                     return null;
                   },
-
-                  // textInputAction: TextInputAction.next,
                 ),
 
                 const Gap(20),

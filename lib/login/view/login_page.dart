@@ -2,7 +2,6 @@ import 'package:api/api.dart';
 import 'package:better_life_customer/login/cubit/cubit.dart';
 import 'package:better_life_customer/login/widgets/login_body.dart';
 import 'package:flutter/material.dart';
-import 'package:widgets/widgets.dart';
 
 /// {@template login_page}
 /// A description for LoginPage
@@ -21,9 +20,6 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(context.read<ApiRepo>()),
       child: const Scaffold(
-        appBar: MyAppBar(
-          leading: SizedBox.shrink(),
-        ),
         body: LoginView(),
       ),
     );
