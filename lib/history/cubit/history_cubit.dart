@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:api/api.dart';
 import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
-import 'package:better_life_customer/core/status.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

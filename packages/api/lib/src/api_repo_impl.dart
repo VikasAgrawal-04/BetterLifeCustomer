@@ -69,13 +69,6 @@ class ApiRepoImpl implements ApiRepo {
     return _userRepo.updateProfile(params: params);
   }
 
-  // @override
-  // @override
-  // Future<ApiResult<String>> resetPassword(ResetPasswordParams params) {
-  //   throw UnimplementedError();
-  //   // return _authRepo.(params);
-  // }
-
   @override
   Future<ApiResult<ResponseModel>> forgotPassword(
       {required ResetPasswordParams params}) {
@@ -190,5 +183,11 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<Map<String, dynamic>>> registerCaretaker(
       {required SignUpCaretakerModel data}) {
     return _authRepo.registerCaretaker(data: data);
+  }
+
+  @override
+  Future<ApiResult<ResetPasswordData>> verifyCaretakerOtp(
+      {required OtpModel model}) {
+    return _authRepo.verifyCaretakerOtp(model: model);
   }
 }

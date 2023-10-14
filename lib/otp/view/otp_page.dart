@@ -6,8 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OtpPage extends StatelessWidget {
   const OtpPage({
-    required this.contactNumber, required this.fromForgotPassword, super.key,
+    required this.contactNumber,
+    required this.fromForgotPassword,
+    this.careTaker = false,
+    super.key,
   });
+  final bool careTaker;
   final String contactNumber;
   final bool fromForgotPassword;
 
@@ -18,6 +22,7 @@ class OtpPage extends StatelessWidget {
         fromForgotPassword,
         context.read<ApiRepo>(),
         contactNumber,
+        careTaker: careTaker,
       ),
       child: const OtpView(),
     );

@@ -8,6 +8,7 @@ abstract class AuthRepo {
   Future<ApiResult<ResponseModel>> forgotPassword(
       {required ResetPasswordParams params});
   Future<ApiResult<ResetPasswordData>> verifyOtp({required OtpModel model});
+
   Future<ApiResult<ResponseModel>> sendOtp({required String number});
   Future<ApiResult<ResetPasswordData>> verifyPasswordOtp(
       {required OtpModel model});
@@ -15,6 +16,9 @@ abstract class AuthRepo {
   Future<ApiResult<List<Map<String, dynamic>>>> fetchPincodes();
   Future<ApiResult<Map<String, dynamic>>> registerCaretaker(
       {required SignUpCaretakerModel data});
+  Future<ApiResult<ResetPasswordData>> verifyCaretakerOtp(
+      {required OtpModel model});
+
   User? getUser();
   bool get isLoggedIn;
 

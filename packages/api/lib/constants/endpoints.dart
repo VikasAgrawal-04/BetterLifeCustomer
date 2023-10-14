@@ -9,7 +9,8 @@ class Endpoints {
   static const String resetPassword = '/resetPassword',
       sendOtp = '/resendOTP',
       verifyPasswordOTP = '/verifyPasswordOTP',
-      verifyOtp = '/verifyOTP';
+      verifyOtp = '/verifyOTP',
+      verifyCareTakerOtp = '/otp-verify';
 
   static const String showTransactionHistory = '/show-transaction-history';
 

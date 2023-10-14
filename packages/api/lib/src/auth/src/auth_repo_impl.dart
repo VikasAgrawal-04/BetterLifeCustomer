@@ -138,9 +138,7 @@ class AuthRepoImpl implements AuthRepo {
             error: NetworkExceptions.defaultError(result.data['message']));
       }
       final data = ResetPasswordData(
-          // userToken: result.data['data']['userToken'] as String,
-          contactNumber: model.mobileNumber,
-          message: result.data['message']);
+          contactNumber: model.mobileNumber, message: result.data['message']);
       return ApiResult.success(data: data);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
@@ -266,6 +264,22 @@ class AuthRepoImpl implements AuthRepo {
       final result = await client.post(Endpoints.signUpCaretaker,
           queryParameters: data.toJson());
       if (result.statusCode != 200) {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<ResetPasswordData>> verifyCaretakerOtp(
+      {required OtpModel model}) async {
+    try {
+      final result = await client.post(Endpoints.verifyCareTakerOtp,
+          queryParameters: model.toJson());
+      if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }

@@ -184,6 +184,7 @@ class CaretakerController extends GetxController {
                 OtpPage(
                   contactNumber: mobile.text,
                   fromForgotPassword: false,
+                  careTaker: true,
                 ),
               );
             },
