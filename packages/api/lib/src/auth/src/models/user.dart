@@ -12,6 +12,7 @@ class User {
   @JsonKey(name: 'mobileNumber')
   String? mobile;
 
+  @JsonKey(name: 'userType')
   String? userType;
   String? userToken;
 

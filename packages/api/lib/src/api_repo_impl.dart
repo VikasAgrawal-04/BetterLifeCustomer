@@ -1,5 +1,7 @@
 import 'package:api/src/api_repo.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
+import 'package:api/src/caretaker/caretaker_repo.dart';
+import 'package:api/src/caretaker/caretaker_repo_impl.dart';
 import 'package:api_client/api_result/api_result.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:hive_storage/hive_storage.dart';
@@ -9,16 +11,18 @@ import 'user/user_repo.dart';
 
 class ApiRepoImpl implements ApiRepo {
   final Client client;
-  // ignore: unused_field
   final AuthRepo _authRepo;
   final UserRepo _userRepo;
+  final CaretakerRepo _careRepo;
 
   ApiRepoImpl({
     required this.client,
     required Box box,
   })  : _authRepo = AuthRepoImpl(client: client, box: box),
         _userRepo =
-            UserRepoImpl(client: client, storage: StorageService(box: box)) {
+            UserRepoImpl(client: client, storage: StorageService(box: box)),
+        _careRepo = CaretakerRepoImpl(
+            client: client, storage: StorageService(box: box)) {
     init(box);
   }
 

@@ -207,11 +207,9 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         return const NetworkExceptions.unexpectedError();
       }
     } else {
-      // if (error is TypeError) {
       final logger = Logger();
       logger.wtf(error);
       logger.e(error.stackTrace);
-      // }
       if (error.toString().contains("is not a subtype of")) {
         return const NetworkExceptions.unableToProcess();
       } else {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:api/api.dart';
 import 'package:better_life_customer/home/view/home_page.dart';
+import 'package:better_life_customer/home/view/home_page_caretaker.dart';
 import 'package:better_life_customer/login/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:widgets/widgets.dart';
@@ -24,7 +25,11 @@ class SplashCubit extends Cubit<SplashState> {
     emit(state.copyWith(isLoggedIn: api.isLoggedIn));
     await Future<void>.delayed(const Duration(seconds: 1));
     if (api.isLoggedIn) {
-      await Get.offAll<void>(() => const HomePage());
+      if (api.getUser()?.userType == ' N') {
+        await Get.offAll<void>(() => const HomePage());
+      } else {
+        await Get.offAll<void>(() => const HomePageCaretaker());
+      }
     }
   }
 }

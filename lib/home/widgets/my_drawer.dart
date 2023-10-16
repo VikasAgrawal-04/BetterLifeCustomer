@@ -6,7 +6,8 @@ import 'package:my_theme/my_theme.dart';
 import 'package:widgets/widgets.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  final bool caretaker;
+  const MyDrawer({this.caretaker = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,10 @@ class MyDrawer extends StatelessWidget {
               child: ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
-                // shrinkWrap: true,
                 children: [
                   Container(
                     padding: kPadding,
                     height: 160.h,
-                    // color: context.theme.primaryColor,
                     child: Column(
                       children: [
                         Gap(70.h),
@@ -33,18 +32,19 @@ class MyDrawer extends StatelessWidget {
                     ),
                   ),
                   Gap(20.h),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      children: [
-                        _customTile(
-                          Icons.badge,
-                          'History of Appointments',
-                          isSelected: true,
-                        ),
-                      ],
+                  if (!caretaker)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          _customTile(
+                            Icons.badge,
+                            'History of Appointments',
+                            isSelected: true,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

@@ -71,13 +71,14 @@ class AuthRepoImpl implements AuthRepo {
           }
         }
       }
-
+      if (map['code'] == '500') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
       final ApiResultParser parser = ApiResultParser.parse(data: result.data);
-
       if (parser.hasError) {
         return ApiResult.failure(error: parser.failure);
       }
-
       final model = SignInResponse.fromJson(result.data);
 
       await Future.wait(
@@ -168,7 +169,6 @@ class AuthRepoImpl implements AuthRepo {
       client.setToken(token);
 
       final data = ResetPasswordData(
-        // userToken: result.data['data']['userToken'] as String,
         contactNumber: model.mobileNumber,
         message: result.data['message'],
       );
@@ -263,7 +263,7 @@ class AuthRepoImpl implements AuthRepo {
     try {
       final result = await client.post(Endpoints.signUpCaretaker,
           queryParameters: data.toJson());
-      if (result.statusCode != 200) {
+      if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }
@@ -283,7 +283,10 @@ class AuthRepoImpl implements AuthRepo {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }
-      return ApiResult.success(data: result.data);
+      final data = ResetPasswordData(
+          contactNumber: model.mobileNumber, message: result.data['message']);
+
+      return ApiResult.success(data: data);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }

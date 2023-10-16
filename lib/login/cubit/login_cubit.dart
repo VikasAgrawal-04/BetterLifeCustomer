@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:api/api.dart';
 import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
 import 'package:better_life_customer/home/view/home_page.dart';
+import 'package:better_life_customer/home/view/home_page_caretaker.dart';
 import 'package:better_life_customer/otp/view/otp_page.dart';
 import 'package:better_life_customer/register/register.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
@@ -36,9 +37,14 @@ class LoginCubit extends Cubit<LoginState> {
     return;
   }
 
-  Future<void> success(SignInResponse data) async {
-    if (data.isOtpVerified) {
-      await Get.offAll<void>(() => const HomePage());
+  Future<void> success(SignInResponse responseData) async {
+    if (responseData.isOtpVerified) {
+      print("data.user?.userType${responseData.user?.userType}");
+      if (responseData.user?.userType == 'C') {
+        await Get.offAll<void>(() => const HomePageCaretaker());
+      } else {
+        await Get.offAll<void>(() => const HomePage());
+      }
     } else {
       final result = await api.sendOtp(number: state.mobile.text);
       await result.when(
@@ -47,6 +53,7 @@ class LoginCubit extends Cubit<LoginState> {
             () => OtpPage(
               fromForgotPassword: false,
               contactNumber: state.mobile.text,
+              careTaker: responseData.user?.userType == 'C' ? true : false,
             ),
           );
         },

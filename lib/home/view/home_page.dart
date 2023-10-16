@@ -97,4 +97,5 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+
 }

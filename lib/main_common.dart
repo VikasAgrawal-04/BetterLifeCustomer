@@ -2,6 +2,7 @@ import 'package:api/api.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:better_life_customer/app/view/app.dart';
 import 'package:better_life_customer/bootstrap.dart';
+import 'package:better_life_customer/home/view/controller/home_controller.dart';
 import 'package:better_life_customer/register/view/controller/caretaker_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive_storage/hive_storage.dart';
@@ -30,7 +31,9 @@ Future<void> mainCommon(String baseUrl) async {
     client: client,
     box: storage,
   );
-  Get.put(CaretakerController(api));
+  Get
+    ..put(CaretakerController(api))
+    ..put(HomeController(api));
 
   await bootstrap(() => App(apiRepo: api));
 }

@@ -25,6 +25,7 @@ class HomeCubit extends CubitBase<HomeState> {
   final ApiRepo api;
 
   StreamSubscription<List<Appointment>>? _appointmentsSubscription;
+
   StreamSubscription<ApiResult<List<Appointment>>>?
       _fetchAppointmentSubscription;
 
@@ -47,6 +48,7 @@ class HomeCubit extends CubitBase<HomeState> {
 
   AppointmentType get currentAppointmentType =>
       AppointmentType.values[state.currentIndex];
+
   Stream<List<Appointment>> get appointmentsStream => api.getAppointmentStream(
         type: currentAppointmentType,
       );
