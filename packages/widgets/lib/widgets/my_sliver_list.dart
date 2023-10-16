@@ -86,20 +86,6 @@ class MySliverList<T> extends StatelessWidget {
     }
 
     return child;
-
-    // return SliverList(
-    //   delegate: SliverChildBuilderDelegate(
-    //     (context, index) {
-    //       return StatusHandler(
-    //         status: status,
-    //         onSuccess: ,
-    //         errorBuilder: errorBuilder,
-    //         emptyBuilder: emptyBuilder,
-    //         loadingBuilder: loadingBuilder,
-    //       );
-    //     },
-    //   ),
-    // );
   }
 
   SliverList _onSuccess() {

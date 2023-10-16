@@ -21,6 +21,11 @@ class _HomePageCaretakerState extends State<HomePageCaretaker> {
   final homeControl = Get.find<HomeController>();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: key,
@@ -42,8 +47,9 @@ class _HomePageCaretakerState extends State<HomePageCaretaker> {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: true,
       drawer: const MyDrawer(caretaker: true),
-      body: Padding(
+      body: const Padding(
         padding: kPadding,
+        child: EmptyScreen(message: 'No data found'),
       ),
     );
   }

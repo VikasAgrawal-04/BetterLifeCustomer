@@ -21,12 +21,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
@@ -57,29 +51,6 @@ android {
         versionName flutterVersionName
     }
 
-    signingConfigs {
-        release {
-
-        if(System.getenv()["CI"]) {
-            // CI=true is exported by Codemagic
-            storeFile file(System.getenv()["CM_KEYSTORE_PATH"])
-            storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]
-            keyAlias System.getenv()["CM_KEY_ALIAS"]
-            keyPassword System.getenv()["CM_KEY_PASSWORD"]
-        } else {
-
-            
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-                storePassword keystoreProperties['storePassword']
-            
-        }
-        }
-        
-        
-    }
-
     flavorDimensions "default"
     productFlavors { 
         production {
@@ -99,13 +70,10 @@ android {
         }
     }
 
-    buildTypes {
+     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
-        }
-        debug {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
