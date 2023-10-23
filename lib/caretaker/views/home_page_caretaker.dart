@@ -1,4 +1,4 @@
-import 'package:better_life_customer/home/view/controller/home_controller.dart';
+import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/home/widgets/home_tabbar.dart';
 import 'package:better_life_customer/home/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';

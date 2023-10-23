@@ -37,9 +37,12 @@ class Endpoints {
   static const String languages = '/show-language';
   static const String pincodes = '/show-pincode';
 
+  static const String newAppointment = '/new-appointment';
   static const String todayAppointment = '/todays-appointment';
   static const String upcomingAppointment = '/upcoming-appointment';
   static const String pastAppointment = '/past-appointment';
   static const String showAptDetail = '/show-appointment';
   static const String startAppointment = '/start-appointment';
+  static const String acceptAppointment = '/accept-appointment';
+  static const String rejectAppointment = '/reject-appointment';
 }

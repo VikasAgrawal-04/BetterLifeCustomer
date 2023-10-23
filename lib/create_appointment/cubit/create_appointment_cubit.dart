@@ -109,26 +109,13 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       final result = await api.createAppointment(params);
       result.when(
         success: (value) {
-          final hasCaretakers = state.previousCaretakers.isNotEmpty;
           DialogService.showDialog<void>(
             child: SuccessDialog(
-              // buttonText: hasCaretakersx ? 'Select Previous Caretaker' : 'Close',
               buttonText: 'Close',
               message: value.message,
               onTap: () async {
-                // if (hasCaretakers) {
-                //   Get.close(2);
-                //   await Get.to<void>(
-                //     () => SelectPreviousCaretakerPage(
-                //       caretakers: state.previousCaretakers,
-                //       onProceed: (value) {},
-                //       // appointmentId: value.id,
-                //     ),
-                //   );
-                // } else {
                 await api.getAppointments(type: AppointmentType.future);
                 Get.close(2);
-                // }
               },
             ),
           );

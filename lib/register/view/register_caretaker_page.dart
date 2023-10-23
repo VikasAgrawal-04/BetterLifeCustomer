@@ -1,11 +1,10 @@
 import 'package:better_life_customer/register/view/controller/caretaker_controller.dart';
+import 'package:better_life_customer/register/view/register_steps/register_step_1.dart';
 import 'package:better_life_customer/register/view/register_steps/register_step_2.dart';
 import 'package:better_life_customer/register/view/register_steps/register_step_3.dart';
 import 'package:better_life_customer/register/view/register_steps/register_step_4.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
-
-import 'register_steps/register_step_1.dart';
 
 class RegisterCaretakerPage extends StatefulWidget {
   const RegisterCaretakerPage({super.key});

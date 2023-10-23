@@ -2,7 +2,7 @@ import 'package:api/api.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:better_life_customer/app/view/app.dart';
 import 'package:better_life_customer/bootstrap.dart';
-import 'package:better_life_customer/home/view/controller/home_controller.dart';
+import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/register/view/controller/caretaker_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive_storage/hive_storage.dart';

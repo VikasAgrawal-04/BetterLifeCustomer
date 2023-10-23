@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:api/api.dart';
 import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
 import 'package:better_life_customer/home/view/home_page.dart';
-import 'package:better_life_customer/home/view/home_page_caretaker.dart';
+import 'package:better_life_customer/caretaker/views/home_page_caretaker.dart';
 import 'package:better_life_customer/otp/view/otp_page.dart';
 import 'package:better_life_customer/register/register.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
@@ -39,7 +39,6 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> success(SignInResponse responseData) async {
     if (responseData.isOtpVerified) {
-      print("data.user?.userType${responseData.user?.userType}");
       if (responseData.user?.userType == 'C') {
         await Get.offAll<void>(() => const HomePageCaretaker());
       } else {

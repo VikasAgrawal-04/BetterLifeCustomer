@@ -10,8 +10,6 @@ export 'package:dio/dio.dart'
     show DioError, Response, Dio, Options, ProgressCallback;
 
 class Client {
-  // String baseUrl = '';
-  // String apiKey = '';
   final String baseUrl;
   String? token;
   final String? apiKey;
@@ -49,7 +47,6 @@ class Client {
     header!.putIfAbsent('Content-Type', () => 'application/json');
     _dio = Dio(options);
     _dio!.interceptors.add(dioInterceptor);
-    // final dioPrinter = PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true);
     if (logging) {
       _dio!.interceptors.add(dioPrinter);
     } else {

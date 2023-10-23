@@ -108,7 +108,18 @@ class CaretakerController extends GetxController {
 
   Future<void> setPincode(String value) async {
     if (!selectedPincodes.contains(value)) {
+      const GetSnackBar(
+        message: 'Pincode Added',
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+      ).show();
       selectedPincodes.add(value);
+    } else {
+      const GetSnackBar(
+        message: 'Pincode Already Added',
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+      ).show();
     }
   }
 

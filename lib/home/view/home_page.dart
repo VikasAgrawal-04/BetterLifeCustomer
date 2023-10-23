@@ -89,7 +89,6 @@ class HomeView extends StatelessWidget {
               tabs: state.tabs,
               onTap: (index) async {
                 context.read<HomeCubit>().onTabTapped(index);
-                // await context.read<HomeCubit>().fetchAppointment();
               },
             ),
           ],

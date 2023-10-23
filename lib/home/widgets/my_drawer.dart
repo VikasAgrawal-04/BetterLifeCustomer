@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_theme/my_theme.dart';
 import 'package:widgets/widgets.dart';
 
+import '../../caretaker/views/new_appointments.dart';
+
 class MyDrawer extends StatelessWidget {
   final bool caretaker;
   const MyDrawer({this.caretaker = false, super.key});
@@ -45,6 +47,22 @@ class MyDrawer extends StatelessWidget {
                         ],
                       ),
                     ),
+                  if (caretaker)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          _customTile(
+                            Icons.badge,
+                            'New Appointments',
+                            isSelected: true,
+                            onTap: () {
+                              Get.to<void>(const CTNewAppointment());
+                            },
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
@@ -69,45 +87,37 @@ class MyDrawer extends StatelessWidget {
   Row _buildHeader(BuildContext context) {
     return Row(
       children: [
-        // CircleAvatar(
-        //   radius: 30.r,
-        //   backgroundColor: Colors.white,
-        //   child: CircleAvatar(
-        //     radius: 28.r,
-        //   ),
-        // ),
         Gap(10.w),
-        StreamBuilder<User?>(
-          stream: context.read<ApiRepo>().userStream,
-          builder: (context, snapshot) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                snapshot.data?.fullName ?? 'User',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        Expanded(
+          child: StreamBuilder<User?>(
+            stream: context.read<ApiRepo>().userStream,
+            builder: (context, snapshot) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  snapshot.data?.fullName ?? 'User',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              Text(
-                snapshot.data?.email ?? '',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
+                Text(
+                  snapshot.data?.email ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
     );
-  }
-
-  void changePage(Widget page) {
-    // final bottomCubit = locator<BottomNavCubit>();
-    // bottomCubit.setPage(page);
   }
 
   Widget _divider() {
@@ -127,7 +137,6 @@ class MyDrawer extends StatelessWidget {
       dense: true,
       selected: isSelected,
       selectedColor: Colors.white,
-      // shape: const ShapeDecoration(shape: RoundedRectangleBorder(),),),
       shape: const RoundedRectangleBorder(borderRadius: kBorderRadius),
       selectedTileColor: kPrimaryColor,
       onTap: () async {

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:api/api.dart';
 import 'package:better_life_customer/home/view/home_page.dart';
-import 'package:better_life_customer/home/view/home_page_caretaker.dart';
+import 'package:better_life_customer/caretaker/views/home_page_caretaker.dart';
 import 'package:better_life_customer/login/login.dart';
 import 'package:equatable/equatable.dart';
 import 'package:widgets/widgets.dart';
