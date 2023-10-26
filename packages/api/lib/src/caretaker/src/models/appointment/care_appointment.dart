@@ -11,6 +11,7 @@ class CareAppointment {
   final String? hospital;
   final String? pickaddress;
   final int? rating;
+  bool viewDetials;
 
   CareAppointment(
       {this.apptid,
@@ -19,7 +20,8 @@ class CareAppointment {
       this.patientname,
       this.hospital,
       this.pickaddress,
-      this.rating});
+      this.rating,
+      this.viewDetials = false});
 
   factory CareAppointment.fromJson(Map<String, dynamic> json) =>
       _$CareAppointmentFromJson(json);

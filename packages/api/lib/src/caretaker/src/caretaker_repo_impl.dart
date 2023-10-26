@@ -36,9 +36,26 @@ class CaretakerRepoImpl implements CaretakerRepo {
 
   @override
   Future<ApiResult<List<CareAppointment>>> getCareAppointment(
-      {required AppointmentType type}) {
-    // TODO: implement getCareAppointment
-    throw UnimplementedError();
+      {required AppointmentType type}) async {
+    try {
+      final list = <CareAppointment>[];
+      final endPoint = {
+        AppointmentType.present: Endpoints.todayAppointment,
+        AppointmentType.past: Endpoints.pastAppointment,
+        AppointmentType.future: Endpoints.upcomingAppointment,
+      };
+      final result = await client.put(endPoint[type]!);
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      for (final data in result.data['data'] as List<dynamic>) {
+        list.add(CareAppointment.fromJson(data));
+      }
+      return ApiResult.success(data: list);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
   }
 
   @override
@@ -50,8 +67,8 @@ class CaretakerRepoImpl implements CaretakerRepo {
         false: Endpoints.rejectAppointment
       };
       print(endpoint[accept]);
-      final result =
-          await client.put(endpoint[accept]!, queryParameters: {'apptid': aptId});
+      final result = await client
+          .put(endpoint[accept]!, queryParameters: {'apptid': aptId});
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));

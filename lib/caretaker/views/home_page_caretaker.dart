@@ -1,4 +1,6 @@
+import 'package:api/api.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
+import 'package:better_life_customer/caretaker/widgets/home_page_card.dart';
 import 'package:better_life_customer/home/widgets/home_tabbar.dart';
 import 'package:better_life_customer/home/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ class HomePageCaretaker extends StatefulWidget {
   const HomePageCaretaker({super.key});
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
-        builder: (_) => const HomePageCaretaker());
+      builder: (_) => const HomePageCaretaker(),
+    );
   }
 
   @override
@@ -23,6 +26,9 @@ class _HomePageCaretakerState extends State<HomePageCaretaker> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await homeControl.getCareAppointment();
+    });
   }
 
   @override
@@ -43,13 +49,26 @@ class _HomePageCaretakerState extends State<HomePageCaretaker> {
           icon: const Icon(Icons.menu),
         ),
       ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: true,
       drawer: const MyDrawer(caretaker: true),
-      body: const Padding(
+      body: Padding(
         padding: kPadding,
-        child: EmptyScreen(message: 'No data found'),
+        child: Obx(
+          () => RefreshIndicator(
+            onRefresh: homeControl.rfh,
+            child: MySliverList<CareAppointment>(
+              title:
+                  '${homeControl.tabs[homeControl.selectedIndex.value]} Appointments',
+              status: homeControl.status.value,
+              list: homeControl.homeAppointments,
+              itemBuilder: (context, index) {
+                final appontment = homeControl.homeAppointments[index];
+                return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: CaretakerAppointmentCard(appointment: appontment));
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -64,9 +83,10 @@ Widget _buttonAndTabbar(HomeController homeControl) {
     child: Obx(
       () => HomeTabbar(
         currentIndex: homeControl.selectedIndex.value,
-        tabs: const ['Todays Appt', 'Past Appt', 'Upcoming Appt'],
+        tabs: homeControl.tabs,
         onTap: (index) async {
           homeControl.selectedIndex.value = index;
+          await homeControl.getCareAppointment();
         },
       ),
     ),

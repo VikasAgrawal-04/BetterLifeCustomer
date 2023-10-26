@@ -7,8 +7,13 @@ class HomeController extends GetxController {
   final ApiRepo api;
 
   RxInt selectedIndex = 0.obs;
+  final tabs = const ['Todays Appt', 'Past Appt', 'Upcoming Appt'];
   RxList<CareAppointment> newAppointments = <CareAppointment>[].obs;
+  RxList<CareAppointment> homeAppointments = <CareAppointment>[].obs;
   final status = Status.initial.obs;
+
+  AppointmentType get currentAppointmentType =>
+      AppointmentType.values[selectedIndex.value];
 
   Future<void> getNewAppointment() async {
     status.value = Status.loading;
@@ -32,11 +37,44 @@ class HomeController extends GetxController {
     final response = await api.appointmentAction(accept: accept, aptId: aptId);
     response.when(success: (value) {
       getNewAppointment();
+      getCareAppointment();
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
       });
     }, failure: (error) {
       DialogService.failure(error);
     });
+  }
+
+  Future<void> getCareAppointment() async {
+    homeAppointments.clear();
+    status.value = Status.loading;
+    final response = await api.getCareAppointment(type: currentAppointmentType);
+    response.when(success: (value) {
+      if (value.isEmpty) {
+        status.value = Status.empty;
+      } else {
+        status.value = Status.success;
+        if (currentAppointmentType == AppointmentType.present ||
+            currentAppointmentType == AppointmentType.past) {
+          for (final loop in value) {
+            loop.viewDetials = true;
+            homeAppointments.add(loop);
+          }
+        } else {
+          homeAppointments.addAll(value);
+        }
+      }
+    }, failure: (error) {
+      print('Failure in CareAppointment $error');
+    });
+  }
+
+  Future<void> viewDetails(int apptId) async {
+    print(apptId);
+  }
+
+  Future<void> rfh() async {
+    await getCareAppointment();
   }
 }

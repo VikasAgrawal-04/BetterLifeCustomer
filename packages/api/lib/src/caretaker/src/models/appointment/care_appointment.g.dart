@@ -15,6 +15,7 @@ CareAppointment _$CareAppointmentFromJson(Map<String, dynamic> json) =>
       hospital: json['hospital'] as String?,
       pickaddress: json['pickaddress'] as String?,
       rating: json['rating'] as int?,
+      viewDetials: json['viewDetials'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$CareAppointmentToJson(CareAppointment instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$CareAppointmentToJson(CareAppointment instance) =>
       'hospital': instance.hospital,
       'pickaddress': instance.pickaddress,
       'rating': instance.rating,
+      'viewDetials': instance.viewDetials,
     };
