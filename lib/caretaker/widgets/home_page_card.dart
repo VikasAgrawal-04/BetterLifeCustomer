@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:better_life_customer/caretaker/views/appt_details.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -85,8 +86,9 @@ class _CaretakerAppointmentCardState extends State<CaretakerAppointmentCard> {
                   width: 100.w,
                   height: 30.h,
                   onPressed: () async {
-                    await controller
-                        .viewDetails(widget.appointment.apptid ?? 0);
+                    await Get.to<void>(
+                      CareApptDetails(apptId: widget.appointment.apptid ?? 0),
+                    );
                   },
                 ),
             ],

@@ -2,6 +2,7 @@ import 'package:api/constants/endpoints.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api/src/caretaker/src/caretaker_repo.dart';
 import 'package:api/src/caretaker/src/models/appointment/care_appointment.dart';
+import 'package:api/src/caretaker/src/models/appointment/care_appointment_details.dart';
 import 'package:api/src/user/src/models/appointment_type.dart';
 import 'package:api_client/api_result/api_result.dart';
 import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
@@ -66,7 +67,6 @@ class CaretakerRepoImpl implements CaretakerRepo {
         true: Endpoints.acceptAppointment,
         false: Endpoints.rejectAppointment
       };
-      print(endpoint[accept]);
       final result = await client
           .put(endpoint[accept]!, queryParameters: {'apptid': aptId});
       if (result.data['code'] != '200') {
@@ -74,6 +74,21 @@ class CaretakerRepoImpl implements CaretakerRepo {
             error: NetworkExceptions.defaultError(result.data['message']));
       }
       return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<CareAppointmentDetails>> getApptDetails(int apptId) async {
+    try {
+      final result = await client.put("${Endpoints.showAptDetail}/$apptId");
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(
+          data: CareAppointmentDetails.fromJson(result.data));
     } catch (error) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }

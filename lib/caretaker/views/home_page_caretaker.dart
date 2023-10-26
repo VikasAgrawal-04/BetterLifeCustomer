@@ -37,7 +37,7 @@ class _HomePageCaretakerState extends State<HomePageCaretaker> {
       key: key,
       bottomNavigationBar: _buttonAndTabbar(homeControl),
       appBar: MyAppBar(
-        title: const Text('Better-Life'),
+        title: const Text('Better-Life Caretaker'),
         leading: IconButton(
           onPressed: () {
             if (key.currentState?.isDrawerOpen ?? false) {

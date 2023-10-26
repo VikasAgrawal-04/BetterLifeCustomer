@@ -3,6 +3,7 @@ import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api/src/caretaker/src/caretaker_repo.dart';
 import 'package:api/src/caretaker/src/caretaker_repo_impl.dart';
 import 'package:api/src/caretaker/src/models/appointment/care_appointment.dart';
+import 'package:api/src/caretaker/src/models/appointment/care_appointment_details.dart';
 import 'package:api_client/api_result/api_result.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:hive_storage/hive_storage.dart';
@@ -211,5 +212,10 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<Map<String, dynamic>>> appointmentAction(
       {required bool accept, required int aptId}) {
     return _careRepo.appointmentAction(accept: accept, aptId: aptId);
+  }
+
+  @override
+  Future<ApiResult<CareAppointmentDetails>> getApptDetails(int apptId) {
+    return _careRepo.getApptDetails(apptId);
   }
 }

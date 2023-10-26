@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   RxList<CareAppointment> newAppointments = <CareAppointment>[].obs;
   RxList<CareAppointment> homeAppointments = <CareAppointment>[].obs;
   final status = Status.initial.obs;
+  final apptDetails = CareData().obs;
 
   AppointmentType get currentAppointmentType =>
       AppointmentType.values[selectedIndex.value];
@@ -70,8 +71,19 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> viewDetails(int apptId) async {
-    print(apptId);
+  Future<void> getApptDetails(int apptId) async {
+    status.value = Status.loading;
+    final response = await api.getApptDetails(apptId);
+
+    response.when(success: (value) {
+      status.value = Status.success;
+      if (value.code == '200') {
+        apptDetails.value = value.data;
+      }
+    }, failure: (error) {
+      status.value = Status.error;
+      print('Failure in getApptDetails $error');
+    });
   }
 
   Future<void> rfh() async {

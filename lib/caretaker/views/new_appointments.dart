@@ -48,8 +48,7 @@ class _CTNewAppointmentState extends State<CTNewAppointment> {
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                      child: AutoSpacing(
-                        spacing:const Gap(5),
+                      child: Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,8 +69,11 @@ class _CTNewAppointmentState extends State<CTNewAppointment> {
                               )
                             ],
                           ),
+                          const Gap(5),
                           Text(appointment.patientname.toString()),
+                          const Gap(5),
                           Text(appointment.pickaddress.toString()),
+                          const Gap(5),
                           Text(appointment.hospital.toString()),
                           const Gap(10),
                           Row(
