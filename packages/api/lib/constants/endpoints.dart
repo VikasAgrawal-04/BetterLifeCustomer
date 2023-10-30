@@ -45,4 +45,8 @@ class Endpoints {
   static const String startAppointment = '/start-appointment';
   static const String acceptAppointment = '/accept-appointment';
   static const String rejectAppointment = '/reject-appointment';
+  static const String doctorNotes = '/create-doctors-note';
+  static const String prescription = '/create-prescription';
+  static const String recTests = '/create-recommended-test';
+  static const String dietRestriction = '/create-dite-restriction';
 }

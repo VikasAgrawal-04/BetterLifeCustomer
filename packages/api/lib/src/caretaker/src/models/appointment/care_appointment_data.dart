@@ -15,20 +15,21 @@ class CareData {
   final String? relativename;
   final String? relativemobileno;
   final String? taxineeded;
+  final String? startappointment;
 
-  CareData({
-    this.apptid,
-    this.visitdate,
-    this.pickuptime,
-    this.patientname,
-    this.hospital,
-    this.pickaddress,
-    this.doctor,
-    this.patientmobile,
-    this.relativename,
-    this.relativemobileno,
-    this.taxineeded,
-  });
+  CareData(
+      {this.apptid,
+      this.visitdate,
+      this.pickuptime,
+      this.patientname,
+      this.hospital,
+      this.pickaddress,
+      this.doctor,
+      this.patientmobile,
+      this.relativename,
+      this.relativemobileno,
+      this.taxineeded,
+      this.startappointment});
 
   factory CareData.fromJson(Map<String, dynamic> json) =>
       _$CareDataFromJson(json);

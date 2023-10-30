@@ -109,64 +109,122 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                   ),
                 ),
                 const Gap(20),
-                MyElevatedButton(
-                  text: 'Start Appointment',
-                  onPressed: () async {
-                    await Get.defaultDialog<void>(
-                      title: 'ENTER OTP',
-                      content: PinCodeTextField(
-                        controller: otp,
-                        pinBoxHeight: 50,
-                        pinBoxWidth: 50,
-                        defaultBorderColor: kLightGrey,
-                        pinBoxColor: kLightGrey,
-                        hasTextBorderColor: kLightGrey,
-                        onDone: (text) async {
-                          Get.back<void>();
-                          await controller.verifyPatientOtp(
-                            otp: text,
-                            apptId: controller.apptDetails.value.apptid ?? 0,
-                          );
-                        },
-                        pinBoxRadius: kBorderRadius.topLeft.x,
-                        highlight: true,
-                        wrapAlignment: WrapAlignment.spaceBetween,
-                        pinBoxOuterPadding:
-                            const EdgeInsets.symmetric(horizontal: 10),
-                        highlightColor: context.theme.primaryColor,
-                      ),
-                      cancel: MyElevatedButton(
-                        text: 'Cancel',
-                        width: 80.w,
-                        height: 35.h,
-                        color: Colors.grey,
-                        onPressed: () async {
-                          Get.back<void>();
-                        },
-                      ),
-                      confirm: MyElevatedButton(
-                        width: 80.w,
-                        height: 35.h,
-                        text: 'OK',
-                        onPressed: () async {
-                          Get.back<void>();
-                          if (otp.text.length < 4) {
-                            DialogService.failure(
-                              const NetworkExceptions.defaultError(
-                                'Please enter valid otp',
-                              ),
-                            );
-                          } else {
+                if (controller.apptDetails.value.startappointment == '0')
+                  MyElevatedButton(
+                    text: 'Start Appointment',
+                    onPressed: () async {
+                      await Get.defaultDialog<void>(
+                        title: 'ENTER OTP',
+                        content: PinCodeTextField(
+                          controller: otp,
+                          pinBoxHeight: 50,
+                          pinBoxWidth: 50,
+                          defaultBorderColor: kLightGrey,
+                          pinBoxColor: kLightGrey,
+                          hasTextBorderColor: kLightGrey,
+                          onDone: (text) async {
+                            Get.back<void>();
                             await controller.verifyPatientOtp(
-                              otp: otp.text,
+                              otp: text,
                               apptId: controller.apptDetails.value.apptid ?? 0,
                             );
-                          }
-                        },
+                          },
+                          pinBoxRadius: kBorderRadius.topLeft.x,
+                          highlight: true,
+                          wrapAlignment: WrapAlignment.spaceBetween,
+                          pinBoxOuterPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                          highlightColor: context.theme.primaryColor,
+                        ),
+                        cancel: MyElevatedButton(
+                          text: 'Cancel',
+                          width: 80.w,
+                          height: 35.h,
+                          color: Colors.grey,
+                          onPressed: () async {
+                            Get.back<void>();
+                          },
+                        ),
+                        confirm: MyElevatedButton(
+                          width: 80.w,
+                          height: 35.h,
+                          text: 'OK',
+                          onPressed: () async {
+                            Get.back<void>();
+                            if (otp.text.length < 4) {
+                              DialogService.failure(
+                                const NetworkExceptions.defaultError(
+                                  'Please enter valid otp',
+                                ),
+                              );
+                            } else {
+                              await controller.verifyPatientOtp(
+                                otp: otp.text,
+                                apptId:
+                                    controller.apptDetails.value.apptid ?? 0,
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                if (controller.apptDetails.value.startappointment == '1') ...{
+                  AutoSpacing(
+                    spacing: const Gap(10),
+                    children: [
+                      const Align(child: Text('Appointment Started')),
+                      MyElevatedButton(
+                        text: 'Mark As Completed',
+                        color: Colors.redAccent,
+                        onPressed: () async {},
                       ),
-                    );
-                  },
-                ),
+                      const MyDivider(),
+                      Align(
+                        child: Text(
+                          'DATA ENTRY',
+                          style: Get.textTheme.titleLarge,
+                        ),
+                      ),
+                      const Gap(10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MyElevatedButton(
+                              text: 'Doctor Notes',
+                              onPressed: () async {},
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: MyElevatedButton(
+                              text: 'Prescription',
+                              onPressed: () async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Gap(5),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MyElevatedButton(
+                              text: 'Recommended Tests',
+                              onPressed: () async {},
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: MyElevatedButton(
+                              text: 'Diet Restrictions',
+                              onPressed: () async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                },
               ],
             ),
           ),
