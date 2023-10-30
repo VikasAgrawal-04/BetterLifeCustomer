@@ -30,14 +30,13 @@ class DialogService {
     );
   }
 
-  static void success(
-    String success, {
-    required void Function() onTap,
-  }) {
+  static void success(String success,
+      {required void Function() onTap, String? buttonText}) {
     Get.dialog<void>(
       SuccessDialog(
         onTap: () => onTap(),
         message: success,
+        buttonText: buttonText,
       ),
       transitionCurve: Curves.elasticOut,
       transitionDuration: _duration,

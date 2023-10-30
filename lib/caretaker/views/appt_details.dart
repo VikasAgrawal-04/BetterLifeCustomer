@@ -1,6 +1,10 @@
+import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
+import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_theme/my_theme.dart';
+import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:widgets/widgets.dart';
 
 class CareApptDetails extends StatefulWidget {
@@ -13,6 +17,7 @@ class CareApptDetails extends StatefulWidget {
 
 class _CareApptDetailsState extends State<CareApptDetails> {
   final controller = Get.find<HomeController>();
+  final otp = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -106,8 +111,62 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                 const Gap(20),
                 MyElevatedButton(
                   text: 'Start Appointment',
-                  onPressed: () async {},
-                )
+                  onPressed: () async {
+                    await Get.defaultDialog<void>(
+                      title: 'ENTER OTP',
+                      content: PinCodeTextField(
+                        controller: otp,
+                        pinBoxHeight: 50,
+                        pinBoxWidth: 50,
+                        defaultBorderColor: kLightGrey,
+                        pinBoxColor: kLightGrey,
+                        hasTextBorderColor: kLightGrey,
+                        onDone: (text) async {
+                          Get.back<void>();
+                          await controller.verifyPatientOtp(
+                            otp: text,
+                            apptId: controller.apptDetails.value.apptid ?? 0,
+                          );
+                        },
+                        pinBoxRadius: kBorderRadius.topLeft.x,
+                        highlight: true,
+                        wrapAlignment: WrapAlignment.spaceBetween,
+                        pinBoxOuterPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                        highlightColor: context.theme.primaryColor,
+                      ),
+                      cancel: MyElevatedButton(
+                        text: 'Cancel',
+                        width: 80.w,
+                        height: 35.h,
+                        color: Colors.grey,
+                        onPressed: () async {
+                          Get.back<void>();
+                        },
+                      ),
+                      confirm: MyElevatedButton(
+                        width: 80.w,
+                        height: 35.h,
+                        text: 'OK',
+                        onPressed: () async {
+                          Get.back<void>();
+                          if (otp.text.length < 4) {
+                            DialogService.failure(
+                              const NetworkExceptions.defaultError(
+                                'Please enter valid otp',
+                              ),
+                            );
+                          } else {
+                            await controller.verifyPatientOtp(
+                              otp: otp.text,
+                              apptId: controller.apptDetails.value.apptid ?? 0,
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

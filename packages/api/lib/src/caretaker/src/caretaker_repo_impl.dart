@@ -93,4 +93,20 @@ class CaretakerRepoImpl implements CaretakerRepo {
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> verifyPatientOtp(
+      {required String otp, required int apptId}) async {
+    try {
+      final result = await client.put('${Endpoints.startAppointment}/$apptId',
+          queryParameters: {'otp': otp});
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
 }

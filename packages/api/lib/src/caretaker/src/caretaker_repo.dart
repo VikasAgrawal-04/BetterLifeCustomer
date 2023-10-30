@@ -11,4 +11,6 @@ abstract class CaretakerRepo {
       {required bool accept, required int aptId});
 
   Future<ApiResult<CareAppointmentDetails>> getApptDetails(int apptId);
+  Future<ApiResult<Map<String, dynamic>>> verifyPatientOtp(
+      {required String otp, required int apptId});
 }

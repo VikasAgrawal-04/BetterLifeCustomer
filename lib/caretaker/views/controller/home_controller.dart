@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:better_life_customer/caretaker/views/start_appointment.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:widgets/widgets.dart';
 
@@ -88,5 +89,24 @@ class HomeController extends GetxController {
 
   Future<void> rfh() async {
     await getCareAppointment();
+  }
+
+  Future<void> verifyPatientOtp(
+      {required String otp, required int apptId}) async {
+    status.value = Status.loading;
+    final response = await api.verifyPatientOtp(otp: otp, apptId: apptId);
+    status.value = Status.success;
+    response.when(success: (value) {
+      DialogService.success(
+        value['message'].toString(),
+        onTap: () {
+          Get.back<void>();
+          Get.to<void>(const StartCaretakerAppointment());
+        },
+        buttonText: 'OK',
+      );
+    }, failure: (error) {
+      DialogService.failure(error);
+    });
   }
 }

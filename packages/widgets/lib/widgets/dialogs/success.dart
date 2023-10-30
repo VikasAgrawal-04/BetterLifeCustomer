@@ -37,7 +37,6 @@ class SuccessDialog extends StatelessWidget {
             const Gap(15),
             MyElevatedButton(
               text: buttonText ?? 'Close',
-              // color: Colors.teal.shade300,
               onPressed: () async => onTap(),
             ),
           ],

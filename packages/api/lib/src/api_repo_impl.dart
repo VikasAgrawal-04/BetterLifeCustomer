@@ -218,4 +218,10 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<CareAppointmentDetails>> getApptDetails(int apptId) {
     return _careRepo.getApptDetails(apptId);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> verifyPatientOtp(
+      {required String otp, required int apptId}) {
+    return _careRepo.verifyPatientOtp(otp: otp, apptId: apptId);
+  }
 }
