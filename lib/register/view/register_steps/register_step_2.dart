@@ -18,14 +18,14 @@ class RegisterStep2 extends StatelessWidget {
         child: AutoSpacing(
           spacing: const Gap(5),
           children: [
+            PincodeField(
+              hintText: 'Pin Code',
+              controller: controller.pinCode,
+            ),
             MyTextField(
               hintText: 'Address',
               controller: controller.adress,
               textInputAction: TextInputAction.next,
-            ),
-            PincodeField(
-              hintText: 'Pin Code',
-              controller: controller.pinCode,
             ),
             MyTextField(
               hintText: 'Aadhar',
@@ -57,7 +57,7 @@ class RegisterStep2 extends StatelessWidget {
                 title: 'Available For Interview',
                 items: controller.interviewList,
                 value: controller.interview.value,
-                onChanged: controller.profileChange,
+                onChanged: controller.interviewChange,
               ),
             ),
             const Gap(10),

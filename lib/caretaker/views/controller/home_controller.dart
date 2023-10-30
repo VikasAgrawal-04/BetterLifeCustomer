@@ -7,7 +7,7 @@ class HomeController extends GetxController {
   final ApiRepo api;
 
   RxInt selectedIndex = 0.obs;
-  final tabs = const ['Todays Appt', 'Past Appt', 'Upcoming Appt'];
+  final tabs = const ['Todays', 'Past', 'Upcoming'];
   RxList<CareAppointment> newAppointments = <CareAppointment>[].obs;
   RxList<CareAppointment> homeAppointments = <CareAppointment>[].obs;
   final status = Status.initial.obs;

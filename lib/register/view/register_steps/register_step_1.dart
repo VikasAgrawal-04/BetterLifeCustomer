@@ -30,6 +30,7 @@ class RegisterStep1 extends StatelessWidget {
             PasswordField(
               hintText: 'Password',
               controller: controller.password,
+              textInputAction: TextInputAction.next,
             ),
             PasswordField(
               hintText: 'Confirm Password',
@@ -47,6 +48,7 @@ class RegisterStep1 extends StatelessWidget {
               hintText: 'Date Of Birth',
               value: controller.dob,
               firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
               onChanged: (value) {
                 controller.dob = value;
               },

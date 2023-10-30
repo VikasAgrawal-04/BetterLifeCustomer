@@ -7,10 +7,16 @@ class MyDateField extends StatefulWidget {
   final String? hintText;
   final DateTime? firstDate;
   final DateTime? value;
+  final DateTime? lastDate;
   final ValueChanged<DateTime>? onChanged;
 
   const MyDateField(
-      {super.key, this.firstDate, this.hintText, this.onChanged, this.value});
+      {super.key,
+      this.firstDate,
+      this.lastDate,
+      this.hintText,
+      this.onChanged,
+      this.value});
 
   @override
   State<MyDateField> createState() => _MyDateFieldState();
@@ -38,7 +44,8 @@ class _MyDateFieldState extends State<MyDateField> {
           context: context,
           initialDate: initDate,
           firstDate: widget.firstDate ?? initDate,
-          lastDate: DateTime.now().add(const Duration(days: 365)),
+          lastDate:
+              widget.lastDate ?? DateTime.now().add(const Duration(days: 365)),
         );
         if (date != null) {
           _controller.text = MyDateFormat.formatDate(date);
@@ -47,7 +54,6 @@ class _MyDateFieldState extends State<MyDateField> {
       },
       hintText: widget.hintText ?? 'Date',
       suffixIcon: const Icon(Icons.calendar_today),
-      // enabled: false,
       focusNode: AlwaysDisabledFocusNode(),
     );
   }

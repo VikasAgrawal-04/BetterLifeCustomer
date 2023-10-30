@@ -1,9 +1,8 @@
+import 'package:better_life_customer/register/view/controller/caretaker_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
-
-import '../controller/caretaker_controller.dart';
 
 class RegisterStep4 extends StatelessWidget {
   const RegisterStep4({super.key});
@@ -20,7 +19,7 @@ class RegisterStep4 extends StatelessWidget {
             spacing: const Gap(15),
             children: [
               Text(
-                'Can provide servies in following pincodes',
+                'Can provide services in following pincodes',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Row(
@@ -39,7 +38,9 @@ class RegisterStep4 extends StatelessWidget {
                       margin: EdgeInsets.only(top: 25.h),
                       text: 'Add To List',
                       onPressed: () async {
-                        await controller.setPincode(controller.pncd.value);
+                        if (controller.pncd.value != 'Select Pincode') {
+                          await controller.setPincode(controller.pncd.value);
+                        }
                       },
                     ),
                   ),

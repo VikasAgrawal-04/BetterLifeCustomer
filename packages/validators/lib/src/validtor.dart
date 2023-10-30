@@ -28,7 +28,10 @@ class Validator {
   }
 
   static String? text(String? value) {
-    final validate = ValidationBuilder().minLength(1).build();
+    final validate =
+        ValidationBuilder(requiredMessage: 'This field is required')
+            .minLength(1)
+            .build();
     final result = validate(value);
     return result;
   }

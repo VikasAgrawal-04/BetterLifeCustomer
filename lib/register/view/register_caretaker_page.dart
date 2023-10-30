@@ -38,7 +38,9 @@ class _RegisterCaretakerPageState extends State<RegisterCaretakerPage> {
                   careControl.index.value = 0;
                   Get.back<void>();
                 },
-                icon: const Icon(Icons.arrow_back_ios)),
+                icon: careControl.index.value == 0
+                    ? const Icon(Icons.close)
+                    : const Icon(Icons.arrow_back_ios)),
             title: Text(
               'Register As Caretaker (${careControl.index.value + 1} / 4)',
             ),

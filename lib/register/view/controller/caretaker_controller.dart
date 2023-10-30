@@ -22,7 +22,7 @@ class CaretakerController extends GetxController {
   final gender = 'Male'.obs;
   final profile = 'Full Time'.obs;
   final interview = 'Yes'.obs;
-  DateTime dob = DateTime(2000);
+  DateTime? dob;
   final adress = TextEditingController();
   final pinCode = TextEditingController();
   final aadhar = TextEditingController();
@@ -43,6 +43,13 @@ class CaretakerController extends GetxController {
   void validatePage() {
     final validated = key.currentState?.validate() ?? false;
     if (!validated) {
+      return;
+    }
+    if (index.value == 0 && password.text != confirmPassword.text) {
+      const GetSnackBar(
+        message: 'Password does not match!',
+        backgroundColor: Colors.red,
+      ).show();
       return;
     }
     index.value++;
@@ -171,7 +178,7 @@ class CaretakerController extends GetxController {
         password: password.text,
         confirmPassword: confirmPassword.text,
         gender: gender.value,
-        dateofbirth: DateFormat('yyyy-MM-dd').format(dob),
+        dateofbirth: DateFormat('yyyy-MM-dd').format(dob ?? DateTime(2000)),
         address: adress.text,
         pincode: pinCode.text,
         aadhar: aadhar.text,
