@@ -49,6 +49,7 @@ class _CTNewAppointmentState extends State<CTNewAppointment> {
                       padding:
                           EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
