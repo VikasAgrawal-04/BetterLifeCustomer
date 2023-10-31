@@ -11,8 +11,9 @@ class HomePageCaretaker extends StatefulWidget {
   const HomePageCaretaker({super.key});
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
-        builder: (_) => const HomePageCaretaker(),
-        settings: const RouteSettings(name: '/homePageCaretaker'));
+      builder: (_) => const HomePageCaretaker(),
+      settings: const RouteSettings(name: '/homePageCaretaker'),
+    );
   }
 
   @override

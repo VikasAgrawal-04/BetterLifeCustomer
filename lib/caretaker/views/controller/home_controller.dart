@@ -51,6 +51,7 @@ class HomeController extends GetxController {
     homeAppointments.clear();
     status.value = Status.loading;
     final response = await api.getCareAppointment(type: currentAppointmentType);
+    print('Hello');
     response.when(success: (value) {
       if (value.isEmpty) {
         status.value = Status.empty;
@@ -94,8 +95,8 @@ class HomeController extends GetxController {
       {required String otp, required int apptId}) async {
     status.value = Status.loading;
     final response = await api.verifyPatientOtp(otp: otp, apptId: apptId);
-    status.value = Status.success;
     response.when(success: (value) {
+      status.value = Status.success;
       DialogService.success(
         value['message'].toString(),
         onTap: () async {
@@ -107,7 +108,10 @@ class HomeController extends GetxController {
       );
     }, failure: (error) {
       status.value = Status.error;
-      DialogService.failure(error);
+      DialogService.failure(error, onCancel: () async {
+        await getApptDetails(apptId);
+        Get.back<void>();
+      });
     });
   }
 }
