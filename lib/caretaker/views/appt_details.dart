@@ -1,5 +1,9 @@
 import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
+import 'package:better_life_customer/caretaker/views/start_appointment/diet_restrictions.dart';
+import 'package:better_life_customer/caretaker/views/start_appointment/doctor_notes.dart';
+import 'package:better_life_customer/caretaker/views/start_appointment/prescription.dart';
+import 'package:better_life_customer/caretaker/views/start_appointment/recommended_test.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,26 +106,22 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                           'Doctor : ${controller.apptDetails.value.doctor}',
                         ),
                         Text(
-                          'Patient Phone : ${controller.apptDetails.
-                          value.patientmobile}',
+                          'Patient Phone : ${controller.apptDetails.value.patientmobile}',
                         ),
                         const Gap(2),
                         const MyDivider(),
                         const Gap(2),
                         Text(
-                          'Relative Name : ${controller.apptDetails.
-                          value.relativename}',
+                          'Relative Name : ${controller.apptDetails.value.relativename}',
                         ),
                         Text(
-                          'Relative Number : ${controller.apptDetails.
-                          value.relativemobileno}',
+                          'Relative Number : ${controller.apptDetails.value.relativemobileno}',
                         ),
                         const Gap(2),
                         const MyDivider(),
                         const Gap(2),
                         Text(
-                          'Taxi Required : ${controller.apptDetails.value
-                          .taxineeded == "1" ? "True" : "False"}',
+                          'Taxi Required : ${controller.apptDetails.value.taxineeded == "1" ? "True" : "False"}',
                         ),
                       ],
                     ),
@@ -211,14 +211,18 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                             Expanded(
                               child: MyElevatedButton(
                                 text: 'Doctor Notes',
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await Get.to<void>(const DoctorNotes());
+                                },
                               ),
                             ),
                             SizedBox(width: 8.w),
                             Expanded(
                               child: MyElevatedButton(
                                 text: 'Prescription',
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await Get.to<void>(const Prescription());
+                                },
                               ),
                             ),
                           ],
@@ -229,14 +233,18 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                             Expanded(
                               child: MyElevatedButton(
                                 text: 'Recommended Tests',
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await Get.to<void>(const RecommendedTest());
+                                },
                               ),
                             ),
                             SizedBox(width: 8.w),
                             Expanded(
                               child: MyElevatedButton(
                                 text: 'Diet Restrictions',
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await Get.to<void>(const DietRestriction());
+                                },
                               ),
                             ),
                           ],
