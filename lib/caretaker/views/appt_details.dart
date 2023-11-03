@@ -102,22 +102,26 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                           'Doctor : ${controller.apptDetails.value.doctor}',
                         ),
                         Text(
-                          'Patient Phone : ${controller.apptDetails.value.patientmobile}',
+                          'Patient Phone : ${controller.apptDetails.
+                          value.patientmobile}',
                         ),
                         const Gap(2),
                         const MyDivider(),
                         const Gap(2),
                         Text(
-                          'Relative Name : ${controller.apptDetails.value.relativename}',
+                          'Relative Name : ${controller.apptDetails.
+                          value.relativename}',
                         ),
                         Text(
-                          'Relative Number : ${controller.apptDetails.value.relativemobileno}',
+                          'Relative Number : ${controller.apptDetails.
+                          value.relativemobileno}',
                         ),
                         const Gap(2),
                         const MyDivider(),
                         const Gap(2),
                         Text(
-                          'Taxi Required : ${controller.apptDetails.value.taxineeded == "1" ? "True" : "False"}',
+                          'Taxi Required : ${controller.apptDetails.value
+                          .taxineeded == "1" ? "True" : "False"}',
                         ),
                       ],
                     ),
