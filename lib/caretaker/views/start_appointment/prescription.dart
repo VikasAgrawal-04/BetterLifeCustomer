@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Prescription extends StatelessWidget {
-  const Prescription({super.key});
+  final int apptId;
+
+  const Prescription({required this.apptId, super.key});
 
   @override
   Widget build(BuildContext context) {

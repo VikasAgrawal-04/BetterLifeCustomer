@@ -212,7 +212,13 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                               child: MyElevatedButton(
                                 text: 'Doctor Notes',
                                 onPressed: () async {
-                                  await Get.to<void>(const DoctorNotes());
+                                  await Get.to<void>(
+                                    DoctorNotes(
+                                      apptId:
+                                          controller.apptDetails.value.apptid ??
+                                              0,
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -221,7 +227,13 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                               child: MyElevatedButton(
                                 text: 'Prescription',
                                 onPressed: () async {
-                                  await Get.to<void>(const Prescription());
+                                  await Get.to<void>(
+                                    Prescription(
+                                      apptId:
+                                          controller.apptDetails.value.apptid ??
+                                              0,
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -234,7 +246,13 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                               child: MyElevatedButton(
                                 text: 'Recommended Tests',
                                 onPressed: () async {
-                                  await Get.to<void>(const RecommendedTest());
+                                  await Get.to<void>(
+                                    RecommendedTest(
+                                      apptId:
+                                          controller.apptDetails.value.apptid ??
+                                              0,
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -243,7 +261,13 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                               child: MyElevatedButton(
                                 text: 'Diet Restrictions',
                                 onPressed: () async {
-                                  await Get.to<void>(const DietRestriction());
+                                  await Get.to<void>(
+                                    DietRestriction(
+                                      apptId:
+                                          controller.apptDetails.value.apptid ??
+                                              0,
+                                    ),
+                                  );
                                 },
                               ),
                             ),

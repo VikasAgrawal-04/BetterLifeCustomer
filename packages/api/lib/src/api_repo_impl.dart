@@ -224,4 +224,21 @@ class ApiRepoImpl implements ApiRepo {
       {required String otp, required int apptId}) {
     return _careRepo.verifyPatientOtp(otp: otp, apptId: apptId);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createDocNotes(
+      {required String notes,
+      required List<String> imgs,
+      required int apptId}) {
+    return _careRepo.createDocNotes(notes: notes, imgs: imgs, apptId: apptId);
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createDietRestriction(
+      {required String notes,
+      required List<String> imgs,
+      required int apptId}) {
+    return _careRepo.createDietRestriction(
+        notes: notes, imgs: imgs, apptId: apptId);
+  }
 }

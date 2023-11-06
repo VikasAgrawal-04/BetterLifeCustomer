@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:widgets/widgets.dart';
 
@@ -33,84 +34,137 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> appointmentAction(
-      {required bool accept, required int aptId}) async {
+  Future<void> appointmentAction({
+    required bool accept,
+    required int aptId,
+  }) async {
     final response = await api.appointmentAction(accept: accept, aptId: aptId);
-    response.when(success: (value) {
-      getNewAppointment();
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.failure(error);
-    });
+    response.when(
+      success: (value) {
+        getNewAppointment();
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.failure(error);
+      },
+    );
   }
 
   Future<void> getCareAppointment() async {
     homeAppointments.clear();
     status.value = Status.loading;
     final response = await api.getCareAppointment(type: currentAppointmentType);
-    print('Hello');
-    response.when(success: (value) {
-      if (value.isEmpty) {
-        status.value = Status.empty;
-      } else {
-        status.value = Status.success;
-        if (currentAppointmentType == AppointmentType.present ||
-            currentAppointmentType == AppointmentType.past) {
-          for (final loop in value) {
-            loop.viewDetials = true;
-            homeAppointments.add(loop);
-          }
+    response.when(
+      success: (value) {
+        if (value.isEmpty) {
+          status.value = Status.empty;
         } else {
-          homeAppointments.addAll(value);
+          status.value = Status.success;
+          if (currentAppointmentType == AppointmentType.present ||
+              currentAppointmentType == AppointmentType.past) {
+            for (final loop in value) {
+              loop.viewDetials = true;
+              homeAppointments.add(loop);
+            }
+          } else {
+            homeAppointments.addAll(value);
+          }
         }
-      }
-    }, failure: (error) {
-      print('Failure in CareAppointment $error');
-    });
+      },
+      failure: (error) {
+        print('Failure in CareAppointment $error');
+      },
+    );
   }
 
   Future<void> getApptDetails(int apptId) async {
     status.value = Status.loading;
     final response = await api.getApptDetails(apptId);
 
-    response.when(success: (value) {
-      status.value = Status.success;
-      if (value.code == '200') {
-        apptDetails.value = value.data;
-      }
-    }, failure: (error) {
-      status.value = Status.error;
-      print('Failure in getApptDetails $error');
-    });
+    response.when(
+      success: (value) {
+        status.value = Status.success;
+        if (value.code == '200') {
+          apptDetails.value = value.data;
+        }
+      },
+      failure: (error) {
+        status.value = Status.error;
+        print('Failure in getApptDetails $error');
+      },
+    );
   }
 
   Future<void> rfh() async {
     await getCareAppointment();
   }
 
-  Future<void> verifyPatientOtp(
-      {required String otp, required int apptId}) async {
+  Future<void> verifyPatientOtp({
+    required String otp,
+    required int apptId,
+  }) async {
     status.value = Status.loading;
     final response = await api.verifyPatientOtp(otp: otp, apptId: apptId);
+    response.when(
+      success: (value) {
+        status.value = Status.success;
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () async {
+            await getApptDetails(apptId);
+            status.value = Status.success;
+            Get.back<void>();
+          },
+          buttonText: 'OK',
+        );
+      },
+      failure: (error) {
+        status.value = Status.error;
+        DialogService.failure(
+          error,
+          onCancel: () async {
+            await getApptDetails(apptId);
+            Get.back<void>();
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> createDocNotes({
+    required String notes,
+    required List<String> imgs,
+    required int apptId,
+  }) async {
+    final response =
+        await api.createDocNotes(notes: notes, imgs: imgs, apptId: apptId);
     response.when(success: (value) {
-      status.value = Status.success;
-      DialogService.success(
-        value['message'].toString(),
-        onTap: () async {
-          await getApptDetails(apptId);
-          status.value = Status.success;
-          Get.back<void>();
-        },
-        buttonText: 'OK',
-      );
-    }, failure: (error) {
-      status.value = Status.error;
-      DialogService.failure(error, onCancel: () async {
-        await getApptDetails(apptId);
+      DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
       });
+    }, failure: (error) {
+      DialogService.error(NetworkExceptions.getErrorMessage(error));
+    });
+  }
+
+   Future<void> createDietRestriction({
+    required String notes,
+    required List<String> imgs,
+    required int apptId,
+  }) async {
+    final response =
+        await api.createDietRestriction(notes: notes, imgs: imgs, apptId: apptId);
+    response.when(success: (value) {
+      DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.error(NetworkExceptions.getErrorMessage(error));
     });
   }
 }

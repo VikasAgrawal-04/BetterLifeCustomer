@@ -109,4 +109,46 @@ class CaretakerRepoImpl implements CaretakerRepo {
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createDocNotes(
+      {required String notes,
+      required List<String> imgs,
+      required int apptId}) async {
+    try {
+      final result =
+          await client.post('${Endpoints.doctorNotes}/$apptId', data: {
+        'notes': [notes],
+        'image': imgs
+      });
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createDietRestriction(
+      {required String notes,
+      required List<String> imgs,
+      required int apptId}) async {
+    try {
+      final result =
+          await client.post('${Endpoints.dietRestriction}/$apptId', data: {
+        'notes': [notes],
+        'image': imgs
+      });
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
 }

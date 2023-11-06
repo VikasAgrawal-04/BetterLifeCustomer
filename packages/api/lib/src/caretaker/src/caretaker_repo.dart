@@ -13,4 +13,8 @@ abstract class CaretakerRepo {
   Future<ApiResult<CareAppointmentDetails>> getApptDetails(int apptId);
   Future<ApiResult<Map<String, dynamic>>> verifyPatientOtp(
       {required String otp, required int apptId});
+  Future<ApiResult<Map<String, dynamic>>> createDocNotes(
+      {required String notes, required List<String> imgs, required int apptId});
+  Future<ApiResult<Map<String, dynamic>>> createDietRestriction(
+      {required String notes, required List<String> imgs, required int apptId});
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RecommendedTest extends StatelessWidget {
-  const RecommendedTest({super.key});
+  final int apptId;
+
+  const RecommendedTest({required this.apptId, super.key});
 
   @override
   Widget build(BuildContext context) {
