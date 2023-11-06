@@ -23,4 +23,5 @@ abstract class CaretakerRepo {
       {required List<String> imgs,
       required int apptId,
       required List<String> tests});
+  Future<ApiResult<Map<String, dynamic>>> endAppt(int apptId);
 }

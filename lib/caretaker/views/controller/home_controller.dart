@@ -1,5 +1,6 @@
 import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
+import 'package:better_life_customer/caretaker/views/home_page_caretaker.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:widgets/widgets.dart';
 
@@ -189,6 +190,18 @@ class HomeController extends GetxController {
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.error(NetworkExceptions.getErrorMessage(error));
+    });
+  }
+
+  Future<void> endAppt(int apptId) async {
+    final response = await api.endAppt(apptId);
+    response.when(success: (value) {
+      DialogService.success(value['message'].toString(), onTap: () async {
+        await getCareAppointment();
+        await Get.offAll<void>(const HomePageCaretaker());
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));

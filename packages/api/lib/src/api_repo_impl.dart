@@ -255,4 +255,9 @@ class ApiRepoImpl implements ApiRepo {
       required List<String> tests}) {
     return _careRepo.createTests(imgs: imgs, apptId: apptId, tests: tests);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> endAppt(int apptId) {
+    return _careRepo.endAppt(apptId);
+  }
 }

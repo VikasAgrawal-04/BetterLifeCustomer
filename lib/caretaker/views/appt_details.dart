@@ -196,7 +196,11 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                         MyElevatedButton(
                           text: 'Mark As Completed',
                           color: Colors.redAccent,
-                          onPressed: () async {},
+                          onPressed: () async {
+                            await controller.endAppt(
+                              controller.apptDetails.value.apptid ?? 0,
+                            );
+                          },
                         ),
                         const MyDivider(),
                         Align(
