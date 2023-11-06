@@ -38,7 +38,6 @@ class HomeController extends GetxController {
     final response = await api.appointmentAction(accept: accept, aptId: aptId);
     response.when(success: (value) {
       getNewAppointment();
-      getCareAppointment();
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
       });

@@ -28,96 +28,105 @@ class _CTNewAppointmentState extends State<CTNewAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(
-        title: Text('New Appointments'),
+      appBar: MyAppBar(
+        title: const Text('New Appointments'),
+        onBackPressed: () async {
+          await controller.getCareAppointment();
+        },
       ),
-      body: Padding(
-        padding: kPadding,
-        child: RefreshIndicator(
-          child: Obx(
-            () => MySliverList<CareAppointment>(
-              title: 'New Appointments',
-              status: controller.status.value,
-              itemBuilder: (context, index) {
-                final appointment = controller.newAppointments[index];
-                return Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
-                  child: Card(
-                    color: const Color.fromARGB(255, 97, 222, 145),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                appointment.visitdate.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                              Text(
-                                appointment.pickuptime.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              )
-                            ],
-                          ),
-                          const Gap(5),
-                          Text(appointment.patientname.toString()),
-                          const Gap(5),
-                          Text(appointment.pickaddress.toString()),
-                          const Gap(5),
-                          Text(appointment.hospital.toString()),
-                          const Gap(10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: MyElevatedButton(
-                                    text: 'Accept',
+      body: WillPopScope(
+        onWillPop: () async {
+          await controller.getCareAppointment();
+          return true;
+        },
+        child: Padding(
+          padding: kPadding,
+          child: RefreshIndicator(
+            child: Obx(
+              () => MySliverList<CareAppointment>(
+                title: 'New Appointments',
+                status: controller.status.value,
+                itemBuilder: (context, index) {
+                  final appointment = controller.newAppointments[index];
+                  return Container(
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.2.h),
+                    child: Card(
+                      color: const Color.fromARGB(255, 97, 222, 145),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.h, horizontal: 10.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  appointment.visitdate.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  appointment.pickuptime.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.w700),
+                                )
+                              ],
+                            ),
+                            const Gap(5),
+                            Text(appointment.patientname.toString()),
+                            const Gap(5),
+                            Text(appointment.pickaddress.toString()),
+                            const Gap(5),
+                            Text(appointment.hospital.toString()),
+                            const Gap(10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: MyElevatedButton(
+                                      text: 'Accept',
+                                      height: 30.h,
+                                      onPressed: () async {
+                                        await controller.appointmentAction(
+                                          accept: true,
+                                          aptId: appointment.apptid ?? 0,
+                                        );
+                                      }),
+                                ),
+                                SizedBox(width: 1.sw * 0.15),
+                                Expanded(
+                                  child: MyElevatedButton(
                                     height: 30.h,
+                                    text: 'Reject',
+                                    color: Colors.black,
                                     onPressed: () async {
                                       await controller.appointmentAction(
-                                        accept: true,
+                                        accept: false,
                                         aptId: appointment.apptid ?? 0,
                                       );
-                                    }),
-                              ),
-                              SizedBox(width: 1.sw * 0.15),
-                              Expanded(
-                                child: MyElevatedButton(
-                                  height: 30.h,
-                                  text: 'Reject',
-                                  color: Colors.black,
-                                  onPressed: () async {
-                                    await controller.appointmentAction(
-                                      accept: false,
-                                      aptId: appointment.apptid ?? 0,
-                                    );
-                                  },
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-              list: controller.newAppointments,
+                  );
+                },
+                list: controller.newAppointments,
+              ),
             ),
+            onRefresh: () async {
+              await controller.getNewAppointment();
+            },
           ),
-          onRefresh: () async {
-            await controller.getNewAppointment();
-          },
         ),
       ),
     );
