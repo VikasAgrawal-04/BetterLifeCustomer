@@ -1,3 +1,4 @@
+import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/caretaker/views/start_appointment/diet_restrictions.dart';
@@ -127,7 +128,9 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                     ),
                   ),
                   const Gap(20),
-                  if (controller.apptDetails.value.startappointment == '0')
+                  if (controller.apptDetails.value.startappointment == '0' &&
+                      controller.currentAppointmentType ==
+                          AppointmentType.present)
                     MyElevatedButton(
                       text: 'Start Appointment',
                       onPressed: () async {
@@ -188,7 +191,9 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                         );
                       },
                     ),
-                  if (controller.apptDetails.value.startappointment == '1') ...{
+                  if (controller.apptDetails.value.startappointment == '1' &&
+                      controller.currentAppointmentType ==
+                          AppointmentType.present) ...{
                     AutoSpacing(
                       spacing: const Gap(10),
                       children: [
