@@ -130,7 +130,8 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                   const Gap(20),
                   if (controller.apptDetails.value.startappointment == '0' &&
                       controller.currentAppointmentType ==
-                          AppointmentType.present)
+                          AppointmentType.present &&
+                      controller.apptDetails.value.finished != '1')
                     MyElevatedButton(
                       text: 'Start Appointment',
                       onPressed: () async {
@@ -193,11 +194,14 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                     ),
                   if (controller.apptDetails.value.startappointment == '1' &&
                       controller.currentAppointmentType ==
-                          AppointmentType.present) ...{
+                          AppointmentType.present &&
+                      controller.apptDetails.value.finished != '1') ...{
                     AutoSpacing(
                       spacing: const Gap(10),
                       children: [
-                        const Align(child: Text('Appointment Started')),
+                        Align(
+                            child: Text(
+                                'Appointment Started at ${controller.apptDetails.value.startdatetime}')),
                         MyElevatedButton(
                           text: 'Mark As Completed',
                           color: Colors.redAccent,
@@ -285,6 +289,15 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                       ],
                     ),
                   },
+                  if (controller.apptDetails.value.finished == '1') ...{
+                    Center(
+                      child: Text(
+                        'THIS APPOINTMENT HAS BEEN COMPLETED',
+                        style: Get.textTheme.titleMedium
+                            ?.copyWith(color: Colors.greenAccent),
+                      ),
+                    )
+                  }
                 ],
               ),
             ),

@@ -19,6 +19,8 @@ CareData _$CareDataFromJson(Map<String, dynamic> json) => CareData(
       relativemobileno: json['relativemobileno'] as String?,
       taxineeded: json['taxineeded'] as String?,
       startappointment: json['startappointment'] as String?,
+      startdatetime: json['startdatetime'] as String?,
+      finished: json['finished'] as String?,
     );
 
 Map<String, dynamic> _$CareDataToJson(CareData instance) => <String, dynamic>{
@@ -34,4 +36,6 @@ Map<String, dynamic> _$CareDataToJson(CareData instance) => <String, dynamic>{
       'relativemobileno': instance.relativemobileno,
       'taxineeded': instance.taxineeded,
       'startappointment': instance.startappointment,
+      'startdatetime': instance.startdatetime,
+      'finished': instance.finished,
     };

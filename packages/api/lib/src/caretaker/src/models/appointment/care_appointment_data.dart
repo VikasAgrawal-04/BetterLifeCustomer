@@ -16,6 +16,8 @@ class CareData {
   final String? relativemobileno;
   final String? taxineeded;
   final String? startappointment;
+  final String? startdatetime;
+  final String? finished;
 
   CareData(
       {this.apptid,
@@ -29,7 +31,9 @@ class CareData {
       this.relativename,
       this.relativemobileno,
       this.taxineeded,
-      this.startappointment});
+      this.startappointment,
+      this.startdatetime,
+      this.finished});
 
   factory CareData.fromJson(Map<String, dynamic> json) =>
       _$CareDataFromJson(json);
