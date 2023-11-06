@@ -8,8 +8,8 @@ import 'package:widgets/widgets.dart';
 import '../../caretaker/views/new_appointments.dart';
 
 class MyDrawer extends StatelessWidget {
-  final bool caretaker;
   const MyDrawer({this.caretaker = false, super.key});
+  final bool caretaker;
 
   @override
   Widget build(BuildContext context) {
