@@ -241,4 +241,18 @@ class ApiRepoImpl implements ApiRepo {
     return _careRepo.createDietRestriction(
         notes: notes, imgs: imgs, apptId: apptId);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createPrescription(
+      {required List<String> imgs, required int apptId}) {
+    return _careRepo.createPrescription(imgs: imgs, apptId: apptId);
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> createTests(
+      {required List<String> imgs,
+      required int apptId,
+      required List<String> tests}) {
+    return _careRepo.createTests(imgs: imgs, apptId: apptId, tests: tests);
+  }
 }

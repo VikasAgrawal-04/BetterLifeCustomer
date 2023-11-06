@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
@@ -42,12 +43,11 @@ class _DoctorNotesState extends State<DoctorNotes> {
               width: 0.3.sw,
               text: 'Save',
               onPressed: () async {
-                print('object');
                 try {
                   await controller.createDocNotes(
                       notes: notes.text, imgs: images, apptId: widget.apptId);
                 } catch (error) {
-                  print('errror$error');
+                  log('errror$error');
                 }
               },
             ),

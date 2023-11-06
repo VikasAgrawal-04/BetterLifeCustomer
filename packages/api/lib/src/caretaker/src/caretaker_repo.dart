@@ -17,4 +17,10 @@ abstract class CaretakerRepo {
       {required String notes, required List<String> imgs, required int apptId});
   Future<ApiResult<Map<String, dynamic>>> createDietRestriction(
       {required String notes, required List<String> imgs, required int apptId});
+  Future<ApiResult<Map<String, dynamic>>> createPrescription(
+      {required List<String> imgs, required int apptId});
+  Future<ApiResult<Map<String, dynamic>>> createTests(
+      {required List<String> imgs,
+      required int apptId,
+      required List<String> tests});
 }

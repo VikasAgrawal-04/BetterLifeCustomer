@@ -152,13 +152,40 @@ class HomeController extends GetxController {
     });
   }
 
-   Future<void> createDietRestriction({
+  Future<void> createDietRestriction({
     required String notes,
     required List<String> imgs,
     required int apptId,
   }) async {
+    final response = await api.createDietRestriction(
+        notes: notes, imgs: imgs, apptId: apptId);
+    response.when(success: (value) {
+      DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.error(NetworkExceptions.getErrorMessage(error));
+    });
+  }
+
+  Future<void> createPrescription(
+      {required List<String> imgs, required int apptId}) async {
+    final response = await api.createPrescription(imgs: imgs, apptId: apptId);
+    response.when(success: (value) {
+      DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.error(NetworkExceptions.getErrorMessage(error));
+    });
+  }
+
+  Future<void> createTests(
+      {required List<String> imgs,
+      required int apptId,
+      required List<String> tests}) async {
     final response =
-        await api.createDietRestriction(notes: notes, imgs: imgs, apptId: apptId);
+        await api.createTests(imgs: imgs, apptId: apptId, tests: tests);
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
