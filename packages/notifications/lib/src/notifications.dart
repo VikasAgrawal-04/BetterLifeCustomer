@@ -9,16 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await showNotification(
-//     message.data['title'],
-//     message.data['body'],
-//     image: message.data['image'],
-//   );
-// }
-
 class PushNotificationService {
-  // final NotificationService localNotificationService;
   static late AwesomeNotifications _notifications;
   static bool _initialized = false;
   static final Completer<void> _completer = Completer<void>();
@@ -27,21 +18,19 @@ class PushNotificationService {
     init();
   }
 
-  // Future<void> setBgHandler(Future<void> Function(RemoteMessage) handler) async {
-  //  instance.onBackgroundMessage(handler);
-  // }
-
   Future<bool> init() async {
-    // final AwesomeNotifications notifications = AwesomeNotifications();
     if (_initialized) return true;
     final result = await _notifications.initialize(
       null,
       [
         NotificationChannel(
-          channelGroupKey: 'basic_channel_group',
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
+          channelKey: 'betterlife_channel',
+          channelName: 'Better-Life',
+          channelShowBadge: true,
+          importance: NotificationImportance.High,
+          vibrationPattern: highVibrationPattern,
+          channelDescription: 'Notification channel for better-life',
+          playSound: true,
           defaultColor: const Color.fromARGB(255, 0, 0, 0),
           ledColor: Colors.white,
         )
@@ -71,7 +60,10 @@ class PushNotificationService {
         title: title,
         category: NotificationCategory.Message,
         body: body,
-        channelKey: 'basic_channel',
+        channelKey: 'betterlife_channel',
+        wakeUpScreen: true,
+        displayOnBackground: true,
+        displayOnForeground: true,
       ),
     );
     return result;
@@ -103,7 +95,9 @@ class PushNotificationService {
   }
 
   Future<void> _showRemoteNotification(RemoteMessage message) async {
+    print("Message Recieved: ${message.data}");
     final result = await showNotification(
+      
       title: message.notification?.title ?? '',
       body: message.notification?.body ?? '',
     );

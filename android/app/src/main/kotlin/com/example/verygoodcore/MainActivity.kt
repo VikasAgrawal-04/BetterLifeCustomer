@@ -1,4 +1,4 @@
-package com.example.verygoodcore.better_life_customer
+package com.codanto.better_life
 
 import io.flutter.embedding.android.FlutterActivity
 
