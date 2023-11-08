@@ -217,10 +217,11 @@ class HomeController extends GetxController {
   Future<void> showAppInfo() async {
     status.value = Status.loading;
     final response = await api.getAppInfo();
-    status.value = Status.success;
     response.when(success: (value) {
       appInfo.value = value;
+      status.value = Status.success;
     }, failure: (error) {
+      status.value = Status.error;
       debugPrint('Error: $error');
     });
   }

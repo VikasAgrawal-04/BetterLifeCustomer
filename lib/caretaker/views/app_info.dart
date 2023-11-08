@@ -32,6 +32,7 @@ class _AppInfoState extends State<AppInfo> {
           title: const Text('Better-Life Caretaker'),
           onBackPressed: () async {
             homeControl.getCareAppointment();
+            Get.back<void>();
           },
         ),
         body: Obx(() => StatusHandler(
@@ -42,7 +43,8 @@ class _AppInfoState extends State<AppInfo> {
                 children: [
                   const HeaderText(text: 'About Us'),
                   const Gap(10),
-                  Text(homeControl.appInfo['data']['description'].toString())
+                  Obx(() => Text(
+                      homeControl.appInfo['data']['description'].toString()))
                 ],
               ),
             ))),
