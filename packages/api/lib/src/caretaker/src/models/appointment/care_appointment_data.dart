@@ -88,6 +88,7 @@ class AppointmentSubDetails {
 class AppointmentNotes {
   final int id;
   final int apptid;
+  final String filetext;
   final String linktype;
   final int isdeleted;
 
@@ -95,6 +96,7 @@ class AppointmentNotes {
       {required this.id,
       required this.apptid,
       required this.linktype,
+      required this.filetext,
       required this.isdeleted});
   factory AppointmentNotes.fromJson(Map<String, dynamic> json) =>
       _$AppointmentNotesFromJson(json);

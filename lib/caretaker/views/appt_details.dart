@@ -1,6 +1,10 @@
 import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
+import 'package:better_life_customer/caretaker/views/past_appointment/diet_details.dart';
+import 'package:better_life_customer/caretaker/views/past_appointment/doctor_notes_details.dart';
+import 'package:better_life_customer/caretaker/views/past_appointment/precription_details.dart';
+import 'package:better_life_customer/caretaker/views/past_appointment/tests_details.dart';
 import 'package:better_life_customer/caretaker/views/start_appointment/diet_restrictions.dart';
 import 'package:better_life_customer/caretaker/views/start_appointment/doctor_notes.dart';
 import 'package:better_life_customer/caretaker/views/start_appointment/prescription.dart';
@@ -200,8 +204,10 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                       spacing: const Gap(10),
                       children: [
                         Align(
-                            child: Text(
-                                'Appointment Started at ${controller.apptDetails.value.startdatetime}')),
+                          child: Text(
+                            'Appointment Started at ${controller.apptDetails.value.startdatetime}',
+                          ),
+                        ),
                         MyElevatedButton(
                           text: 'Mark As Completed',
                           color: Colors.redAccent,
@@ -296,8 +302,85 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                         style: Get.textTheme.titleMedium
                             ?.copyWith(color: Colors.greenAccent),
                       ),
-                    )
-                  }
+                    ),
+                    Gap(30),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MyElevatedButton(
+                            text: 'Doctor Notes',
+                            onPressed: () async {
+                              await Get.to<void>(
+                                DoctorNotesDetails(
+                                  docNotes: controller.apptDetails.value
+                                          .appointmentDoctorsNoteNotes ??
+                                      [],
+                                  notesImgs: controller.apptDetails.value
+                                          .appointmentDoctorsNote ??
+                                      [],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: MyElevatedButton(
+                            text: 'Prescription',
+                            onPressed: () async {
+                              await Get.to<void>(
+                                PrescriptionDetails(
+                                  presImgs: controller.apptDetails.value
+                                          .appointmentPrescription ??
+                                      [],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MyElevatedButton(
+                            text: 'Recommended Tests',
+                            onPressed: () async {
+                              await Get.to<void>(
+                                TestDetails(
+                                  testImgs: controller
+                                          .apptDetails.value.appointmentTest ??
+                                      [],
+                                  tests: controller.apptDetails.value
+                                          .appointmentTestNotes ??
+                                      [],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: MyElevatedButton(
+                            text: 'Diet Restrictions',
+                            onPressed: () async {
+                              await Get.to<void>(
+                                DietDetails(
+                                  dietImgs: controller
+                                          .apptDetails.value.appointmentDiet ??
+                                      [],
+                                  dietNotes: controller.apptDetails.value
+                                          .appointmentDietNotes ??
+                                      [],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  },
                 ],
               ),
             ),

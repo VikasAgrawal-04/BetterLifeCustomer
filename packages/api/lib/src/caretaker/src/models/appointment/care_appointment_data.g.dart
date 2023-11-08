@@ -105,6 +105,7 @@ AppointmentNotes _$AppointmentNotesFromJson(Map<String, dynamic> json) =>
       apptid: json['apptid'] as int,
       linktype: json['linktype'] as String,
       isdeleted: json['isdeleted'] as int,
+      filetext: json['filetext'] as String,
     );
 
 Map<String, dynamic> _$AppointmentNotesToJson(AppointmentNotes instance) =>
@@ -113,4 +114,5 @@ Map<String, dynamic> _$AppointmentNotesToJson(AppointmentNotes instance) =>
       'apptid': instance.apptid,
       'linktype': instance.linktype,
       'isdeleted': instance.isdeleted,
+      'filetext': instance.filetext
     };
