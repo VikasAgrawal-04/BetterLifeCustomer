@@ -147,6 +147,7 @@ class HomeController extends GetxController {
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
+        Get.back<void>();
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));
@@ -163,6 +164,7 @@ class HomeController extends GetxController {
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
+        Get.back<void>();
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));
@@ -174,6 +176,7 @@ class HomeController extends GetxController {
     final response = await api.createPrescription(imgs: imgs, apptId: apptId);
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
         Get.back<void>();
       });
     }, failure: (error) {
@@ -190,6 +193,7 @@ class HomeController extends GetxController {
     response.when(success: (value) {
       DialogService.success(value['message'].toString(), onTap: () {
         Get.back<void>();
+        Get.back<void>();
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));
@@ -205,6 +209,6 @@ class HomeController extends GetxController {
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
+    }); 
   }
 }

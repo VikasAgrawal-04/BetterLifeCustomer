@@ -87,6 +87,7 @@ class CaretakerRepoImpl implements CaretakerRepo {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }
+      print(result.data);
       return ApiResult.success(
           data: CareAppointmentDetails.fromJson(result.data));
     } catch (error) {

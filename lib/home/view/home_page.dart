@@ -4,6 +4,7 @@ import 'package:better_life_customer/home/widgets/home_tabbar.dart';
 import 'package:better_life_customer/home/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:notifications/notifications.dart';
 import 'package:widgets/widgets.dart';
 
 /// {@template home_page}
@@ -57,7 +58,8 @@ class HomeView extends StatelessWidget {
     return MyAppBar(
       title: const Text('Better-Life'),
       leading: IconButton(
-        onPressed: () {
+        onPressed: () async {
+          print(await FirebaseMessaging.instance.getToken());
           if (key.currentState?.isDrawerOpen ?? false) {
             key.currentState?.closeDrawer();
           } else {
@@ -96,5 +98,4 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
-
 }

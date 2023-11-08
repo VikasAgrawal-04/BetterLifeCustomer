@@ -39,7 +39,7 @@ class _MyDateFieldState extends State<MyDateField> {
     return MyTextField(
       controller: _controller,
       onTap: () async {
-        final initDate = DateTime.now().add(const Duration(days: 1));
+        final initDate = DateTime.now();
         final date = await showDatePicker(
           context: context,
           initialDate: initDate,

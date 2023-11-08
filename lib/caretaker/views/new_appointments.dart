@@ -31,12 +31,13 @@ class _CTNewAppointmentState extends State<CTNewAppointment> {
       appBar: MyAppBar(
         title: const Text('New Appointments'),
         onBackPressed: () async {
-          await controller.getCareAppointment();
+          controller.getCareAppointment();
+          Get.back<void>();
         },
       ),
       body: WillPopScope(
         onWillPop: () async {
-          await controller.getCareAppointment();
+          controller.getCareAppointment();
           return true;
         },
         child: Padding(
