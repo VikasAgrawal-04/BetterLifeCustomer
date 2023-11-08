@@ -260,4 +260,14 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<Map<String, dynamic>>> endAppt(int apptId) {
     return _careRepo.endAppt(apptId);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> updateToken() {
+    return _authRepo.updateToken();
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> getAppInfo() {
+    return _careRepo.getAppInfo();
+  }
 }

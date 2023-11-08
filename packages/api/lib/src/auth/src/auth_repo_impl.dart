@@ -4,6 +4,7 @@ import 'package:api/constants/endpoints.dart';
 import 'package:api_client/api_client.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:hive_storage/hive_storage.dart';
+import 'package:notifications/notifications.dart';
 
 import 'auth_repo.dart';
 import 'models/models.dart';
@@ -287,6 +288,22 @@ class AuthRepoImpl implements AuthRepo {
           contactNumber: model.mobileNumber, message: result.data['message']);
 
       return ApiResult.success(data: data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> updateToken() async {
+    try {
+      final token = await PushNotificationService().getFCMtoken();
+      final result = await client
+          .post(Endpoints.updateToken, data: {'firebase_device_token': token});
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }

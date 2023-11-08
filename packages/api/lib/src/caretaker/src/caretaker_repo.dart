@@ -24,4 +24,5 @@ abstract class CaretakerRepo {
       required int apptId,
       required List<String> tests});
   Future<ApiResult<Map<String, dynamic>>> endAppt(int apptId);
+  Future<ApiResult<Map<String, dynamic>>> getAppInfo();
 }

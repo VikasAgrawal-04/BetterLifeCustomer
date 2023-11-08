@@ -16,6 +16,8 @@ dependencies:
     path: ../hive_storage
   date_format:
     path: ../date_format
+  notifications:
+    path: ../notifications
 
   rxdart: ^0.27.7
   path_provider: ^2.0.13

@@ -2,6 +2,7 @@ import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
 import 'package:better_life_customer/caretaker/views/home_page_caretaker.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:widgets/widgets.dart';
 
 class HomeController extends GetxController {
@@ -14,6 +15,7 @@ class HomeController extends GetxController {
   RxList<CareAppointment> homeAppointments = <CareAppointment>[].obs;
   final status = Status.initial.obs;
   final apptDetails = CareData().obs;
+  RxMap<String, dynamic> appInfo = <String, dynamic>{}.obs;
 
   AppointmentType get currentAppointmentType =>
       AppointmentType.values[selectedIndex.value];
@@ -209,6 +211,17 @@ class HomeController extends GetxController {
       });
     }, failure: (error) {
       DialogService.error(NetworkExceptions.getErrorMessage(error));
-    }); 
+    });
+  }
+
+  Future<void> showAppInfo() async {
+    status.value = Status.loading;
+    final response = await api.getAppInfo();
+    status.value = Status.success;
+    response.when(success: (value) {
+      appInfo.value = value;
+    }, failure: (error) {
+      debugPrint('Error: $error');
+    });
   }
 }

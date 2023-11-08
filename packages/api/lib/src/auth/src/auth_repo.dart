@@ -19,6 +19,8 @@ abstract class AuthRepo {
   Future<ApiResult<ResetPasswordData>> verifyCaretakerOtp(
       {required OtpModel model});
 
+  Future<ApiResult<Map<String, dynamic>>> updateToken();
+
   User? getUser();
   bool get isLoggedIn;
 

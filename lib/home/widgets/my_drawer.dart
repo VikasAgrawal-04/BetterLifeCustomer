@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:better_life_customer/caretaker/views/app_info.dart';
 import 'package:better_life_customer/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,6 +59,15 @@ class MyDrawer extends StatelessWidget {
                             isSelected: true,
                             onTap: () {
                               Get.to<void>(const CTNewAppointment());
+                            },
+                          ),
+                          Gap(10),
+                          _customTile(
+                            Icons.info_outline,
+                            'App Info',
+                            isSelected: true,
+                            onTap: () {
+                              Get.to<void>(const AppInfo());
                             },
                           ),
                         ],

@@ -50,4 +50,6 @@ class Endpoints {
   static const String recTests = '/create-recommended-test';
   static const String dietRestriction = '/create-dite-restriction';
   static const String completeAppointment = '/complete-appointment';
+  static const String updateToken = '/update_token';
+  static const String appInfo = '/show-app-info';
 }

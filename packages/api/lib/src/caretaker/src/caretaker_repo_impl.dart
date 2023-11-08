@@ -201,4 +201,18 @@ class CaretakerRepoImpl implements CaretakerRepo {
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> getAppInfo() async {
+    try {
+      final result = await client.get(Endpoints.appInfo);
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
 }
