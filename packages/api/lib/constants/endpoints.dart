@@ -52,4 +52,7 @@ class Endpoints {
   static const String completeAppointment = '/complete-appointment';
   static const String updateToken = '/update_token';
   static const String appInfo = '/show-app-info';
+  static const String caretakerPincodes = '/caretaker-pincode';
+  static const String addPincode = '/caretaker-add-pincode';
+  static const String deletePincode = '/caretaker-delete-pincode';
 }
