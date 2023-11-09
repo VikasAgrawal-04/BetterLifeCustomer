@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
 import 'package:better_life_customer/otp/view/otp_page.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:date_format/date_format.dart';
@@ -33,6 +34,7 @@ class CaretakerController extends GetxController {
   RxList<String> selectedLanguages = <String>[].obs;
   RxList<String> pincodes = <String>[].obs;
   RxList<String> selectedPincodes = <String>[].obs;
+  final carePincodes = [].obs;
 
   final genders2 = ['Male', 'Female', 'Other'];
   final profileList = ['Full Time', 'Part Time'];
@@ -213,5 +215,40 @@ class CaretakerController extends GetxController {
         DialogService.failure(error);
       },
     );
+  }
+
+  Future<void> fetchCarePincode() async {
+    carePincodes.clear();
+    final result = await api.fetchCarePincodes();
+    result.when(success: (value) {
+      carePincodes.addAll(value['data'] as List);
+    }, failure: (error) {
+      debugPrint(
+          'Failure in fetchCarePincode ${NetworkExceptions.getErrorMessage(error)}');
+    });
+  }
+
+  Future<void> addCarePincode(String pincode) async {
+    final result = await api.addCarePincode(pincode);
+    result.when(success: (value) {
+      fetchCarePincode();
+      DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.failure(error);
+    });
+  }
+
+  Future<void> deleteCarePincode(String pincode) async {
+    final result = await api.deleteCarePincode(pincode);
+    result.when(success: (value) {
+      fetchCarePincode();
+      DialogService.success(value['message'].toString(), onTap: () {
+        Get.back<void>();
+      });
+    }, failure: (error) {
+      DialogService.failure(error);
+    });
   }
 }

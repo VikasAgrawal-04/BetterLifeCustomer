@@ -270,4 +270,19 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<Map<String, dynamic>>> getAppInfo() {
     return _careRepo.getAppInfo();
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> fetchCarePincodes() {
+    return _authRepo.fetchCarePincodes();
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> addCarePincode(String pincode) {
+    return _authRepo.addCarePincode(pincode);
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> deleteCarePincode(String pincode) {
+    return _authRepo.deleteCarePincode(pincode);
+  }
 }

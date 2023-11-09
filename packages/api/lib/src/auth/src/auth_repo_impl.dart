@@ -308,4 +308,49 @@ class AuthRepoImpl implements AuthRepo {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> fetchCarePincodes() async {
+    try {
+      final result = await client.post(Endpoints.caretakerPincodes);
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> addCarePincode(String pincode) async {
+    try {
+      final result = await client
+          .post(Endpoints.addPincode, queryParameters: {'pincode': pincode});
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> deleteCarePincode(
+      String pincode) async {
+    try {
+      final result = await client
+          .post(Endpoints.deletePincode, queryParameters: {'pincode': pincode});
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
+  }
 }

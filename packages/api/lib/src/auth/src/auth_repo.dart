@@ -20,6 +20,10 @@ abstract class AuthRepo {
       {required OtpModel model});
 
   Future<ApiResult<Map<String, dynamic>>> updateToken();
+  Future<ApiResult<Map<String, dynamic>>> fetchCarePincodes();
+  Future<ApiResult<Map<String, dynamic>>> addCarePincode(String pincode);
+  Future<ApiResult<Map<String, dynamic>>> deleteCarePincode(String pincode);
+
 
   User? getUser();
   bool get isLoggedIn;
