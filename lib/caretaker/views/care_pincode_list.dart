@@ -21,7 +21,7 @@ class _CarePincodeListState extends State<CarePincodeList> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       status.value = Status.loading;
       await careControl.fetchCarePincode();
-      // await careControl.fetchPincodes();
+      await careControl.fetchPincodes();
       status.value = Status.success;
     });
   }
