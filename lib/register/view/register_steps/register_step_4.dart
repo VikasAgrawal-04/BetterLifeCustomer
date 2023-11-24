@@ -67,6 +67,7 @@ class RegisterStep4 extends StatelessWidget {
                         itemCount: controller.selectedPincodes.length,
                         itemBuilder: (context, index) {
                           final pincodes = controller.selectedPincodes[index];
+
                           return Row(
                             children: [
                               Text(pincodes),

@@ -42,6 +42,30 @@ class CaretakerController extends GetxController {
 
   final key = GlobalKey<FormState>();
 
+  void resetValues() {
+    fullName.clear();
+    email.clear();
+    password.clear();
+    confirmPassword.clear();
+    mobile.clear();
+    gender.value = 'Male';
+    profile.value = 'Full Time';
+    interview.value = 'Yes';
+    dob = null;
+    adress.clear();
+    pinCode.clear();
+    aadhar.clear();
+    qualification.clear();
+    curEmpl.clear();
+    canDrive.value = true;
+    pncd.value = 'Select Pincode';
+    selectedLanguages.clear();
+    pincodes.clear();
+    selectedPincodes.clear();
+    carePincodes.clear();
+    index.value = 0;
+  }
+
   void validatePage() {
     final validated = key.currentState?.validate() ?? false;
     if (!validated) {
@@ -200,6 +224,7 @@ class CaretakerController extends GetxController {
           child: MailSentDialog(
             message: data['message'].toString(),
             onContinue: () {
+              resetValues();
               Get.offAll<void>(
                 OtpPage(
                   contactNumber: mobile.text,
