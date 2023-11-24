@@ -29,7 +29,6 @@ class ErrorDialog extends StatelessWidget {
             child: Lottie.asset(
               'assets/animations/error.json',
               height: 100,
-              // width: 50,
               fit: BoxFit.cover,
             ),
           ),
@@ -50,7 +49,6 @@ class ErrorDialog extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             onPressed: () async {
               onTap();
-              // Get.back();
             },
           ),
           const Gap(20),

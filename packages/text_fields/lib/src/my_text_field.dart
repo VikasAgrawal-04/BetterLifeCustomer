@@ -107,7 +107,6 @@ class MyTextField extends StatelessWidget {
 
   InputDecoration _inputDecoration(ThemeData theme) {
     return InputDecoration(
-      // labelText: hintText,
       contentPadding: contentPadding ?? TextInputDecoration.contentPadding,
       isDense: isDense,
       floatingLabelStyle: TextStyle(

@@ -25,7 +25,6 @@ class SplashBody extends StatelessWidget {
               child: Center(
                 child: SvgPicture.asset(
                   'assets/logo_svg.svg',
-                  // scale: 0.5,
                 ),
               ),
             ),

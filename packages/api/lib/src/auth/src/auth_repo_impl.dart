@@ -262,8 +262,9 @@ class AuthRepoImpl implements AuthRepo {
   Future<ApiResult<Map<String, dynamic>>> registerCaretaker(
       {required SignUpCaretakerModel data}) async {
     try {
-      final result = await client.post(Endpoints.signUpCaretaker,
-          queryParameters: data.toJson());
+      print(data.toJson());
+      final result =
+          await client.post(Endpoints.signUpCaretaker, data: data.toJson());
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));

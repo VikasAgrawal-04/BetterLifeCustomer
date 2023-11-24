@@ -9,7 +9,6 @@ class NetworkErrorDialog extends StatelessWidget {
   final String message;
   final Widget? subtitle;
   final String buttonText;
-  // final VoidCallback onRetry;
   final VoidCallback onCancel;
 
   const NetworkErrorDialog({
@@ -33,8 +32,6 @@ class NetworkErrorDialog extends StatelessWidget {
               'assets/animations/error.json',
               frameRate: FrameRate.max,
               fit: BoxFit.contain,
-              // width: 1.5.width,
-              // height: 20.height,
             ),
           ),
           Padding(
@@ -53,12 +50,8 @@ class NetworkErrorDialog extends StatelessWidget {
           const Gap(20),
           MyElevatedButton(
             text: buttonText,
-
             padding: const EdgeInsets.all(5),
-            // height: ,
-            // height: 40,
             width: width * 0.35,
-            // color: Colors.red,
             onPressed: () async => onCancel(),
           ),
           const Gap(30),
