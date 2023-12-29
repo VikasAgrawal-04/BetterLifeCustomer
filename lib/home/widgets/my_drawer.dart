@@ -1,13 +1,12 @@
 import 'package:api/api.dart';
 import 'package:better_life_customer/caretaker/views/app_info.dart';
 import 'package:better_life_customer/caretaker/views/care_pincode_list.dart';
+import 'package:better_life_customer/caretaker/views/new_appointments.dart';
 import 'package:better_life_customer/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_theme/my_theme.dart';
 import 'package:widgets/widgets.dart';
-
-import '../../caretaker/views/new_appointments.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({this.caretaker = false, super.key});
@@ -82,7 +81,7 @@ class MyDrawer extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
                 ],
               ),
             ),
@@ -111,39 +110,34 @@ class MyDrawer extends StatelessWidget {
         Expanded(
           child: StreamBuilder<User?>(
             stream: context.read<ApiRepo>().userStream,
-            builder: (context, snapshot) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  snapshot.data?.fullName ?? 'User',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+            builder: (context, snapshot) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    snapshot.data?.fullName ?? 'User',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Text(
-                  snapshot.data?.email ?? '',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
+                  Text(
+                    snapshot.data?.email ?? '',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              );
+            },
           ),
         ),
       ],
-    );
-  }
-
-  Widget _divider() {
-    return const Divider(
-      color: Color.fromARGB(255, 252, 208, 233),
-      height: 1,
     );
   }
 

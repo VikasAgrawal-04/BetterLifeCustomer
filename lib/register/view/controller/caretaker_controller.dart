@@ -224,7 +224,6 @@ class CaretakerController extends GetxController {
           child: MailSentDialog(
             message: data['message'].toString(),
             onContinue: () {
-              resetValues();
               Get.offAll<void>(
                 OtpPage(
                   contactNumber: mobile.text,
@@ -232,6 +231,7 @@ class CaretakerController extends GetxController {
                   careTaker: true,
                 ),
               );
+              resetValues();
             },
           ),
         );

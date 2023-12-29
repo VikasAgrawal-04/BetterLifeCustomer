@@ -46,7 +46,6 @@ class OtpView extends StatelessWidget {
             ),
             Gap(58.h),
             SizedBox(
-              // width: 0.8.sw,
               child: BlocBuilder<OtpCubit, OtpState>(
                 builder: (context, state) {
                   return PinCodeTextField(

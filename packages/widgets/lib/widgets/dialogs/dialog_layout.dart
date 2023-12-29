@@ -9,6 +9,7 @@ class DialogLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.white,
       alignment: Alignment.center,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       shape: MyDecoration.dialogShape,

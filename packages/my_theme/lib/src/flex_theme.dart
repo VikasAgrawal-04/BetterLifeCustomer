@@ -16,6 +16,7 @@ class MyTheme {
       // fontFamily: GoogleFonts.dmSans().fontFamily,
       primaryColor: kPrimaryColor,
       canvasColor: Colors.white,
+      scaffoldBackgroundColor: Colors.white,
       inputDecorationTheme: InputDecorationTheme(
         enabledBorder: border,
         focusedBorder: border,
