@@ -77,26 +77,23 @@ class AppointmentStep2 extends StatelessWidget {
                 ],
                 textInputType: TextInputType.number,
                 controller: state.appointmentDuration,
-                // onChanged: (s) =>
-                //     cubit.onAppointmentDurationChanged(int.parse(s)),
-                // initialValue: state.appointmentDuration.toString(),
               ),
-              ChoiceWidget(
-                title: 'Taxi Required',
-                value: state.taxiRequired,
-                onChanged: cubit.onTaxiRequiredChanged,
-              ),
-              AnimatedSize(
-                duration: 300.milliseconds,
-                child: state.taxiRequired
-                    ? MyDropdownField(
-                        title: 'Preferred taxi type',
-                        items: state.taxiTypes,
-                        value: state.taxiType,
-                        onChanged: cubit.onTaxiTypeChanged,
-                      )
-                    : const SizedBox.shrink(),
-              ),
+              // ChoiceWidget(
+              //   title: 'Taxi Required',
+              //   value: state.taxiRequired,
+              //   onChanged: cubit.onTaxiRequiredChanged,
+              // ),
+              // AnimatedSize(
+              //   duration: 300.milliseconds,
+              //   child: state.taxiRequired
+              //       ? MyDropdownField(
+              //           title: 'Preferred taxi type',
+              //           items: state.taxiTypes,
+              //           value: state.taxiType,
+              //           onChanged: cubit.onTaxiTypeChanged,
+              //         )
+              //       : const SizedBox.shrink(),
+              // ),
               Visibility(
                 visible: !state.taxiRequired,
                 child: ChoiceWidget(

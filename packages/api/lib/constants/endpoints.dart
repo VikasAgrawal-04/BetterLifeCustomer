@@ -1,4 +1,5 @@
 class Endpoints {
+  static const String gKey = 'AIzaSyCVbvrWwjxS3-DDVQ5gvFsv54M_02z3uTw';
   static const String signUp = '/customerRegistration';
   static const String signUpCaretaker = '/caretaker-register';
   static const String loginCustomer = '/login';
@@ -55,4 +56,5 @@ class Endpoints {
   static const String caretakerPincodes = '/caretaker-pincode';
   static const String addPincode = '/caretaker-add-pincode';
   static const String deletePincode = '/caretaker-delete-pincode';
+  static const String autoComplete = "/autocomplete/json";
 }

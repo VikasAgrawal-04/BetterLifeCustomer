@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:api/converters/converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -23,6 +21,10 @@ class AppointmentDetails {
     required this.doctor,
     required this.purpose,
     this.caretaker = const [],
+    this.pickUpLatitude,
+    this.pickUpLongitude,
+    this.hospitalLatitude,
+    this.hospitalLongitude,
   });
 
   final int appointmentId;
@@ -47,6 +49,10 @@ class AppointmentDetails {
 
   @JsonKey(defaultValue: [])
   final List<int> caretaker;
+  final double? pickUpLatitude;
+  final double? pickUpLongitude;
+  final double? hospitalLatitude;
+  final double? hospitalLongitude;
 
   factory AppointmentDetails.fromJson(Map<String, dynamic> json) =>
       _$AppointmentDetailsFromJson(json);
@@ -69,6 +75,10 @@ class AppointmentDetails {
     String? doctor,
     String? purpose,
     List<int>? caretaker,
+    double? pickUpLatitude,
+    double? pickUpLongitude,
+    double? hospitalLatitude,
+    double? hospitalLongitude,
   }) {
     return AppointmentDetails(
       appointmentId: appointmentId ?? this.appointmentId,
@@ -86,6 +96,10 @@ class AppointmentDetails {
       doctor: doctor ?? this.doctor,
       purpose: purpose ?? this.purpose,
       caretaker: caretaker ?? this.caretaker,
+      pickUpLatitude: pickUpLatitude ?? this.pickUpLatitude,
+      pickUpLongitude: pickUpLongitude ?? this.pickUpLongitude,
+      hospitalLatitude: hospitalLatitude ?? this.hospitalLatitude,
+      hospitalLongitude: hospitalLongitude ?? this.hospitalLongitude,
     );
   }
 }

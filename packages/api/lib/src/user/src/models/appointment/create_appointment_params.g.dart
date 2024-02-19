@@ -16,8 +16,12 @@ CreateAppointmentParams _$CreateAppointmentParamsFromJson(
       noOfCaretakers: json['noOfCaretakers'] as String,
       caretakerGender: json['caretakerGender'] as String,
       caretakerLanguage: json['caretakerLanguage'] as String,
-      taxiNeeded: const BoolConverter().fromJson(json['taxiNeeded']),
-      acTaxi: const BoolConverter().fromJson(json['acTaxi']),
+      taxiNeeded: json['taxiNeeded'] == null
+          ? false
+          : const BoolConverter().fromJson(json['taxiNeeded']),
+      acTaxi: json['acTaxi'] == null
+          ? false
+          : const BoolConverter().fromJson(json['acTaxi']),
       drivetaxi: const BoolConverter().fromJson(json['drivetaxi']),
       visitDate: DateTime.parse(json['visitDate'] as String),
       pickUpAddress: json['pickUpAddress'] as String,
@@ -28,6 +32,10 @@ CreateAppointmentParams _$CreateAppointmentParamsFromJson(
       apptDuration: json['apptDuration'] as String,
       caretaker:
           (json['caretaker'] as List<dynamic>).map((e) => e as int).toList(),
+      pickUpLatitude: (json['pickUpLatitude'] as num).toDouble(),
+      pickUpLongitude: (json['pickUpLongitude'] as num).toDouble(),
+      hospitalLatitude: (json['hospitalLatitude'] as num).toDouble(),
+      hospitalLongitude: (json['hospitalLongitude'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$CreateAppointmentParamsToJson(
@@ -51,4 +59,8 @@ Map<String, dynamic> _$CreateAppointmentParamsToJson(
       'visitPurpose': instance.visitPurpose,
       'apptDuration': instance.apptDuration,
       'caretaker': instance.caretaker,
+      'pickUpLatitude': instance.pickUpLatitude,
+      'pickUpLongitude': instance.pickUpLongitude,
+      'hospitalLatitude': instance.hospitalLatitude,
+      'hospitalLongitude': instance.hospitalLongitude,
     };

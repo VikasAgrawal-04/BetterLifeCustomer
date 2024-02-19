@@ -1,4 +1,7 @@
 import 'package:better_life_customer/create_appointment/cubit/create_appointment_cubit.dart';
+import 'package:better_life_customer/create_appointment/widgets/pick_up_sheet.dart';
+import 'package:better_life_customer/location/cubit/location_cubit.dart';
+import 'package:better_life_customer/location/cubit/location_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,10 +31,27 @@ class AppointmentStep1 extends StatelessWidget {
                 onChanged: cubit.onPickupTimeChanged,
                 time: state.pickupTime,
               ),
-              MyTextField(
-                hintText: 'Pick up address',
-                controller: state.pickupAddressController,
-                textInputAction: TextInputAction.next,
+              BlocBuilder<LocationCubit, LocationState>(
+                builder: (context, state) {
+                  return MyTextField(
+                    readOnly: true,
+                    onTap: () {
+                      // EasyLoading.show();
+                      pickUpLocation(
+                        context,
+                        callback: context
+                            .read<CreateAppointmentCubit>()
+                            .onPickLocation,
+                      );
+                    },
+                    hintText: 'Pick up address',
+                    controller: context
+                        .read<CreateAppointmentCubit>()
+                        .state
+                        .pickupAddressController,
+                    textInputAction: TextInputAction.next,
+                  );
+                },
               ),
               PincodeField(
                 hintText: 'Pick up pincode',

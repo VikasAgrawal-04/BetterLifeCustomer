@@ -10,9 +10,11 @@ import 'package:widgets/widgets.dart';
 class App extends StatelessWidget {
   const App({
     required this.apiRepo,
+    required this.googleApiRepo,
     super.key,
   });
   final ApiRepo apiRepo;
+  final GoogleApiRepo googleApiRepo;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,9 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider<ApiRepo>.value(
           value: apiRepo,
+        ),
+        RepositoryProvider<GoogleApiRepo>.value(
+          value: googleApiRepo,
         ),
       ],
       child: ScreenUtilInit(
@@ -36,7 +41,8 @@ class App extends StatelessWidget {
                   create: (context) => BottomNavCubit(),
                 ),
                 BlocProvider(
-                  create: (context) => LocationCubit(),
+                  create: (context) =>
+                      LocationCubit(repo: context.read<GoogleApiRepo>()),
                   lazy: false,
                 ),
               ],

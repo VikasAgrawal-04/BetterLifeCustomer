@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../../converters/converters.dart';
@@ -9,14 +8,12 @@ part 'create_appointment_params.g.dart';
 class CreateAppointmentParams {
   final String patientName;
 
-  // @JsonKey(toJson: _genderToJson)
   final String patientGender;
 
   final String patientRelationship;
   final String mobileNumber;
   final String noOfCaretakers;
 
-  // @JsonKey(toJson: _genderToJson)
   final String caretakerGender;
   final String caretakerLanguage;
 
@@ -29,12 +26,9 @@ class CreateAppointmentParams {
   @BoolConverter()
   final bool drivetaxi;
 
-  // @JsonKey(toJson: (DateTime date) => _dateToJson(date, pickUpTime))
   @DateConverter()
   final DateTime visitDate;
 
-  // @JsonKey(toJson: _timeToJson)
-  // final DateTime pickUpTime;
   final String pickUpAddress;
   final String pickUpPinCode;
   final String hospital;
@@ -42,6 +36,10 @@ class CreateAppointmentParams {
   final String visitPurpose;
   final String apptDuration;
   final List<int> caretaker;
+  final double pickUpLatitude;
+  final double pickUpLongitude;
+  final double hospitalLatitude;
+  final double hospitalLongitude;
 
   CreateAppointmentParams({
     required this.patientName,
@@ -51,8 +49,8 @@ class CreateAppointmentParams {
     required this.noOfCaretakers,
     required this.caretakerGender,
     required this.caretakerLanguage,
-    required this.taxiNeeded,
-    required this.acTaxi,
+    this.taxiNeeded = false,
+    this.acTaxi = false,
     required this.drivetaxi,
     required this.visitDate,
     required this.pickUpAddress,
@@ -62,27 +60,16 @@ class CreateAppointmentParams {
     required this.visitPurpose,
     required this.apptDuration,
     required this.caretaker,
+    required this.pickUpLatitude,
+    required this.pickUpLongitude,
+    required this.hospitalLatitude,
+    required this.hospitalLongitude,
   });
-
-  // static String _dateToJson(DateTime date, DateTime time) {
-  //   final newDate = date.add(Duration(hours: time.hour, minutes: time.minute));
-  //   return MyDateFormat.formatDate(, format: 'yyyy-MM-dd');
-  // }
-
-  // static String _timeToJson(DateTime date) => '${date.hour}:${date.minute}';
 
   factory CreateAppointmentParams.fromJson(Map<String, dynamic> json) =>
       _$CreateAppointmentParamsFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateAppointmentParamsToJson(this);
-
-  // static int _boolToJson(bool value) {
-  //   return value ? 1 : 0;
-  // }
-
-  // static String _genderToJson(String value) {
-  //   return value.characters.first.toUpperCase();
-  // }
 
   CreateAppointmentParams copyWith({
     String? patientName,
@@ -103,6 +90,10 @@ class CreateAppointmentParams {
     String? visitPurpose,
     String? apptDuration,
     List<int>? caretaker,
+    double? pickUpLatitude,
+    double? pickUpLongitude,
+    double? hospitalLatitude,
+    double? hospitalLongitude,
   }) {
     return CreateAppointmentParams(
       patientName: patientName ?? this.patientName,
@@ -123,6 +114,10 @@ class CreateAppointmentParams {
       visitPurpose: visitPurpose ?? this.visitPurpose,
       apptDuration: apptDuration ?? this.apptDuration,
       caretaker: caretaker ?? this.caretaker,
+      pickUpLatitude: pickUpLatitude ?? this.pickUpLatitude,
+      pickUpLongitude: pickUpLongitude ?? this.pickUpLongitude,
+      hospitalLatitude: hospitalLatitude ?? this.hospitalLatitude,
+      hospitalLongitude: hospitalLongitude ?? this.hospitalLongitude,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:api/api.dart';
 import 'package:better_life_customer/location/cubit/location_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location/location.dart';
@@ -5,9 +6,10 @@ import 'package:permission_handler/permission_handler.dart' as p;
 import 'package:widgets/widgets.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  LocationCubit() : super(LocationState.initial()) {
+  LocationCubit({required this.repo}) : super(LocationState.initial()) {
     init();
   }
+  final GoogleApiRepo repo;
 
   Future<void> init() async {
     final permission = await checkLocationPermission();
@@ -52,9 +54,25 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> startLocationListener() async {
     await state.location.enableBackgroundMode();
     state.location.onLocationChanged.listen((LocationData data) {
-      print('Current Location ${data.toString()}');
       emit(state.copyWith(currentPosition: data));
     });
+  }
+
+  Future<void> autoComplete(String autoComplete) async {
+    final pos = curPos;
+    final response = await repo.autoComplete(
+      autoComplete,
+      pos.latitude ?? 0.0,
+      pos.longitude ?? 0.0,
+    );
+    response.when(
+      success: (success) {
+        emit(state.copyWith(prediction: success.predictions));
+      },
+      failure: (failure) {
+        emit(state.copyWith(prediction: []));
+      },
+    );
   }
 
   LocationData get curPos => state.currentPosition;

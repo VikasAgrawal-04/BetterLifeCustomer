@@ -1,3 +1,5 @@
+export './address_callback_model.dart';
+export './location_prediction_model.dart';
 export './appointment_details.dart';
 export './appointment_response.dart';
 export './create_appointment_params.dart';

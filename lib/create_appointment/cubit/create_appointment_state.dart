@@ -51,46 +51,54 @@ class CreateAppointmentState extends Equatable {
   final bool iscaretakerWhoCanDriveCarEditable;
   final bool isPincodeEditable;
   final List<int> caretaker;
+  final double pickUpLatitude;
+  final double pickUpLongitude;
+  final double hospitalLatitude;
+  final double hospitalLongitude;
 
   const CreateAppointmentState({
-    this.dateOfVisit,
-    this.pickupTime,
     required this.pickupAddressController,
     required this.pickupPincodeController,
     required this.hospitalController,
     required this.doctorsNameController,
     required this.patientNameController,
     required this.mobileNumberController,
-    this.purposeOfVisit,
-    this.purposeOfVisitList = const [],
     required this.relationsWithApplicant,
-    this.relationWithApplicant,
     required this.caretakersCount,
     required this.genders,
     required this.caretakersCountList,
     required this.taxiTypes,
     required this.taxiType,
     required this.taxiRequired,
-    this.caretakerWhoCanDriveCar = false,
-    this.gender,
-    this.caretakerGender,
     required this.caretakerLanguageList,
     required this.apppointmentDurationList,
     required this.previousCaretakers,
     required this.previousCaretakersLoading,
     required this.appointmentDuration,
-    this.caretakerLanguage,
-    this.caretakerOtherLanguage,
     required this.pageController,
     required this.step,
     required this.formKey,
-    this.appointmentDetails,
     required this.lastAppointmentLoading,
     required this.isLoading,
     required this.isCaretakerLanguageEditable,
     required this.isCaretakerGenderEditable,
     required this.iscaretakerWhoCanDriveCarEditable,
     required this.isPincodeEditable,
+    required this.pickUpLatitude,
+    required this.pickUpLongitude,
+    required this.hospitalLongitude,
+    required this.hospitalLatitude,
+    this.dateOfVisit,
+    this.pickupTime,
+    this.purposeOfVisit,
+    this.purposeOfVisitList = const [],
+    this.relationWithApplicant,
+    this.caretakerWhoCanDriveCar = false,
+    this.gender,
+    this.caretakerGender,
+    this.caretakerLanguage,
+    this.caretakerOtherLanguage,
+    this.appointmentDetails,
     this.caretaker = const [],
   });
 
@@ -111,7 +119,7 @@ class CreateAppointmentState extends Equatable {
       'Mother',
       'Brother',
       'Sister',
-      'Other'
+      'Other',
     ];
 
     return CreateAppointmentState(
@@ -153,6 +161,10 @@ class CreateAppointmentState extends Equatable {
       gender: appointment?.patientGender,
       purposeOfVisit: appointment?.purpose,
       relationWithApplicant: appointment?.realationship,
+      pickUpLatitude: 0.0,
+      pickUpLongitude: 0.0,
+      hospitalLatitude: 0.0,
+      hospitalLongitude: 0.0,
     );
   }
 
@@ -196,6 +208,10 @@ class CreateAppointmentState extends Equatable {
       gender: appointment?.patientGender,
       purposeOfVisit: appointment?.purpose,
       relationWithApplicant: appointment?.realationship,
+      pickUpLatitude: appointment?.pickUpLatitude ?? 0.0,
+      pickUpLongitude: appointment?.pickUpLongitude ?? 0.0,
+      hospitalLatitude: appointment?.hospitalLatitude ?? 0.0,
+      hospitalLongitude: appointment?.hospitalLongitude ?? 0.0,
     );
   }
 
@@ -240,6 +256,10 @@ class CreateAppointmentState extends Equatable {
       isCaretakerGenderEditable,
       iscaretakerWhoCanDriveCarEditable,
       isPincodeEditable,
+      pickUpLatitude,
+      pickUpLongitude,
+      hospitalLatitude,
+      hospitalLongitude,
     ];
   }
 
@@ -283,8 +303,16 @@ class CreateAppointmentState extends Equatable {
     bool? iscaretakerWhoCanDriveCarEditable,
     bool? isPincodeEditable,
     List<int>? caretaker,
+    double? pickUpLatitude,
+    double? pickUpLongitude,
+    double? hospitalLatitude,
+    double? hospitalLongitude,
   }) {
     return CreateAppointmentState(
+      pickUpLatitude: pickUpLatitude ?? this.pickUpLatitude,
+      pickUpLongitude: pickUpLongitude ?? this.pickUpLongitude,
+      hospitalLatitude: hospitalLatitude ?? this.hospitalLatitude,
+      hospitalLongitude: hospitalLatitude ?? this.hospitalLongitude,
       dateOfVisit: dateOfVisit ?? this.dateOfVisit,
       pickupTime: pickupTime ?? this.pickupTime,
       pickupAddressController:
@@ -347,7 +375,4 @@ class CreateAppointmentState extends Equatable {
       caretakerLanguage?.toLowerCase() == Language.other.name.toLowerCase()
           ? caretakerOtherLanguage ?? ''
           : caretakerLanguage ?? '';
-
-  // generate toString method
-  // @override
 }

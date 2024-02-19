@@ -29,7 +29,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     emit(state.copyWith(gender: p1));
   }
 
-  // ignore: avoid_positional_boolean_parameters
   void onTaxiRequiredChanged(bool value) {
     emit(state.copyWith(taxiRequired: value));
   }
@@ -94,8 +93,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
         noOfCaretakers: state.caretakersCount,
         caretakerGender: state.caretakerGender!,
         caretakerLanguage: state.getCaretakerLanguage(),
-        taxiNeeded: state.taxiRequired,
-        acTaxi: state.taxiType == 'AC',
         visitDate: visitDate,
         drivetaxi: state.caretakerWhoCanDriveCar,
         pickUpAddress: state.pickupAddressController.text,
@@ -104,6 +101,10 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
         doctorsName: state.doctorsNameController.text,
         visitPurpose: state.purposeOfVisit!,
         apptDuration: state.appointmentDuration.text,
+        pickUpLatitude: state.pickUpLatitude,
+        pickUpLongitude: state.pickUpLongitude,
+        hospitalLatitude: state.hospitalLatitude,
+        hospitalLongitude: state.hospitalLongitude,
       );
 
       final result = await api.createAppointment(params);
@@ -147,7 +148,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
           emit(
             state.copyWith(
               previousCaretakersLoading: false,
-              // step: state.step + 1,
             ),
           );
         },
@@ -156,26 +156,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       debugPrint(e.toString());
     }
   }
-
-  // Future<void> getLastAppointment(int caretakerId) async {
-  //   try {
-  //     emit(state.copyWith(lastAppointmentLoading: true));
-  //     final result = await api.getLastAppointment(caretakerId);
-  //     result.when(
-  //       success: (value) {
-  //         emit(
-  //           state.copyWith(
-  //             appointmentDetails: value,
-  //             lastAppointmentLoading: false,
-  //           ),
-  //         );
-  //       },
-  //       failure: (e) {},
-  //     );
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
 
   bool validateFields() {
     final isValidated = state.formKey.currentState?.validate() ?? false;
@@ -241,10 +221,6 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     }
   }
 
-  // void onAppointmentDurationChanged(int? p1) {
-  //   emit(state.copyWith(appointmentDuration: p1));
-  // }
-
   void caretakerWhoCanDriveCarChanged(bool value) {
     emit(state.copyWith(caretakerWhoCanDriveCar: value));
   }
@@ -254,7 +230,11 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
       state.merge(value),
     );
     await changeStep(state.step + 1);
-    // await getLastAppointment(value!);
-    // await changeStep(state.step);
   }
+
+  Future<void> onPickLocation(AddressCallback pickUpLocation) async {
+    print(pickUpLocation.address);
+  }
+
+  Future<void> onPickHospital(AddressCallback pickUpLocation) async {}
 }
