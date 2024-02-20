@@ -27,7 +27,7 @@ class SplashCubit extends Cubit<SplashState> {
     if (api.isLoggedIn) {
       await api.updateToken();
 
-      if (api.getUser()?.userType == ' N') {
+      if (api.getUser()?.userType == 'N') {
         await Get.offAll<void>(() => const HomePage());
       } else {
         await Get.offAll<void>(() => const HomePageCaretaker());

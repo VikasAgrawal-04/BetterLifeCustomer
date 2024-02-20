@@ -5,7 +5,6 @@ import 'package:better_life_customer/bootstrap.dart';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/register/view/controller/caretaker_controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hive_storage/hive_storage.dart';
 import 'package:notifications/notifications.dart';
 import 'package:widgets/widgets.dart';
@@ -41,7 +40,7 @@ Future<void> mainCommon(String baseUrl, String googleUrl) async {
   Get
     ..put(CaretakerController(api))
     ..put(HomeController(api));
-  EasyLoading.init();
+
   await bootstrap(
     () => App(
       apiRepo: api,

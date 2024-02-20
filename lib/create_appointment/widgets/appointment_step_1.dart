@@ -4,6 +4,7 @@ import 'package:better_life_customer/location/cubit/location_cubit.dart';
 import 'package:better_life_customer/location/cubit/location_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
@@ -36,12 +37,14 @@ class AppointmentStep1 extends StatelessWidget {
                   return MyTextField(
                     readOnly: true,
                     onTap: () {
-                      // EasyLoading.show();
+                      EasyLoading.show();
                       pickUpLocation(
                         context,
                         callback: context
                             .read<CreateAppointmentCubit>()
                             .onPickLocation,
+                        latitude: state.currentPosition.latitude!,
+                        longitude: state.currentPosition.longitude!,
                       );
                     },
                     hintText: 'Pick up address',

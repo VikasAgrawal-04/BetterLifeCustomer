@@ -3,6 +3,7 @@ import 'package:better_life_customer/bottom_nav/cubit/bottom_nav_cubit.dart';
 import 'package:better_life_customer/location/cubit/location_cubit.dart';
 import 'package:better_life_customer/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_theme/my_theme.dart';
 import 'package:widgets/widgets.dart';
@@ -26,6 +27,7 @@ class App extends StatelessWidget {
         RepositoryProvider<GoogleApiRepo>.value(
           value: googleApiRepo,
         ),
+        BlocProvider(create: (context) => LocationCubit(repo: googleApiRepo)),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,
@@ -35,17 +37,9 @@ class App extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Better Life',
             theme: MyTheme.light(context),
-            home: MultiBlocProvider(
-              providers: [
-                BlocProvider<BottomNavCubit>(
-                  create: (context) => BottomNavCubit(),
-                ),
-                BlocProvider(
-                  create: (context) =>
-                      LocationCubit(repo: context.read<GoogleApiRepo>()),
-                  lazy: false,
-                ),
-              ],
+            builder: EasyLoading.init(),
+            home: BlocProvider<BottomNavCubit>(
+              create: (context) => BottomNavCubit(),
               child: const SplashPage(),
             ),
           );

@@ -12,18 +12,18 @@ Future<void> fixedSheet(
   return bottomSheet(
     context: context,
     child: Container(
-      height: height ?? 98.sh,
-      padding: EdgeInsets.symmetric(vertical: 1.5.sh, horizontal: 6.sw),
+      height: height ?? .95.sh,
+      padding: EdgeInsets.symmetric(vertical: .015.sh, horizontal: .06.sw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           bar(),
-          SizedBox(height: 2.0.sh),
+          SizedBox(height: .02.sh),
           Text(
             title,
-            style: theme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+            style: theme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
           ),
-          Divider(height: 3.sh),
+          Divider(height: .01.sh),
           ...children,
         ],
       ),
@@ -34,9 +34,9 @@ Future<void> fixedSheet(
 Widget bar() {
   return Center(
     child: Container(
-      width: 22.w,
-      height: 0.5.h,
-      color: const Color(0xFFEBEDF2),
+      width: .15.sw,
+      height: .005.sh,
+      color: const Color.fromARGB(255, 193, 195, 200),
     ),
   );
 }

@@ -21,7 +21,7 @@ class LocationState extends Equatable {
   final List<Prediction> prediction;
 
   @override
-  List<Object?> get props => [currentPosition, location];
+  List<Object?> get props => [currentPosition, location, prediction];
 
   LocationState copyWith({
     LocationData? currentPosition,
