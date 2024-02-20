@@ -1,4 +1,5 @@
 import 'package:better_life_customer/create_appointment/cubit/create_appointment_cubit.dart';
+import 'package:better_life_customer/create_appointment/widgets/doctor_location_sheet.dart';
 import 'package:better_life_customer/create_appointment/widgets/pick_up_sheet.dart';
 import 'package:better_life_customer/location/cubit/location_cubit.dart';
 import 'package:better_life_customer/location/cubit/location_state.dart';
@@ -62,6 +63,14 @@ class AppointmentStep1 extends StatelessWidget {
                 readOnly: !state.isPincodeEditable,
               ),
               MyTextField(
+                readOnly: true,
+                onTap: () {
+                  doctorSheet(
+                    context,
+                    callback:
+                        context.read<CreateAppointmentCubit>().onPickHospital,
+                  );
+                },
                 hintText: 'Hospital',
                 controller: state.hospitalController,
                 textInputAction: TextInputAction.next,

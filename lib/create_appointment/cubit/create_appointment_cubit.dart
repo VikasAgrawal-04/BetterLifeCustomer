@@ -243,5 +243,13 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
     );
   }
 
-  Future<void> onPickHospital(AddressCallback pickUpLocation) async {}
+  Future<void> onPickHospital(AddressCallback pickUpLocation) async {
+    emit(
+      state.copyWith(
+        hospitalController: TextEditingController(text: pickUpLocation.address),
+        hospitalLatitude: pickUpLocation.latitude,
+        hospitalLongitude: pickUpLocation.longitude,
+      ),
+    );
+  }
 }

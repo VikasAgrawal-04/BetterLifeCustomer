@@ -29,7 +29,7 @@ Future<void> doctorSheet(
       prefixIcon: const Icon(Icons.search),
       onChanged: position.autoComplete,
     ),
-    SizedBox(height: 2.5.h),
+    SizedBox(height: .025.sh),
     BlocBuilder<LocationCubit, LocationState>(
       builder: (context, state) {
         return Expanded(
