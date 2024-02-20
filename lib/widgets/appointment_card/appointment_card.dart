@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:api/api.dart';
 import 'package:better_life_customer/service_rating/service_rating.dart';
 import 'package:better_life_customer/widgets/appointment_card/time_button.dart';
@@ -156,11 +155,15 @@ class AppointmentCard extends StatelessWidget {
           size: 20,
         ),
         const Gap(10),
-        Text(
-          text,
-          style: TextStyle(
-            color: color,
-            fontSize: 14,
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: color,
+              fontSize: 14,
+            ),
           ),
         ),
       ],

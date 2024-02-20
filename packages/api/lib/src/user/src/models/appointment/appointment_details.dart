@@ -21,10 +21,10 @@ class AppointmentDetails {
     required this.doctor,
     required this.purpose,
     this.caretaker = const [],
-    this.pickUpLatitude,
-    this.pickUpLongitude,
-    this.hospitalLatitude,
-    this.hospitalLongitude,
+    this.pickUpLatitude = 0.0,
+    this.pickUpLongitude = 0.0,
+    this.hospitalLatitude = 0.0,
+    this.hospitalLongitude = 0.0,
   });
 
   final int appointmentId;

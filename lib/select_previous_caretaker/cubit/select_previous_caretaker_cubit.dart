@@ -32,20 +32,14 @@ class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
         },
         failure: DialogService.failure,
       );
-    } catch (e) {
+    } catch (e, s) {
       debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
     }
   }
 
   /// A description for yourCustomFunction
   Future<void> selectPreviousCaretakers() async {
-    // Get.back<void>();
-    // await getLastAppointment(
-    //   LastAppointmentParams(
-    //     caretakerIds: state.selectedCaretakers.toList(),
-    //   ),
-    // );
-
     try {
       if (state.selectedCaretakers.isEmpty) {
         DialogService.error('Please select at least one caretaker');
@@ -61,7 +55,6 @@ class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
       );
       await result.when(
         success: (value) async {
-          // DialogService.success(value, onTap: () => Get.close(2));
           await getLastAppointment(params);
         },
         failure: (e) {
