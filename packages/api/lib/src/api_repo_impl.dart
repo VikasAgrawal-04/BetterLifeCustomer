@@ -285,4 +285,15 @@ class ApiRepoImpl implements ApiRepo {
   Future<ApiResult<Map<String, dynamic>>> deleteCarePincode(String pincode) {
     return _authRepo.deleteCarePincode(pincode);
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> startLocation(
+      String status, int apptId, double latitude, double longitude) {
+    return _careRepo.startLocation(status, apptId, latitude, longitude);
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> getLocation(int apptId) {
+    return _careRepo.getLocation(apptId);
+  }
 }

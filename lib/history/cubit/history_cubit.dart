@@ -17,10 +17,7 @@ class HistoryCubit extends Cubit<HistoryState> {
 
   /// A description for yourCustomFunction
   FutureOr<void> getHistory() async {
-    final user = api.getUser();
     emit(state.copyWith(status: Status.loading));
-    // final result = await api.getTransactions(id: user!.customerId!.toString());
-    // result.when(success: success, failure: failure);
   }
 
   Object? failure(NetworkExceptions error) {

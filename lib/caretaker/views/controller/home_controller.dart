@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:api/api.dart';
 import 'package:api_client/api_client.dart';
-import 'package:better_life_customer/caretaker/views/home_page_caretaker.dart';
+import 'package:better_life_customer/location/cubit/location_cubit.dart';
+import 'package:better_life_customer/service_rating/service_rating.dart';
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:widgets/widgets.dart';
@@ -11,11 +14,13 @@ class HomeController extends GetxController {
 
   RxInt selectedIndex = 0.obs;
   final tabs = const ['Todays', 'Past', 'Upcoming'];
+  final dropDownVal = 'Arrive at home'.obs;
   RxList<CareAppointment> newAppointments = <CareAppointment>[].obs;
   RxList<CareAppointment> homeAppointments = <CareAppointment>[].obs;
   final status = Status.initial.obs;
   final apptDetails = CareData().obs;
   RxMap<String, dynamic> appInfo = <String, dynamic>{}.obs;
+  Timer? _locationTimer;
 
   AppointmentType get currentAppointmentType =>
       AppointmentType.values[selectedIndex.value];
@@ -80,7 +85,7 @@ class HomeController extends GetxController {
         }
       },
       failure: (error) {
-        print('Failure in CareAppointment $error');
+        debugPrint('Failure in CareAppointment $error');
       },
     );
   }
@@ -98,7 +103,7 @@ class HomeController extends GetxController {
       },
       failure: (error) {
         status.value = Status.error;
-        print('Failure in getApptDetails $error');
+        debugPrint('Failure in getApptDetails $error');
       },
     );
   }
@@ -108,6 +113,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> verifyPatientOtp({
+    required BuildContext context,
     required String otp,
     required int apptId,
   }) async {
@@ -120,6 +126,7 @@ class HomeController extends GetxController {
           value['message'].toString(),
           onTap: () async {
             await getApptDetails(apptId);
+            unawaited(startLocation(context, apptId, 'Arrive At Home'));
             status.value = Status.success;
             Get.back<void>();
           },
@@ -146,14 +153,20 @@ class HomeController extends GetxController {
   }) async {
     final response =
         await api.createDocNotes(notes: notes, imgs: imgs, apptId: apptId);
-    response.when(success: (value) {
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
+    response.when(
+      success: (value) {
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.error(NetworkExceptions.getErrorMessage(error));
+      },
+    );
   }
 
   Future<void> createDietRestriction({
@@ -162,67 +175,118 @@ class HomeController extends GetxController {
     required int apptId,
   }) async {
     final response = await api.createDietRestriction(
-        notes: notes, imgs: imgs, apptId: apptId);
-    response.when(success: (value) {
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
+      notes: notes,
+      imgs: imgs,
+      apptId: apptId,
+    );
+    response.when(
+      success: (value) {
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.error(NetworkExceptions.getErrorMessage(error));
+      },
+    );
   }
 
-  Future<void> createPrescription(
-      {required List<String> imgs, required int apptId}) async {
+  Future<void> createPrescription({
+    required List<String> imgs,
+    required int apptId,
+  }) async {
     final response = await api.createPrescription(imgs: imgs, apptId: apptId);
-    response.when(success: (value) {
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
+    response.when(
+      success: (value) {
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.error(NetworkExceptions.getErrorMessage(error));
+      },
+    );
   }
 
-  Future<void> createTests(
-      {required List<String> imgs,
-      required int apptId,
-      required List<String> tests}) async {
+  Future<void> createTests({
+    required List<String> imgs,
+    required int apptId,
+    required List<String> tests,
+  }) async {
     final response =
         await api.createTests(imgs: imgs, apptId: apptId, tests: tests);
-    response.when(success: (value) {
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
-  }
-
-  Future<void> endAppt(int apptId) async {
-    final response = await api.endAppt(apptId);
-    response.when(success: (value) {
-      DialogService.success(value['message'].toString(), onTap: () async {
-        await getCareAppointment();
-        await Get.offAll<void>(const HomePageCaretaker());
-      });
-    }, failure: (error) {
-      DialogService.error(NetworkExceptions.getErrorMessage(error));
-    });
+    response.when(
+      success: (value) {
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.error(NetworkExceptions.getErrorMessage(error));
+      },
+    );
   }
 
   Future<void> showAppInfo() async {
     status.value = Status.loading;
     final response = await api.getAppInfo();
-    response.when(success: (value) {
-      appInfo.value = value;
-      status.value = Status.success;
-    }, failure: (error) {
-      status.value = Status.error;
-      debugPrint('Error: $error');
+    response.when(
+      success: (value) {
+        appInfo.value = value;
+        status.value = Status.success;
+      },
+      failure: (error) {
+        status.value = Status.error;
+        debugPrint('Error: $error');
+      },
+    );
+  }
+
+  Future<void> startLocation(
+    BuildContext context,
+    int apptId,
+    String status,
+  ) async {
+    final position = BlocProvider.of<LocationCubit>(context);
+    _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+      final curPos = position.curPos;
+      await sendLocation(curPos.latitude!, curPos.longitude!, apptId, status);
     });
+  }
+
+  Future<void> stopLocation() async {
+    if (_locationTimer != null && _locationTimer!.isActive) {
+      _locationTimer!.cancel();
+    }
+  }
+
+  Future<void> sendLocation(
+    double latitude,
+    double longitude,
+    int apptId,
+    String status,
+  ) async {
+    final response =
+        await api.startLocation(status, apptId, latitude, longitude);
+    response.when(
+      success: (success) {
+        debugPrint(success.toString());
+      },
+      failure: (failure) {
+        debugPrint(failure.toString());
+      },
+    );
   }
 }

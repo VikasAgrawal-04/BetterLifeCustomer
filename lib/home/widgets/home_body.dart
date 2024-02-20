@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
 class HomeBody extends StatelessWidget {
-  /// {@macro home_body}
   const HomeBody({super.key});
 
   @override

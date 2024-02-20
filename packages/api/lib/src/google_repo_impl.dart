@@ -19,6 +19,7 @@ class GoogleApiRepoImpl implements GoogleApiRepo {
         'radius': 100,
         'location': '$latitude,$longitude',
         'origin': '$latitude,$longitude'
+        
       });
       return ApiResult.success(
           data: LocationPredictionModel.fromJson(result.data));

@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:widgets/constants/constants.dart';
+import 'package:widgets/widgets.dart';
 
 class BottomSheetService {
   static void showSheet({required Widget child, EdgeInsets? padding}) {
-    Get.bottomSheet(
+    Get.bottomSheet<void>(
       Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -35,12 +34,11 @@ class BottomSheetService {
     );
   }
 
-  static showCupertinoSheet({required Widget child}) {
-    showCupertinoModalPopup(
+  static void showCupertinoSheet({required Widget child}) {
+    showCupertinoModalPopup<void>(
       context: Get.overlayContext!,
       builder: (context) => Container(
         padding: kPadding,
-        // decoration: MyDecoration.bottomSheetDecoration(),
         child: child,
       ),
     );

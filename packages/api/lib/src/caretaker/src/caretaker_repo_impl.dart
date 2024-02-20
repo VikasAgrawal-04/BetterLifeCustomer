@@ -215,4 +215,38 @@ class CaretakerRepoImpl implements CaretakerRepo {
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }
   }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> startLocation(
+      String status, int apptId, double latitude, double longitude) async {
+    try {
+      final result = await client.post(Endpoints.setLocation, queryParameters: {
+        "caretakerLatitude": latitude,
+        "caretakerLongitude": longitude,
+        "caretakerApptStatus": status,
+        "apptid": apptId
+      });
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<Map<String, dynamic>>> getLocation(int apptId) async {
+    try {
+      final result = await client.get('${Endpoints.getLocation}/$apptId');
+      if (result.data['code'] != '200') {
+        return ApiResult.failure(
+            error: NetworkExceptions.defaultError(result.data['message']));
+      }
+      return ApiResult.success(data: result.data);
+    } catch (error) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(error));
+    }
+  }
 }

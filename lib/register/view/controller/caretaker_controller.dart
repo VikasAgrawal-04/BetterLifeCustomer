@@ -34,7 +34,7 @@ class CaretakerController extends GetxController {
   RxList<String> selectedLanguages = <String>[].obs;
   RxList<String> pincodes = <String>[].obs;
   RxList<String> selectedPincodes = <String>[].obs;
-  final carePincodes = [].obs;
+  final carePincodes = <dynamic>[].obs;
 
   final genders2 = ['Male', 'Female', 'Other'];
   final profileList = ['Full Time', 'Part Time'];

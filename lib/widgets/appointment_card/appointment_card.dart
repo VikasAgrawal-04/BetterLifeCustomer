@@ -47,7 +47,6 @@ class AppointmentCard extends StatelessWidget {
           const Gap(10),
           Visibility(
             visible: !type.isPresent,
-            // visible: hasRating(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -65,13 +64,6 @@ class AppointmentCard extends StatelessWidget {
   }
 
   Widget _buildRateServiceButton() {
-    // if (appointment.rating != null) {
-    //   return ServiceRatingStars(
-    //     starSize: 30,
-    //     value: (appointment.rating ?? 0).toDouble(),
-    //   );
-    // }
-
     return MyElevatedButton(
       height: 30,
       width: 120,

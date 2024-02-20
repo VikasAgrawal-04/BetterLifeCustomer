@@ -7,6 +7,7 @@ import 'package:better_life_customer/create_appointment/view/create_appointment_
 import 'package:better_life_customer/services/dialog_service.dart';
 import 'package:better_life_customer/view_appointment/view_appointment.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
 
 part 'home_state.dart';
@@ -92,5 +93,30 @@ class HomeCubit extends CubitBase<HomeState> {
 
   Future<void> refresh() async {
     await fetchAppointment();
+  }
+
+  Future<void> getLocation(int apptId) async {
+    final response = await api.getLocation(apptId);
+    response.when(
+      success: (success) {
+        debugPrint('Get Location Value$success');
+      },
+      failure: (failure) {},
+    );
+  }
+
+  Future<void> endAppt(int apptId) async {
+    final response = await api.endAppt(apptId);
+    response.when(
+      success: (value) {
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () async {},
+        );
+      },
+      failure: (error) {
+        DialogService.error(NetworkExceptions.getErrorMessage(error));
+      },
+    );
   }
 }

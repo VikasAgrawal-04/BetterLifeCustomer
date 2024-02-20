@@ -25,4 +25,8 @@ abstract class CaretakerRepo {
       required List<String> tests});
   Future<ApiResult<Map<String, dynamic>>> endAppt(int apptId);
   Future<ApiResult<Map<String, dynamic>>> getAppInfo();
+
+  Future<ApiResult<Map<String, dynamic>>> startLocation(
+      String status, int apptId, double latitude, double longitude);
+  Future<ApiResult<Map<String, dynamic>>> getLocation(int apptId);
 }

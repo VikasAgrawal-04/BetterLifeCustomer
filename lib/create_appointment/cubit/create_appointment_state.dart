@@ -1,60 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 part of 'create_appointment_cubit.dart';
 
 /// {@template create_appointment}
 /// CreateAppointmentState description
 /// {@endtemplate}
 class CreateAppointmentState extends Equatable {
-  final DateTime? dateOfVisit;
-  final DateTime? pickupTime;
-  final TextEditingController pickupAddressController;
-  final TextEditingController pickupPincodeController;
-  final TextEditingController hospitalController;
-  final TextEditingController doctorsNameController;
-  final TextEditingController patientNameController;
-  final TextEditingController mobileNumberController;
-  final String? purposeOfVisit;
-  final List<String> purposeOfVisitList;
-  final List<String> relationsWithApplicant;
-  final String? relationWithApplicant;
-  final String caretakersCount;
-  final List<String> genders;
-  final List<String> caretakersCountList;
-  final List<String> taxiTypes;
-  final String taxiType;
-  final bool taxiRequired;
-  final bool caretakerWhoCanDriveCar;
-
-  final String? gender;
-  final String? caretakerGender;
-  final List<Language> caretakerLanguageList;
-  final List<int> apppointmentDurationList;
-
-  final List<Caretaker> previousCaretakers;
-  final bool previousCaretakersLoading;
-
-  final TextEditingController appointmentDuration;
-
-  final String? caretakerLanguage;
-  final String? caretakerOtherLanguage;
-  final PageController pageController;
-  final int step;
-  final GlobalKey<FormState> formKey;
-
-  final AppointmentDetails? appointmentDetails;
-  final bool lastAppointmentLoading;
-  final bool isLoading;
-
-  final bool isCaretakerLanguageEditable;
-  final bool isCaretakerGenderEditable;
-  final bool iscaretakerWhoCanDriveCarEditable;
-  final bool isPincodeEditable;
-  final List<int> caretaker;
-  final double pickUpLatitude;
-  final double pickUpLongitude;
-  final double hospitalLatitude;
-  final double hospitalLongitude;
 
   const CreateAppointmentState({
     required this.pickupAddressController,
@@ -101,7 +50,6 @@ class CreateAppointmentState extends Equatable {
     this.appointmentDetails,
     this.caretaker = const [],
   });
-
   factory CreateAppointmentState.initial({
     AppointmentDetails? appointment,
     int step = 0,
@@ -167,6 +115,55 @@ class CreateAppointmentState extends Equatable {
       hospitalLongitude: 0.0,
     );
   }
+  final DateTime? dateOfVisit;
+  final DateTime? pickupTime;
+  final TextEditingController pickupAddressController;
+  final TextEditingController pickupPincodeController;
+  final TextEditingController hospitalController;
+  final TextEditingController doctorsNameController;
+  final TextEditingController patientNameController;
+  final TextEditingController mobileNumberController;
+  final String? purposeOfVisit;
+  final List<String> purposeOfVisitList;
+  final List<String> relationsWithApplicant;
+  final String? relationWithApplicant;
+  final String caretakersCount;
+  final List<String> genders;
+  final List<String> caretakersCountList;
+  final List<String> taxiTypes;
+  final String taxiType;
+  final bool taxiRequired;
+  final bool caretakerWhoCanDriveCar;
+
+  final String? gender;
+  final String? caretakerGender;
+  final List<Language> caretakerLanguageList;
+  final List<int> apppointmentDurationList;
+
+  final List<Caretaker> previousCaretakers;
+  final bool previousCaretakersLoading;
+
+  final TextEditingController appointmentDuration;
+
+  final String? caretakerLanguage;
+  final String? caretakerOtherLanguage;
+  final PageController pageController;
+  final int step;
+  final GlobalKey<FormState> formKey;
+
+  final AppointmentDetails? appointmentDetails;
+  final bool lastAppointmentLoading;
+  final bool isLoading;
+
+  final bool isCaretakerLanguageEditable;
+  final bool isCaretakerGenderEditable;
+  final bool iscaretakerWhoCanDriveCarEditable;
+  final bool isPincodeEditable;
+  final List<int> caretaker;
+  final double pickUpLatitude;
+  final double pickUpLongitude;
+  final double hospitalLatitude;
+  final double hospitalLongitude;
 
   CreateAppointmentState merge(AppointmentDetails? appointment) {
     return CreateAppointmentState(

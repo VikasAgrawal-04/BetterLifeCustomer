@@ -83,7 +83,6 @@ class SelectPreviousCaretakerBody extends StatelessWidget {
         const HeaderText(text: 'Previous Caretakers'),
         const Gap(10),
         const MyDivider(),
-        // const Gap(20),
         BlocBuilder<SelectPreviousCaretakerCubit, SelectPreviousCaretakerState>(
           builder: (context, state) {
             final list =
@@ -100,10 +99,6 @@ class SelectPreviousCaretakerBody extends StatelessWidget {
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
                     caretaker.fullname ?? '',
-                    // style: context.textTheme.titleLarge?.copyWith(
-                    //   color: context.theme.primaryColor,
-                    //   fontWeight: FontWeight.w600,
-                    // ),
                   ),
                   onChanged: (value) {
                     context

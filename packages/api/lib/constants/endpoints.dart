@@ -57,4 +57,6 @@ class Endpoints {
   static const String addPincode = '/caretaker-add-pincode';
   static const String deletePincode = '/caretaker-delete-pincode';
   static const String autoComplete = "/autocomplete/json";
+  static const String setLocation = '/set-catetaker-latlong';
+  static const String getLocation = '/get-catetaker-latlong';
 }

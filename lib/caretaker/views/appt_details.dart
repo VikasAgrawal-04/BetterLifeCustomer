@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_theme/my_theme.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
 
 class CareApptDetails extends StatefulWidget {
@@ -33,6 +34,10 @@ class _CareApptDetailsState extends State<CareApptDetails> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await controller.getApptDetails(widget.apptId);
+      if (controller.apptDetails.value.startappointment == '1' &&
+          controller.apptDetails.value.finished == '0') {
+        await controller.startLocation(context, widget.apptId, '');
+      }
     });
   }
 
@@ -151,6 +156,7 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                             onDone: (text) async {
                               Get.back<void>();
                               await controller.verifyPatientOtp(
+                                context: context,
                                 otp: text,
                                 apptId:
                                     controller.apptDetails.value.apptid ?? 0,
@@ -186,6 +192,7 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                                 );
                               } else {
                                 await controller.verifyPatientOtp(
+                                  context: context,
                                   otp: otp.text,
                                   apptId:
                                       controller.apptDetails.value.apptid ?? 0,
@@ -208,13 +215,26 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                             'Appointment Started at ${controller.apptDetails.value.startdatetime}',
                           ),
                         ),
-                        MyElevatedButton(
-                          text: 'Mark As Completed',
-                          color: Colors.redAccent,
-                          onPressed: () async {
-                            await controller.endAppt(
-                              controller.apptDetails.value.apptid ?? 0,
-                            );
+                        MyDropdownField(
+                          title: 'Status',
+                          items: const [
+                            'Arrive at home',
+                            'Departed for checkup',
+                            'Reached Hospital',
+                            'Completed checkup',
+                            'Returned home',
+                          ],
+                          value: controller.dropDownVal.value,
+                          onChanged: (value) async {
+                            if (value != null) {
+                              controller.dropDownVal.value = value;
+                              await controller.stopLocation();
+                              await controller.startLocation(
+                                context,
+                                widget.apptId,
+                                value,
+                              );
+                            }
                           },
                         ),
                         const MyDivider(),

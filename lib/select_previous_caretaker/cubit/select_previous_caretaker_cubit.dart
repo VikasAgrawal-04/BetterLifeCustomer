@@ -10,7 +10,6 @@ part 'select_previous_caretaker_state.dart';
 
 class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
   SelectPreviousCaretakerCubit(
-    // this.appointmentId,
     this.caretakers,
     this.apiRepo,
     this.onProceed,
@@ -18,7 +17,6 @@ class SelectPreviousCaretakerCubit extends Cubit<SelectPreviousCaretakerState> {
   ) : super(const SelectPreviousCaretakerState());
 
   final ApiRepo apiRepo;
-  // final int appointmentId;
   final List<Caretaker> caretakers;
   final ValueChanged<AppointmentDetails?> onProceed;
   final VoidCallback onSkip;
