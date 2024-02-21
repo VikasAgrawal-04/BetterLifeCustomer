@@ -26,10 +26,10 @@ AppointmentDetails _$AppointmentDetailsFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as int)
               .toList() ??
           [],
-      pickUpLatitude: ((json['pickUpLatitude'] ?? 0.0) as num).toDouble(),
-      pickUpLongitude: ((json['pickUpLongitude'] ?? 0.0) as num).toDouble(),
-      hospitalLatitude: ((json['hospitalLatitude'] ?? 0.0) as num).toDouble(),
-      hospitalLongitude: ((json['hospitalLongitude'] ?? 0.0) as num).toDouble(),
+      pickUpLatitude: (json['pickUpLatitude'] as num?)?.toDouble() ?? 0.0,
+      pickUpLongitude: (json['pickUpLongitude'] as num?)?.toDouble() ?? 0.0,
+      hospitalLatitude: (json['hospitalLatitude'] as num?)?.toDouble() ?? 0.0,
+      hospitalLongitude: (json['hospitalLongitude'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$AppointmentDetailsToJson(AppointmentDetails instance) =>

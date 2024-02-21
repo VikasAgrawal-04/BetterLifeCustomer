@@ -27,7 +27,10 @@ class App extends StatelessWidget {
         RepositoryProvider<GoogleApiRepo>.value(
           value: googleApiRepo,
         ),
-        BlocProvider(create: (context) => LocationCubit(repo: googleApiRepo)),
+        BlocProvider(
+          create: (context) => LocationCubit(repo: googleApiRepo),
+          lazy: false,
+        ),
       ],
       child: ScreenUtilInit(
         minTextAdapt: true,

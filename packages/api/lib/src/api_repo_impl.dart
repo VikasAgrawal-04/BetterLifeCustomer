@@ -1,3 +1,4 @@
+import 'package:api/api.dart';
 import 'package:api/src/api_repo.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
 import 'package:api/src/caretaker/src/caretaker_repo.dart';
@@ -293,7 +294,7 @@ class ApiRepoImpl implements ApiRepo {
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getLocation(int apptId) {
+  Future<ApiResult<CareLocation>> getLocation(int apptId) {
     return _careRepo.getLocation(apptId);
   }
 }

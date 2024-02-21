@@ -2,17 +2,23 @@ import 'package:api/api.dart';
 import 'package:better_life_customer/service_rating/service_rating.dart';
 import 'package:better_life_customer/widgets/appointment_card/time_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:widgets/widgets.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     required this.appointment,
     required this.type,
+    this.onMap,
+    this.onEnd,
     super.key,
     this.onPressed,
   });
 
   final FutureVoidCallback? onPressed;
+  final FutureVoidCallback? onMap;
+
+  final FutureVoidCallback? onEnd;
 
   final Appointment appointment;
   final AppointmentType type;
@@ -46,6 +52,10 @@ class AppointmentCard extends StatelessWidget {
           ),
           const Gap(10),
           Visibility(
+            visible: type.isPresent && appointment.startappointment == '1',
+            child: _buildNavigation(),
+          ),
+          Visibility(
             visible: !type.isPresent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,6 +70,34 @@ class AppointmentCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildNavigation() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HeaderText(
+            text: 'Caretaker Status : ${appointment.caretakerApptStatus}'),
+        const Gap(10),
+        Row(
+          children: [
+            Expanded(
+              child: MyElevatedButton(
+                text: 'Location',
+                onPressed: onMap,
+              ),
+            ),
+            SizedBox(width: 25.w),
+            Expanded(
+              child: MyElevatedButton(
+                text: 'End Appointment',
+                onPressed: onEnd,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

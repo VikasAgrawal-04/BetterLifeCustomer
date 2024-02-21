@@ -4,7 +4,6 @@ part of 'create_appointment_cubit.dart';
 /// CreateAppointmentState description
 /// {@endtemplate}
 class CreateAppointmentState extends Equatable {
-
   const CreateAppointmentState({
     required this.pickupAddressController,
     required this.pickupPincodeController,
@@ -71,49 +70,49 @@ class CreateAppointmentState extends Equatable {
     ];
 
     return CreateAppointmentState(
-      isCaretakerGenderEditable: true,
-      isCaretakerLanguageEditable: true,
-      isPincodeEditable: true,
-      iscaretakerWhoCanDriveCarEditable: true,
-      isLoading: false,
-      previousCaretakersLoading: false,
-      lastAppointmentLoading: false,
-      previousCaretakers: const [],
-      apppointmentDurationList: List.generate(2, (index) => index + 1).toList(),
-      appointmentDuration: TextEditingController(),
-      formKey: GlobalKey<FormState>(),
-      pageController: pageController ?? PageController(initialPage: step),
-      step: step,
-      pickupAddressController:
-          TextEditingController(text: appointment?.pickAddress),
-      pickupPincodeController:
-          TextEditingController(text: appointment?.pickPincode),
-      hospitalController: TextEditingController(text: appointment?.hospital),
-      doctorsNameController: TextEditingController(text: appointment?.doctor),
-      patientNameController:
-          TextEditingController(text: appointment?.patientName),
-      mobileNumberController:
-          TextEditingController(text: appointment?.patientMobile),
-      purposeOfVisitList: puposeOfVisitList,
-      relationsWithApplicant: relationsWithApplicant2,
-      caretakersCount: '1',
-      genders: genders2,
-      caretakersCountList:
-          List.generate(2, (index) => (index + 1).toString()).toList(),
-      taxiTypes: taxiTypes2,
-      taxiType: taxiTypes2.first,
-      taxiRequired: appointment?.taxiNeeded ?? false,
-      caretakerLanguageList: Language.values,
-      caretakerGender: appointment?.caretakerGender,
-      caretakerLanguage: appointment?.caretakerLanguage,
-      gender: appointment?.patientGender,
-      purposeOfVisit: appointment?.purpose,
-      relationWithApplicant: appointment?.realationship,
-      pickUpLatitude: 0.0,
-      pickUpLongitude: 0.0,
-      hospitalLatitude: 0.0,
-      hospitalLongitude: 0.0,
-    );
+        isCaretakerGenderEditable: true,
+        isCaretakerLanguageEditable: true,
+        isPincodeEditable: true,
+        iscaretakerWhoCanDriveCarEditable: true,
+        isLoading: false,
+        previousCaretakersLoading: false,
+        lastAppointmentLoading: false,
+        previousCaretakers: const [],
+        apppointmentDurationList:
+            List.generate(2, (index) => index + 1).toList(),
+        appointmentDuration: TextEditingController(),
+        formKey: GlobalKey<FormState>(),
+        pageController: pageController ?? PageController(initialPage: step),
+        step: step,
+        pickupAddressController:
+            TextEditingController(text: appointment?.pickAddress),
+        pickupPincodeController:
+            TextEditingController(text: appointment?.pickPincode),
+        hospitalController: TextEditingController(text: appointment?.hospital),
+        doctorsNameController: TextEditingController(text: appointment?.doctor),
+        patientNameController:
+            TextEditingController(text: appointment?.patientName),
+        mobileNumberController:
+            TextEditingController(text: appointment?.patientMobile),
+        purposeOfVisitList: puposeOfVisitList,
+        relationsWithApplicant: relationsWithApplicant2,
+        caretakersCount: '1',
+        genders: genders2,
+        caretakersCountList:
+            List.generate(2, (index) => (index + 1).toString()).toList(),
+        taxiTypes: taxiTypes2,
+        taxiType: taxiTypes2.first,
+        taxiRequired: appointment?.taxiNeeded ?? false,
+        caretakerLanguageList: Language.values,
+        caretakerGender: appointment?.caretakerGender,
+        caretakerLanguage: appointment?.caretakerLanguage,
+        gender: appointment?.patientGender,
+        purposeOfVisit: appointment?.purpose,
+        relationWithApplicant: appointment?.realationship,
+        pickUpLatitude: 0.0,
+        pickUpLongitude: 0.0,
+        hospitalLatitude: 0.0,
+        hospitalLongitude: 0.0);
   }
   final DateTime? dateOfVisit;
   final DateTime? pickupTime;
@@ -309,7 +308,7 @@ class CreateAppointmentState extends Equatable {
       pickUpLatitude: pickUpLatitude ?? this.pickUpLatitude,
       pickUpLongitude: pickUpLongitude ?? this.pickUpLongitude,
       hospitalLatitude: hospitalLatitude ?? this.hospitalLatitude,
-      hospitalLongitude: hospitalLatitude ?? this.hospitalLongitude,
+      hospitalLongitude: hospitalLongitude ?? this.hospitalLongitude,
       dateOfVisit: dateOfVisit ?? this.dateOfVisit,
       pickupTime: pickupTime ?? this.pickupTime,
       pickupAddressController:

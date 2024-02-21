@@ -28,9 +28,13 @@ class Appointment {
   String? pickuptime;
   String? pickaddress;
   String? hospital;
+  String? hospitalLatitude;
+  String? hospitalLongitude;
+  String? startappointment;
   int? caretakerid;
   String? doctor;
   String? otp;
+  String? caretakerApptStatus;
 
   @JsonKey(defaultValue: [])
   List<int> caretaker;
@@ -41,21 +45,24 @@ class Appointment {
   @JsonKey(name: 'caretakers')
   List<Caretaker>? caretakers;
 
-  Appointment({
-    this.apptid,
-    this.visitdate,
-    this.rating,
-    this.rating2,
-    this.pickuptime,
-    this.pickaddress,
-    this.hospital,
-    this.caretakerid,
-    this.doctor,
-    this.otp,
-    this.caretaker = const [],
-    required this.taxineeded,
-    this.caretakers,
-  });
+  Appointment(
+      {this.apptid,
+      this.visitdate,
+      this.rating,
+      this.rating2,
+      this.pickuptime,
+      this.pickaddress,
+      this.hospital,
+      this.caretakerid,
+      this.doctor,
+      this.otp,
+      this.caretaker = const [],
+      required this.taxineeded,
+      this.caretakers,
+      this.hospitalLatitude,
+      this.hospitalLongitude,
+      this.startappointment,
+      this.caretakerApptStatus});
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>
       _$AppointmentFromJson(json);

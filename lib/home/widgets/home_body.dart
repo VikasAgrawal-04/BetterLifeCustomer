@@ -1,5 +1,6 @@
 import 'package:api/api.dart';
 import 'package:better_life_customer/home/cubit/cubit.dart';
+import 'package:better_life_customer/location/views/location_page.dart';
 import 'package:better_life_customer/widgets/appointment_card/appointment_card.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
@@ -28,6 +29,20 @@ class HomeBody extends StatelessWidget {
                     type: AppointmentType.values[state.currentIndex],
                     appointment: appointment,
                     onPressed: () => cubit.viewAppointment(appointment),
+                    onEnd: () => cubit.endAppt(appointment.apptid),
+                    onMap: () async {
+                      if (appointment.apptid != null &&
+                          appointment.hospitalLatitude != null &&
+                          appointment.hospitalLongitude != null) {
+                        await Get.to<void>(
+                          LocationPage(
+                            apptId: appointment.apptid!,
+                            hospitalLat: appointment.hospitalLatitude!,
+                            hospitalLong: appointment.hospitalLongitude!,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 );
               },
