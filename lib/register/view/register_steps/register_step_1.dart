@@ -14,7 +14,7 @@ class RegisterStep1 extends StatelessWidget {
       child: SingleChildScrollView(
         padding: kPadding,
         child: AutoSpacing(
-          spacing: Gap(10),
+          spacing: const Gap(10),
           children: [
             MyTextField(
               hintText: 'Full Name',
@@ -52,6 +52,16 @@ class RegisterStep1 extends StatelessWidget {
               onChanged: (value) {
                 controller.dob = value;
               },
+            ),
+            MyTextField(
+              hintText: 'Driving License',
+              controller: controller.licenseNo,
+              textInputAction: TextInputAction.next,
+            ),
+            MyTextField(
+              hintText: 'Valid Upto',
+              controller: controller.valid,
+              textInputAction: TextInputAction.next,
             ),
             const Gap(10),
             MyElevatedButton(

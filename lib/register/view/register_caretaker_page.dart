@@ -31,30 +31,33 @@ class _RegisterCaretakerPageState extends State<RegisterCaretakerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-          appBar: MyAppBar(
-            leading: IconButton(
-                onPressed: () {
-                  careControl.index.value = 0;
-                  Get.back<void>();
-                },
-                icon: careControl.index.value == 0
-                    ? const Icon(Icons.close)
-                    : const Icon(Icons.arrow_back_ios)),
-            title: Text(
-              'Register As Caretaker (${careControl.index.value + 1} / 4)',
-            ),
+    return Obx(
+      () => Scaffold(
+        appBar: MyAppBar(
+          leading: IconButton(
+            onPressed: () {
+              careControl.index.value = 0;
+              Get.back<void>();
+            },
+            icon: careControl.index.value == 0
+                ? const Icon(Icons.close)
+                : const Icon(Icons.arrow_back_ios),
           ),
-          body: PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: careControl.pageController,
-            children: const [
-              RegisterStep1(),
-              RegisterStep2(),
-              RegisterStep3(),
-              RegisterStep4()
-            ],
+          title: Text(
+            'Register As Caretaker (${careControl.index.value + 1} / 4)',
           ),
-        ));
+        ),
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: careControl.pageController,
+          children: const [
+            RegisterStep1(),
+            RegisterStep2(),
+            RegisterStep3(),
+            RegisterStep4(),
+          ],
+        ),
+      ),
+    );
   }
 }

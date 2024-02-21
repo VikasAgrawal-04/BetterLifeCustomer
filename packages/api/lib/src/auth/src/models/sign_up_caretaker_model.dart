@@ -44,6 +44,12 @@ class SignUpCaretakerModel {
   @JsonKey(name: 'firebase_device_token')
   String? firebaseDeviceToken;
 
+  @JsonKey(name: 'driving_licence_no')
+  String? drivingLicense;
+
+  @JsonKey(name: 'driving_licence_valid_till')
+  String? valid;
+
   SignUpCaretakerModel(
       {this.fullname,
       this.emailid,
@@ -62,7 +68,9 @@ class SignUpCaretakerModel {
       this.candrive,
       this.languageList,
       this.pincodeList,
-      this.firebaseDeviceToken});
+      this.firebaseDeviceToken,
+      this.drivingLicense,
+      this.valid});
 
   factory SignUpCaretakerModel.fromJson(Map<String, dynamic> json) =>
       _$SignUpCaretakerModelFromJson(json);

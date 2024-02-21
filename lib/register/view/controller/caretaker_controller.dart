@@ -16,6 +16,8 @@ class CaretakerController extends GetxController {
   final index = 0.obs;
   late final pageController = PageController(initialPage: index.value);
   final fullName = TextEditingController();
+  final licenseNo = TextEditingController();
+  final valid = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
@@ -181,8 +183,9 @@ class CaretakerController extends GetxController {
           ..add('Select Pincode');
         for (final data in values) {
           final pin = data['pincode'];
+          final city = data['city'];
           if (!pincodes.contains(pin)) {
-            pincodes.add(pin.toString());
+            pincodes.add('$pin $city');
           }
         }
 
@@ -214,8 +217,11 @@ class CaretakerController extends GetxController {
         interview: interview.value,
         candrive: canDrive.isTrue ? 'Yes' : 'No',
         languageList: selectedLanguages,
-        pincodeList: selectedPincodes,
+        pincodeList:
+            selectedPincodes.map((element) => element.split(' ')[0]).toList(),
         firebaseDeviceToken: token,
+        valid: valid.text,
+        drivingLicense: licenseNo.text,
       ),
     );
     result.when(
@@ -245,35 +251,51 @@ class CaretakerController extends GetxController {
   Future<void> fetchCarePincode() async {
     carePincodes.clear();
     final result = await api.fetchCarePincodes();
-    result.when(success: (value) {
-      carePincodes.addAll(value['data'] as List);
-    }, failure: (error) {
-      debugPrint(
-          'Failure in fetchCarePincode ${NetworkExceptions.getErrorMessage(error)}');
-    });
+    result.when(
+      success: (value) {
+        carePincodes.addAll(value['data'] as List);
+      },
+      failure: (error) {
+        debugPrint(
+          'Failure in fetchCarePincode ${NetworkExceptions.getErrorMessage(error)}',
+        );
+      },
+    );
   }
 
   Future<void> addCarePincode(String pincode) async {
     final result = await api.addCarePincode(pincode);
-    result.when(success: (value) {
-      fetchCarePincode();
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.failure(error);
-    });
+    result.when(
+      success: (value) {
+        fetchCarePincode();
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.failure(error);
+      },
+    );
   }
 
   Future<void> deleteCarePincode(String pincode) async {
     final result = await api.deleteCarePincode(pincode);
-    result.when(success: (value) {
-      fetchCarePincode();
-      DialogService.success(value['message'].toString(), onTap: () {
-        Get.back<void>();
-      });
-    }, failure: (error) {
-      DialogService.failure(error);
-    });
+    result.when(
+      success: (value) {
+        fetchCarePincode();
+        DialogService.success(
+          value['message'].toString(),
+          onTap: () {
+            Get.back<void>();
+          },
+        );
+      },
+      failure: (error) {
+        DialogService.failure(error);
+      },
+    );
   }
 }

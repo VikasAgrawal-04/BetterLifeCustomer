@@ -31,6 +31,8 @@ SignUpCaretakerModel _$SignUpCaretakerModelFromJson(
           ?.map((e) => e as String)
           .toList(),
       firebaseDeviceToken: json['firebase_device_token'] as String?,
+      drivingLicense: json['driving_licence_no'] as String?,
+      valid: json['driving_licence_valid_till'] as String?,
     );
 
 Map<String, dynamic> _$SignUpCaretakerModelToJson(
@@ -54,4 +56,6 @@ Map<String, dynamic> _$SignUpCaretakerModelToJson(
       'pincode_list': instance.pincodeList,
       'language_list': instance.languageList,
       'firebase_device_token': instance.firebaseDeviceToken,
+      'driving_licence_no': instance.drivingLicense,
+      'driving_licence_valid_till': instance.valid,
     };

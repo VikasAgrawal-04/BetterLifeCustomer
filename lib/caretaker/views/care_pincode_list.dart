@@ -63,14 +63,10 @@ class _CarePincodeListState extends State<CarePincodeList> {
                         margin: EdgeInsets.only(top: 25.h),
                         text: 'Add To List',
                         onPressed: () async {
-                          final value = careControl.carePincodes.firstWhere(
-                            (element) => element['pincode'] == pncd.value,
-                            orElse: () => null,
-                          );
-
-                          if (pncd.value != 'Select Pincode' && value == null) {
+                          if (pncd.value != 'Select Pincode') {
                             status.value = Status.loading;
-                            await careControl.addCarePincode(pncd.value);
+                            await careControl
+                                .addCarePincode(pncd.value.split(' ')[0]);
                             status.value = Status.success;
                           } else {
                             const GetSnackBar(
