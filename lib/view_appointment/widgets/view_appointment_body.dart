@@ -268,11 +268,13 @@ class ViewAppointmentBody extends StatelessWidget {
               onTap: () => Intents.dialIntent(text),
             )
           else
-            Text(
-              text,
-              style: TextStyle(
-                color: color,
-                fontSize: 16,
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 16,
+                ),
               ),
             ),
         ],

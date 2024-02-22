@@ -97,7 +97,6 @@ class PushNotificationService {
   Future<void> _showRemoteNotification(RemoteMessage message) async {
     print("Message Recieved: ${message.data}");
     final result = await showNotification(
-      
       title: message.notification?.title ?? '',
       body: message.notification?.body ?? '',
     );

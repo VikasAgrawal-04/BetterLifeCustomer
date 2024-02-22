@@ -6,6 +6,7 @@ part 'user.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.pascal)
 class User {
+  @JsonKey(name: 'fullName')
   String? fullName;
   @JsonKey(name: 'emailId')
   String? email;

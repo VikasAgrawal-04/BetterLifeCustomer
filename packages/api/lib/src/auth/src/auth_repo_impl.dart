@@ -81,7 +81,7 @@ class AuthRepoImpl implements AuthRepo {
         return ApiResult.failure(error: parser.failure);
       }
       final model = SignInResponse.fromJson(result.data);
-
+      print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${model.user?.toJson()}');
       await Future.wait(
         [
           storage.setToken(model.user!.userToken!),

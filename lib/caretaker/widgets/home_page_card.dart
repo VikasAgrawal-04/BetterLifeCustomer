@@ -81,15 +81,18 @@ class _CaretakerAppointmentCardState extends State<CaretakerAppointmentCard> {
                 )
               },
               if (widget.appointment.viewDetials)
-                MyElevatedButton(
-                  text: 'View Details',
-                  width: 100.w,
-                  height: 30.h,
-                  onPressed: () async {
-                    await Get.to<void>(
-                      CareApptDetails(apptId: widget.appointment.apptid ?? 0),
-                    );
-                  },
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: MyElevatedButton(
+                    text: 'View Details',
+                    width: 100.w,
+                    height: 30.h,
+                    onPressed: () async {
+                      await Get.to<void>(
+                        CareApptDetails(apptId: widget.appointment.apptid ?? 0),
+                      );
+                    },
+                  ),
                 ),
             ],
           )

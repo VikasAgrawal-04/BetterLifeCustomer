@@ -128,11 +128,6 @@ class _CareApptDetailsState extends State<CareApptDetails> {
                           'Relative Number : ${controller.apptDetails.value.relativemobileno}',
                         ),
                         const Gap(2),
-                        const MyDivider(),
-                        const Gap(2),
-                        Text(
-                          'Taxi Required : ${controller.apptDetails.value.taxineeded == "1" ? "True" : "False"}',
-                        ),
                       ],
                     ),
                   ),
