@@ -60,7 +60,7 @@ class AppointmentStep1 extends StatelessWidget {
               PincodeField(
                 hintText: 'Pick up pincode',
                 controller: state.pickupPincodeController,
-                readOnly: !state.isPincodeEditable,
+                readOnly: true,
               ),
               MyTextField(
                 readOnly: true,

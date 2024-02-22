@@ -235,6 +235,9 @@ class CreateAppointmentCubit extends Cubit<CreateAppointmentState> {
   Future<void> onPickLocation(AddressCallback pickUpLocation) async {
     emit(
       state.copyWith(
+        pickupPincodeController: TextEditingController(
+          text: pickUpLocation.address.split(',').last,
+        ),
         pickupAddressController:
             TextEditingController(text: pickUpLocation.address),
         pickUpLatitude: pickUpLocation.latitude,
