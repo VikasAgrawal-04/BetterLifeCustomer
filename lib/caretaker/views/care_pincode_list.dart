@@ -92,28 +92,32 @@ class _CarePincodeListState extends State<CarePincodeList> {
                     border: Border.all(),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: ListView.builder(
-                    itemCount: careControl.carePincodes.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final pincode =
-                          careControl.carePincodes[index]['pincode'];
-                      return Row(
-                        children: [
-                          Text(pincode.toString()),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () async {
-                              status.value = Status.loading;
-                              await careControl
-                                  .deleteCarePincode(pincode.toString());
-                              status.value = Status.success;
-                            },
-                            icon: const Icon(Icons.delete),
-                          ),
-                        ],
-                      );
-                    },
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    trackVisibility: true,
+                    child: ListView.builder(
+                      itemCount: careControl.carePincodes.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final pincode =
+                            '${careControl.carePincodes[index]['pincode']} ${careControl.carePincodes[index]['city']}';
+                        return Row(
+                          children: [
+                            Text(pincode.toString()),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () async {
+                                status.value = Status.loading;
+                                await careControl
+                                    .deleteCarePincode(pincode.toString());
+                                status.value = Status.success;
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],

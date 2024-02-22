@@ -62,25 +62,29 @@ class RegisterStep4 extends StatelessWidget {
                     ? const Center(
                         child: Text('No Pincodes Added'),
                       )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.selectedPincodes.length,
-                        itemBuilder: (context, index) {
-                          final pincodes = controller.selectedPincodes[index];
+                    : Scrollbar(
+                        thumbVisibility: true,
+                        trackVisibility: true,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.selectedPincodes.length,
+                          itemBuilder: (context, index) {
+                            final pincodes = controller.selectedPincodes[index];
 
-                          return Row(
-                            children: [
-                              Text(pincodes),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () {
-                                  controller.selectedPincodes.removeAt(index);
-                                },
-                                icon: const Icon(Icons.delete),
-                              ),
-                            ],
-                          );
-                        },
+                            return Row(
+                              children: [
+                                Text(pincodes),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    controller.selectedPincodes.removeAt(index);
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       ),
               ),
               const Gap(10),

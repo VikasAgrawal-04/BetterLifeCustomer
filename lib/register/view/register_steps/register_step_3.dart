@@ -17,11 +17,6 @@ class RegisterStep3 extends StatelessWidget {
           () => AutoSpacing(
             spacing: const Gap(5),
             children: [
-              ChoiceWidget(
-                value: controller.canDrive.value,
-                title: 'Can Drive',
-                onChanged: controller.drive,
-              ),
               Text(
                 'Languages Known',
                 style: Theme.of(context).textTheme.titleMedium,

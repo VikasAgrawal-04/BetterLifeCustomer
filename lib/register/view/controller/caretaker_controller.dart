@@ -66,6 +66,8 @@ class CaretakerController extends GetxController {
     selectedPincodes.clear();
     carePincodes.clear();
     index.value = 0;
+    valid.clear();
+    licenseNo.clear();
   }
 
   void validatePage() {
@@ -77,6 +79,7 @@ class CaretakerController extends GetxController {
       const GetSnackBar(
         message: 'Password does not match!',
         backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
       ).show();
       return;
     }
@@ -253,6 +256,7 @@ class CaretakerController extends GetxController {
     final result = await api.fetchCarePincodes();
     result.when(
       success: (value) {
+        print(value['data']);
         carePincodes.addAll(value['data'] as List);
       },
       failure: (error) {
