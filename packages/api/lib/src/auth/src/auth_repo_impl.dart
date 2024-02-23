@@ -81,7 +81,6 @@ class AuthRepoImpl implements AuthRepo {
         return ApiResult.failure(error: parser.failure);
       }
       final model = SignInResponse.fromJson(result.data);
-      print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${model.user?.toJson()}');
       await Future.wait(
         [
           storage.setToken(model.user!.userToken!),
@@ -266,7 +265,7 @@ class AuthRepoImpl implements AuthRepo {
           await client.post(Endpoints.signUpCaretaker, data: data.toJson());
       if (result.data['code'] != '200') {
         return ApiResult.failure(
-            error: NetworkExceptions.defaultError(result.data['message']));
+            error: NetworkExceptions.defaultError(_parseError(result.data)));
       }
       return ApiResult.success(data: result.data);
     } catch (e) {

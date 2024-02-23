@@ -19,7 +19,7 @@ Future<void> doctorSheet(
   final searchController = TextEditingController();
   final position = BlocProvider.of<LocationCubit>(context);
   final focusNode = FocusNode();
-  await fixedSheet(context, 'Doctor Location', [
+  await fixedSheet(context, 'Hospital Location', [
     MyTextField(
       focusNode: focusNode,
       textInputType: TextInputType.text,

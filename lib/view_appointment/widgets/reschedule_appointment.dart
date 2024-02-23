@@ -1,4 +1,5 @@
 import 'package:api/api.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
@@ -7,9 +8,11 @@ class RescheduleAppointment extends StatefulWidget {
   const RescheduleAppointment({
     required this.onReschedule,
     required this.id,
+    required this.appt,
     super.key,
   });
   final int id;
+  final Appointment appt;
   final Future<void> Function(RescheduleAppointmentParams) onReschedule;
 
   @override
@@ -17,9 +20,30 @@ class RescheduleAppointment extends StatefulWidget {
 }
 
 class _RescheduleAppointmentState extends State<RescheduleAppointment> {
-  DateTime? _selectedDate;
-  DateTime? _selectedTime;
+  DateTime parseVisitDate(String visitDate) {
+    final date = visitDate.split('(')[0];
+    return DateFormat('d MMM yyyy').parse(date);
+  }
+
+  DateTime parsePickupTime(String pickupTime) {
+    return DateFormat('hh:mm a').parse(pickupTime);
+  }
+
+  late DateTime _selectedDate;
+
+  late DateTime _selectedTime;
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _selectedDate = parseVisitDate(widget.appt.visitdate.toString());
+      _selectedTime = parsePickupTime(widget.appt.pickuptime.toString());
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -62,20 +86,18 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
                   return;
                 }
 
-                if (_selectedDate != null && _selectedTime != null) {
-                  final date = _selectedDate!.add(
-                    Duration(
-                      hours: _selectedTime!.hour,
-                      minutes: _selectedTime!.minute,
-                    ),
-                  );
-                  await widget.onReschedule(
-                    RescheduleAppointmentParams(
-                      appointmentId: widget.id,
-                      appointmentDate: date,
-                    ),
-                  );
-                }
+                final date = _selectedDate.add(
+                  Duration(
+                    hours: _selectedTime.hour,
+                    minutes: _selectedTime.minute,
+                  ),
+                );
+                await widget.onReschedule(
+                  RescheduleAppointmentParams(
+                    appointmentId: widget.id,
+                    appointmentDate: date,
+                  ),
+                );
               } catch (e) {
                 print(e);
               }

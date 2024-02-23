@@ -15,6 +15,34 @@ class CaretakerRepoImpl implements CaretakerRepo {
     required this.storage,
   });
 
+  String _parseError(Map? data) {
+    String error = 'Something went wrong';
+    if (data?.isEmpty ?? true) return error;
+
+    if ((data?.containsKey('code') ?? false) && data!['code'] == '404') {
+      if (data.containsKey('message')) {
+        return error = data['message'];
+      }
+    }
+
+    if (data!.containsKey('status') && data['status'] == false) {
+      if (data.containsKey('data')) {
+        error = '';
+        final dataMap = data['data'] as Map;
+        dataMap.forEach((key, value) {
+          if (value is List) {
+            for (var element in value) {
+              error += '$element\n';
+            }
+          } else {
+            error += '$value\n';
+          }
+        });
+      }
+    }
+    return error;
+  }
+
   @override
   Future<ApiResult<List<CareAppointment>>> getNewAppointment() async {
     try {
@@ -242,8 +270,9 @@ class CaretakerRepoImpl implements CaretakerRepo {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }
-      return ApiResult.success(data: CareLocation.fromJson(result.data['data']));
-    } catch (error,stack) {
+      return ApiResult.success(
+          data: CareLocation.fromJson(result.data['data']));
+    } catch (error, stack) {
       debugPrintStack(stackTrace: stack);
       return ApiResult.failure(error: NetworkExceptions.getDioException(error));
     }

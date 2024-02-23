@@ -53,7 +53,6 @@ class ViewAppointmentBody extends StatelessWidget {
                 const Gap(20),
                 _buildCaretakers(app.caretakers ?? []),
                 const Gap(20),
-
                 Visibility(
                   visible: state.type.isPast,
                   child: GridView(
@@ -106,7 +105,6 @@ class ViewAppointmentBody extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 Visibility(
                   visible: state.type.isFuture,
                   child: Row(
@@ -126,15 +124,26 @@ class ViewAppointmentBody extends StatelessWidget {
                           text: 'Cancel',
                           color: Colors.red,
                           height: 38,
-                          onPressed:
-                              context.read<ViewAppointmentCubit>().cancel,
+                          onPressed: () {
+                            return Get.defaultDialog<void>(
+                                titleStyle: Get.textTheme.bodyMedium,
+                                backgroundColor: Colors.white,
+                                middleText: '',
+                                title:
+                                    'Are you sure you want to proceed with canceling the appointment?',
+                                textConfirm: 'Yes',
+                                confirmTextColor: Colors.white,
+                                onConfirm:
+                                    context.read<ViewAppointmentCubit>().cancel,
+                                onCancel: () {
+                                  Get.back<void>();
+                                });
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
-                // _buildRow(Icons.dashboard_customize_sharp, 'Doctor: }'),
-                // _buildRow(Icons.dashboard_customize_sharp, 'Doctor: }'),
               ],
             ),
           ),
@@ -144,13 +153,14 @@ class ViewAppointmentBody extends StatelessWidget {
   }
 
   Future<void> reschedule(BuildContext context) async {
-    final id = context.read<ViewAppointmentCubit>().state.appointment.apptid;
+    final appt = context.read<ViewAppointmentCubit>().state.appointment;
     BottomSheetService.showSheet(
       child: RescheduleAppointment(
         onReschedule: (prams) async {
           await context.read<ViewAppointmentCubit>().reschedule(prams);
         },
-        id: id!,
+        id: appt.apptid!,
+        appt: appt,
       ),
     );
   }
@@ -223,25 +233,6 @@ class ViewAppointmentBody extends StatelessWidget {
     } else {
       return const SizedBox.shrink();
     }
-
-    // return MyElevatedButton(
-    //   height: 30,
-    //   width: 120,
-    //   child: const Text(
-    //     'Rate Service',
-    //     style: TextStyle(
-    //       color: Colors.white,
-    //       fontSize: 14,
-    //     ),
-    //   ),
-    //   onPressed: () async {
-    //     await Get.to<void>(
-    //       () => ServiceRating(
-    //         appointmentId: appointment.apptid!,
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   Widget _buildDivider() => const Divider(

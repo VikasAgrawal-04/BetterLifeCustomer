@@ -1,16 +1,8 @@
 import 'package:api/api.dart';
-import 'package:api/src/api_repo.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
-import 'package:api/src/caretaker/src/caretaker_repo.dart';
-import 'package:api/src/caretaker/src/caretaker_repo_impl.dart';
-import 'package:api/src/caretaker/src/models/appointment/care_appointment.dart';
-import 'package:api/src/caretaker/src/models/appointment/care_appointment_details.dart';
 import 'package:api_client/api_result/api_result.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:hive_storage/hive_storage.dart';
-
-import 'auth/auth_repo.dart';
-import 'user/user_repo.dart';
 
 class ApiRepoImpl implements ApiRepo {
   final Client client;

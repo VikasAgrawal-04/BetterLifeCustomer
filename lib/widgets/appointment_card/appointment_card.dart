@@ -37,7 +37,7 @@ class AppointmentCard extends StatelessWidget {
           const Gap(10),
           _buildRow(
             Icons.supervisor_account,
-            'Assigned Caretaker: ${appointment.caretakerName}',
+            'Assigned Caretaker: ${appointment.caretakerName == '' ? "Not Assigned" : appointment.caretakerName}',
           ),
           const Gap(10),
           _buildRow(Icons.location_on, appointment.pickaddress ?? ''),

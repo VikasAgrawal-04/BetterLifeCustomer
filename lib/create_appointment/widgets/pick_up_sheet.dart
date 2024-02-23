@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart' as gt;
+import 'package:widgets/widgets.dart';
 
 Future<void> pickUpLocation(
   BuildContext context, {
@@ -29,6 +30,9 @@ Future<void> pickUpLocation(
   await EasyLoading.dismiss();
 
   await fixedSheet(context, 'Pickup Location', [
+    const Gap(10),
+    const Text('Use My Location'),
+    const Gap(5),
     gt.MyElevatedButton(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -50,6 +54,7 @@ Future<void> pickUpLocation(
         );
       },
     ),
+    const Gap(10),
     MyTextField(
       focusNode: focusNode,
       textInputType: TextInputType.text,
@@ -77,11 +82,13 @@ Future<void> pickUpLocation(
                   final location =
                       await locationFromAddress(address.description);
                   await EasyLoading.dismiss();
+                  state.prediction.clear();
                   await gt.Get.to<void>(
                     PickupDropMaps(
                       latitude: location.first.latitude,
                       longitude: location.first.longitude,
                       callback: callback,
+                      drop: true,
                     ),
                     transition: gt.Transition.rightToLeft,
                   );

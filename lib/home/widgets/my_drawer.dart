@@ -35,19 +35,6 @@ class MyDrawer extends StatelessWidget {
                     ),
                   ),
                   Gap(20.h),
-                  if (!caretaker)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        children: [
-                          _customTile(
-                            Icons.badge,
-                            'History of Appointments',
-                            isSelected: true,
-                          ),
-                        ],
-                      ),
-                    ),
                   if (caretaker)
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),

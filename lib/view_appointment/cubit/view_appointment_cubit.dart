@@ -24,8 +24,6 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
     init();
   }
   final ApiRepo api;
-  // final Appointment appointment;
-  // final AppointmentType type;
 
   Future<void> init() async {
     fetchAppointmentDetails();

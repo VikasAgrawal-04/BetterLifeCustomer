@@ -46,7 +46,16 @@ class HistoryView extends StatelessWidget {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: context.theme.primaryColor,
-      leading: const SizedBox.shrink(),
+      leading: Container(
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 8),
+        child: GestureDetector(
+          onTap: Get.back<void>,
+          child: const Icon(
+            Icons.arrow_back_ios,
+          ),
+        ),
+      ),
       title: const Text(
         'History',
         style: TextStyle(color: Colors.black),

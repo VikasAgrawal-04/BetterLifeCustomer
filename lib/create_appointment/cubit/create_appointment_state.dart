@@ -109,10 +109,10 @@ class CreateAppointmentState extends Equatable {
         gender: appointment?.patientGender,
         purposeOfVisit: appointment?.purpose,
         relationWithApplicant: appointment?.realationship,
-        pickUpLatitude: 0.0,
-        pickUpLongitude: 0.0,
-        hospitalLatitude: 0.0,
-        hospitalLongitude: 0.0);
+        pickUpLatitude: appointment?.pickUpLatitude ?? 0.0,
+        pickUpLongitude: appointment?.pickUpLongitude ?? 0.0,
+        hospitalLatitude: appointment?.hospitalLatitude ?? 0.0,
+        hospitalLongitude: appointment?.hospitalLongitude ?? 0.0);
   }
   final DateTime? dateOfVisit;
   final DateTime? pickupTime;
