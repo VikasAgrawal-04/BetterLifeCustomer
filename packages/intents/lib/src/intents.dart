@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-// ignore: avoid_classes_with_only_static_members
 class Intents {
   static void noAppAvailable({String? msg}) {
     Fluttertoast.showToast(msg: msg ?? 'No app available to open this link');
@@ -32,10 +32,11 @@ class Intents {
 
   static Future<void> openMap(String url) async {
     try {
-      final uri = Uri.parse(
-        url,
+      final baseUrl = url.split(' ')..removeRange(0, 2);
+
+      await MapsLauncher.launchQuery(
+        baseUrl.join(' '),
       );
-      await launchUrl(uri);
     } catch (e) {
       rethrow;
     }
@@ -44,8 +45,6 @@ class Intents {
   static Future<bool> dialIntent(String phoneNumber) async {
     final phone = Uri(scheme: 'tel', path: phoneNumber).toString();
     final result = await canLaunchUrlString(phone);
-    // if (result) await launchUrl(phone);
-    // if (!result) noAppAvailable();
     try {
       await launchUrl(Uri.parse(phone));
     } catch (e) {

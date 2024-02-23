@@ -19,7 +19,6 @@ class DialPhone extends StatelessWidget {
             text: phone,
             style: context.textTheme.titleSmall?.copyWith(
               color: context.theme.primaryColor,
-              decoration: TextDecoration.underline,
             ),
           ),
         ],

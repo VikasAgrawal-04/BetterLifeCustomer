@@ -44,7 +44,7 @@ class AppointmentCard extends StatelessWidget {
           const Gap(10),
           _buildRow(
             Icons.local_hospital,
-            'Hospital: ${appointment.hospital ?? ''}',
+            'Hospital Location: ${appointment.hospital ?? ''}',
           ),
           Visibility(
             visible: type.isPresent,

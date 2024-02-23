@@ -40,7 +40,8 @@ class ViewAppointmentBody extends StatelessWidget {
                       const Gap(10),
                       _buildRow(
                         Icons.local_hospital_outlined,
-                        'Hospital: ${app.hospital}',
+                        'Hospital Location: ${app.hospital}',
+                        location: true,
                       ),
                       _buildDivider(),
                       _buildRow(
@@ -126,18 +127,19 @@ class ViewAppointmentBody extends StatelessWidget {
                           height: 38,
                           onPressed: () {
                             return Get.defaultDialog<void>(
-                                titleStyle: Get.textTheme.bodyMedium,
-                                backgroundColor: Colors.white,
-                                middleText: '',
-                                title:
-                                    'Are you sure you want to proceed with canceling the appointment?',
-                                textConfirm: 'Yes',
-                                confirmTextColor: Colors.white,
-                                onConfirm:
-                                    context.read<ViewAppointmentCubit>().cancel,
-                                onCancel: () {
-                                  Get.back<void>();
-                                });
+                              titleStyle: Get.textTheme.bodyMedium,
+                              backgroundColor: Colors.white,
+                              middleText: '',
+                              title:
+                                  'Are you sure you want to proceed with canceling the appointment?',
+                              textConfirm: 'Yes',
+                              confirmTextColor: Colors.white,
+                              onConfirm:
+                                  context.read<ViewAppointmentCubit>().cancel,
+                              onCancel: () {
+                                Get.back<void>();
+                              },
+                            );
                           },
                         ),
                       ),
@@ -241,10 +243,19 @@ class ViewAppointmentBody extends StatelessWidget {
         thickness: 1,
       );
 
-  Widget _buildRow(IconData icon, String text, {bool isPhone = false}) {
+  Widget _buildRow(
+    IconData icon,
+    String text, {
+    bool isPhone = false,
+    bool location = false,
+  }) {
     final color = Colors.grey.shade700;
     return GestureDetector(
-      onTap: () => Intents.dialIntent(text),
+      onTap: () => isPhone
+          ? Intents.dialIntent(text)
+          : location
+              ? Intents.openMap(text)
+              : null,
       child: Row(
         children: [
           Icon(
@@ -253,12 +264,13 @@ class ViewAppointmentBody extends StatelessWidget {
             size: 20,
           ),
           const Gap(10),
-          if (isPhone)
+          if (isPhone) ...{
             DialPhone(
               phone: text,
               onTap: () => Intents.dialIntent(text),
-            )
-          else
+            ),
+          },
+          if (!isPhone) ...{
             Expanded(
               child: Text(
                 text,
@@ -268,6 +280,7 @@ class ViewAppointmentBody extends StatelessWidget {
                 ),
               ),
             ),
+          },
         ],
       ),
     );
