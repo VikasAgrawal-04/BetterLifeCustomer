@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:api/api.dart';
 import 'package:api/constants/endpoints.dart';
 import 'package:api/src/auth/src/storage/storage_service.dart';
-import 'package:api_client/api_result/api_result.dart';
-import 'package:api_client/api_result/network_exceptions/network_exceptions.dart';
+import 'package:api_client/api_client.dart';
 import 'package:api_client/configs/client.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +116,7 @@ class CaretakerRepoImpl implements CaretakerRepo {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
       }
-      print(result.data);
+
       return ApiResult.success(
           data: CareAppointmentDetails.fromJson(result.data));
     } catch (error) {
@@ -137,17 +140,36 @@ class CaretakerRepoImpl implements CaretakerRepo {
     }
   }
 
+  String imageToBase64(String imagePath) {
+    // Load image from file path
+    File imageFile = File(imagePath);
+    if (!imageFile.existsSync()) {
+      throw Exception("Image file not found");
+    }
+    List<int> imageBytes = imageFile.readAsBytesSync();
+
+    // Encode image bytes to base64 string
+    String base64Image = base64Encode(imageBytes);
+
+    return base64Image;
+  }
+
   @override
   Future<ApiResult<Map<String, dynamic>>> createDocNotes(
       {required String notes,
       required List<String> imgs,
       required int apptId}) async {
     try {
-      final result =
-          await client.post('${Endpoints.doctorNotes}/$apptId', data: {
+      final data = {
         'notes': [notes],
-        'image': imgs
-      });
+        'images': []
+      };
+      for (final img in imgs) {
+        log(imageToBase64(img));
+        data['images']?.add(imageToBase64(img));
+      }
+      final result =
+          await client.post('${Endpoints.doctorNotes}/$apptId', data: data);
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
@@ -164,11 +186,16 @@ class CaretakerRepoImpl implements CaretakerRepo {
       required List<String> imgs,
       required int apptId}) async {
     try {
-      final result =
-          await client.post('${Endpoints.dietRestriction}/$apptId', data: {
+      final data = {
         'notes': [notes],
-        'image': imgs
-      });
+        'images': []
+      };
+      for (final img in imgs) {
+        log(imageToBase64(img));
+        data['images']?.add(imageToBase64(img));
+      }
+      final result =
+          await client.post('${Endpoints.dietRestriction}/$apptId', data: data);
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
@@ -183,8 +210,13 @@ class CaretakerRepoImpl implements CaretakerRepo {
   Future<ApiResult<Map<String, dynamic>>> createPrescription(
       {required List<String> imgs, required int apptId}) async {
     try {
-      final result = await client
-          .post('${Endpoints.prescription}/$apptId', data: {'image': imgs});
+      final data = {'images': []};
+      for (final img in imgs) {
+        log(imageToBase64(img));
+        data['images']?.add(imageToBase64(img));
+      }
+      final result =
+          await client.post('${Endpoints.prescription}/$apptId', data: data);
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));
@@ -201,8 +233,13 @@ class CaretakerRepoImpl implements CaretakerRepo {
       required int apptId,
       required List<String> tests}) async {
     try {
-      final result = await client.post('${Endpoints.recTests}/$apptId',
-          data: {'notes': tests, 'image': imgs});
+      final data = {'notes': tests, 'images': []};
+      for (final img in imgs) {
+        log(imageToBase64(img));
+        data['images']?.add(imageToBase64(img));
+      }
+      final result =
+          await client.post('${Endpoints.recTests}/$apptId', data: data);
       if (result.data['code'] != '200') {
         return ApiResult.failure(
             error: NetworkExceptions.defaultError(result.data['message']));

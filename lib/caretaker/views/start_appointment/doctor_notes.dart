@@ -45,7 +45,10 @@ class _DoctorNotesState extends State<DoctorNotes> {
               onPressed: () async {
                 try {
                   await controller.createDocNotes(
-                      notes: notes.text, imgs: images, apptId: widget.apptId);
+                    notes: notes.text,
+                    imgs: images,
+                    apptId: widget.apptId,
+                  );
                 } catch (error) {
                   log('errror$error');
                 }

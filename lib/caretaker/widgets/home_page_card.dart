@@ -58,7 +58,7 @@ class _CaretakerAppointmentCardState extends State<CaretakerAppointmentCard> {
           Text(widget.appointment.pickaddress.toString()),
           const Gap(5),
           Text(widget.appointment.hospital.toString()),
-          const Gap(10),
+          const Gap(5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -78,24 +78,24 @@ class _CaretakerAppointmentCardState extends State<CaretakerAppointmentCard> {
                     ),
                   ),
                   onRatingUpdate: (value) {},
-                )
-              },
-              if (widget.appointment.viewDetials)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: MyElevatedButton(
-                    text: 'View Details',
-                    width: 100.w,
-                    height: 30.h,
-                    onPressed: () async {
-                      await Get.to<void>(
-                        CareApptDetails(apptId: widget.appointment.apptid ?? 0),
-                      );
-                    },
-                  ),
                 ),
+              },
             ],
-          )
+          ),
+          if (widget.appointment.viewDetials)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: MyElevatedButton(
+                text: 'View Details',
+                width: 100.w,
+                height: 30.h,
+                onPressed: () async {
+                  await Get.to<void>(
+                    CareApptDetails(apptId: widget.appointment.apptid ?? 0),
+                  );
+                },
+              ),
+            ),
         ],
       ),
     );
