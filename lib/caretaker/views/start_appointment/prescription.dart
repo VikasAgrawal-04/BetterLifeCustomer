@@ -30,12 +30,14 @@ class _PrescriptionState extends State<Prescription> {
           children: [
             IconButton(
               onPressed: () async {
-                await imgSheet(onPick: (value) async {
-                  if (value != null) {
-                    images.add(value);
-                  }
-                  return null;
-                });
+                await imgSheet(
+                  onPick: (value) async {
+                    if (value != null) {
+                      images.add(value);
+                    }
+                    return null;
+                  },
+                );
               },
               icon: const Icon(Icons.camera_alt),
               iconSize: 80.sp,
@@ -47,50 +49,56 @@ class _PrescriptionState extends State<Prescription> {
               onPressed: () async {
                 if (images.isNotEmpty) {
                   await controller.createPrescription(
-                      imgs: images, apptId: widget.apptId);
+                    imgs: images,
+                    apptId: widget.apptId,
+                  );
                 }
               },
-            )
+            ),
           ],
         ),
       ),
       body: SingleChildScrollView(
         padding: kPadding,
-        child: Obx(() => Column(
-              children: [
-                const HeaderText(text: 'PRESCRIPTION'),
-                const Gap(20),
-                ...List.generate(images.length, (index) {
-                  return Stack(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 0.02.sh),
-                        constraints:
-                            BoxConstraints(maxHeight: .6.sh, minWidth: 1.sw),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.w, vertical: 5.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Image.file(File(images[index])),
+        child: Obx(
+          () => Column(
+            children: [
+              const HeaderText(text: 'PRESCRIPTION'),
+              const Gap(20),
+              ...List.generate(images.length, (index) {
+                return Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 0.02.sh),
+                      constraints:
+                          BoxConstraints(maxHeight: .6.sh, minWidth: 1.sw),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 5.h,
                       ),
-                      Positioned(
-                        bottom: 10,
-                        right: -10,
-                        child: IconButton(
-                          onPressed: () {
-                            images.removeAt(index);
-                          },
-                          icon: const Icon(Icons.delete),
-                          iconSize: 30.sp,
-                        ),
-                      )
-                    ],
-                  );
-                })
-              ],
-            )),
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Image.file(File(images[index])),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      right: -10,
+                      child: IconButton(
+                        onPressed: () {
+                          images.removeAt(index);
+                        },
+                        icon: const Icon(Icons.delete),
+                        iconSize: 30.sp,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ],
+          ),
+        ),
       ),
     );
   }

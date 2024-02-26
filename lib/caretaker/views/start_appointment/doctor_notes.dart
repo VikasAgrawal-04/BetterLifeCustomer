@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/caretaker/widgets/img_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
@@ -43,14 +44,18 @@ class _DoctorNotesState extends State<DoctorNotes> {
               width: 0.3.sw,
               text: 'Save',
               onPressed: () async {
-                try {
-                  await controller.createDocNotes(
-                    notes: notes.text,
-                    imgs: images,
-                    apptId: widget.apptId,
-                  );
-                } catch (error) {
-                  log('errror$error');
+                if (notes.text.isEmpty || images.isEmpty) {
+                  await EasyLoading.showError('Add Notes and Images');
+                } else {
+                  try {
+                    await controller.createDocNotes(
+                      notes: notes.text,
+                      imgs: images,
+                      apptId: widget.apptId,
+                    );
+                  } catch (error) {
+                    log('errror$error');
+                  }
                 }
               },
             ),

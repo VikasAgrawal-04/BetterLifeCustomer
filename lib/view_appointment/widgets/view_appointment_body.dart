@@ -69,40 +69,49 @@ class ViewAppointmentBody extends StatelessWidget {
                     children: [
                       MyElevatedButton(
                         text: 'Diets',
-                        onPressed: () async => Get.to<void>(
-                          () => ShowDataGrid(
-                            heading: 'Diets',
-                            list: state.diets,
-                          ),
-                        ),
+                        onPressed: () async {
+                          final cubit = context.read<ViewAppointmentCubit>();
+                          await Get.to<void>(
+                            () => ShowDataGrid(
+                              heading: 'Diets',
+                              cubit: cubit,
+                            ),
+                          );
+                        },
                       ),
                       MyElevatedButton(
-                        text: 'Notes',
-                        onPressed: () async => Get.to<void>(
-                          () => ShowDataGrid(
-                            heading: 'Notes',
-                            list: state.notes,
-                          ),
-                        ),
-                      ),
+                          text: 'Notes',
+                          onPressed: () async {
+                            final cubit = context.read<ViewAppointmentCubit>();
+                            await Get.to<void>(
+                              () => ShowDataGrid(
+                                heading: 'Notes',
+                                cubit: cubit,
+                              ),
+                            );
+                          }),
                       MyElevatedButton(
-                        text: 'Tests',
-                        onPressed: () async => Get.to<void>(
-                          () => ShowDataGrid(
-                            heading: 'Tests',
-                            list: state.tests,
-                          ),
-                        ),
-                      ),
+                          text: 'Tests',
+                          onPressed: () async {
+                            final cubit = context.read<ViewAppointmentCubit>();
+                            await Get.to<void>(
+                              () => ShowDataGrid(
+                                heading: 'Tests',
+                                cubit: cubit,
+                              ),
+                            );
+                          }),
                       MyElevatedButton(
-                        text: 'Prescriptions',
-                        onPressed: () async => Get.to<void>(
-                          () => ShowDataGrid(
-                            heading: 'Prescriptions',
-                            list: state.prescriptions,
-                          ),
-                        ),
-                      ),
+                          text: 'Prescriptions',
+                          onPressed: () async {
+                            final cubit = context.read<ViewAppointmentCubit>();
+                            await Get.to<void>(
+                              () => ShowDataGrid(
+                                heading: 'Prescriptions',
+                                cubit: cubit,
+                              ),
+                            );
+                          }),
                     ],
                   ),
                 ),

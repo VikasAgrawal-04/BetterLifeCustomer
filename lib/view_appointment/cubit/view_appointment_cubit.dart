@@ -26,13 +26,7 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
   final ApiRepo api;
 
   Future<void> init() async {
-    fetchAppointmentDetails();
-    if (state.type.isPast) {
-      fetchDiets();
-      fetchNotes();
-      fetchTests();
-      fetchPresciptions();
-    }
+    await fetchAppointmentDetails();
   }
 
   /// A description for yourCustomFunction
@@ -57,7 +51,8 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
     );
   }
 
-  FutureOr<void> fetchDiets() async {
+  Future<List<String>> fetchDiets() async {
+    final list = <String>[];
     final result = await api.viewDiets(
       appointmentId: state.appointment.apptid!,
     );
@@ -68,34 +63,37 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
             diets: data,
           ),
         );
+        return list.addAll(data);
       },
       failure: (e) {
         emit(state.copyWith(status: Status.error));
         DialogService.failure(e);
       },
     );
+    return list;
   }
 
-  FutureOr<void> fetchNotes() async {
+  Future<List<String>> fetchNotes() async {
+    final list = <String>[];
     final result = await api.viewNotes(
       appointmentId: state.appointment.apptid!,
     );
     result.when(
       success: (data) {
-        emit(
-          state.copyWith(
-            notes: data,
-          ),
-        );
+        emit(state.copyWith(notes: data));
+        return list.addAll(data);
       },
       failure: (e) {
         emit(state.copyWith(status: Status.error));
         DialogService.failure(e);
       },
     );
+    return list;
   }
 
-  FutureOr<void> fetchTests() async {
+  Future<List<String>> fetchTests() async {
+    final list = <String>[];
+
     final result = await api.viewTests(
       appointmentId: state.appointment.apptid!,
     );
@@ -106,15 +104,18 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
             tests: data,
           ),
         );
+        return list.addAll(data);
       },
       failure: (e) {
         emit(state.copyWith(status: Status.error));
         DialogService.failure(e);
       },
     );
+    return list;
   }
 
-  FutureOr<void> fetchPresciptions() async {
+  Future<List<String>> fetchPresciptions() async {
+    final list = <String>[];
     final result = await api.viewPrescriptions(
       appointmentId: state.appointment.apptid!,
     );
@@ -125,12 +126,14 @@ class ViewAppointmentCubit extends Cubit<ViewAppointmentState> {
             prescriptions: data,
           ),
         );
+        return list.addAll(data);
       },
       failure: (e) {
         emit(state.copyWith(status: Status.error));
         DialogService.failure(e);
       },
     );
+    return list;
   }
 
   Future<void> reschedule(RescheduleAppointmentParams prams) async {

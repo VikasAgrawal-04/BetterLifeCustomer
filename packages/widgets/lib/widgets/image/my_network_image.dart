@@ -1,4 +1,3 @@
-// import 'package:background_location/widgets/image/shimmer_animation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:widgets/widgets.dart';
@@ -48,7 +47,6 @@ class MyNetworkImage extends StatelessWidget {
         imageBuilder: useImageBuilder ? imageBuilder : null,
         imageUrl: urlToImage ??
             'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-        // imageUrl: urlToImage!,
       ),
     );
   }

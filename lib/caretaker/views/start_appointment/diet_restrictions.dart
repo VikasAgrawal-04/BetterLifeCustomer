@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:better_life_customer/caretaker/views/controller/home_controller.dart';
 import 'package:better_life_customer/caretaker/widgets/img_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:text_fields/text_fields.dart';
 import 'package:widgets/widgets.dart';
@@ -42,11 +43,18 @@ class _DietRestrictionState extends State<DietRestriction> {
               width: 0.3.sw,
               text: 'Save',
               onPressed: () async {
-                try {
-                  await controller.createDietRestriction(
-                      notes: notes.text, imgs: images, apptId: widget.apptId);
-                } catch (error) {
-                  print('errror$error');
+                if (notes.text.isEmpty || images.isEmpty) {
+                  await EasyLoading.showError('Add Notes and Images');
+                } else {
+                  try {
+                    await controller.createDietRestriction(
+                      notes: notes.text,
+                      imgs: images,
+                      apptId: widget.apptId,
+                    );
+                  } catch (error) {
+                    debugPrint('errror$error');
+                  }
                 }
               },
             ),
@@ -60,12 +68,14 @@ class _DietRestrictionState extends State<DietRestriction> {
                 SizedBox(width: 0.2.sw),
                 IconButton(
                   onPressed: () async {
-                    await imgSheet(onPick: (value) async {
-                      if (value != null) {
-                        images.add(value);
-                      }
-                      return null;
-                    });
+                    await imgSheet(
+                      onPick: (value) async {
+                        if (value != null) {
+                          images.add(value);
+                        }
+                        return null;
+                      },
+                    );
                   },
                   icon: const Icon(Icons.camera_alt),
                 ),
@@ -93,11 +103,12 @@ class _DietRestrictionState extends State<DietRestriction> {
                             right: -15,
                             top: -12,
                             child: IconButton(
-                                onPressed: () {
-                                  images.removeAt(index);
-                                },
-                                icon: const Icon(Icons.delete)),
-                          )
+                              onPressed: () {
+                                images.removeAt(index);
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                          ),
                         ],
                       );
                     },

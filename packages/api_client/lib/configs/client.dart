@@ -51,9 +51,7 @@ class Client {
       _dio!.interceptors.add(dioPrinter);
     } else {
       _dio!.interceptors.remove(dioPrinter);
-      // _dio!.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: false, responseHeader: true));
     }
-    // _dio!.interceptors.add(ApiInterceptors());
 
     _dio!.options.baseUrl = baseUrl;
     _dio!.options.headers = header;
