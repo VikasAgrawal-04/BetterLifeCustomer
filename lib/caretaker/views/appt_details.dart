@@ -36,7 +36,10 @@ class _CareApptDetailsState extends State<CareApptDetails> {
       await controller.getApptDetails(widget.apptId);
       if (controller.apptDetails.value.startappointment == '1' &&
           controller.apptDetails.value.finished == '0') {
+        print('if');
         await controller.startLocation(context, widget.apptId, '');
+      } else {
+        await controller.stopLocation();
       }
     });
   }

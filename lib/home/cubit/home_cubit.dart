@@ -110,7 +110,7 @@ class HomeCubit extends CubitBase<HomeState> {
 
   Future<void> startLocation(int apptId) async {
     await setIcon();
-    _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    _locationTimer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       await getLocation(apptId);
     });
   }

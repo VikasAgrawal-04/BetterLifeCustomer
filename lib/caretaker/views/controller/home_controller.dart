@@ -260,7 +260,7 @@ class HomeController extends GetxController {
     String status,
   ) async {
     final position = BlocProvider.of<LocationCubit>(context);
-    _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+    _locationTimer = Timer.periodic(const Duration(seconds: 30), (timer) async {
       final curPos = position.curPos;
       await sendLocation(curPos.latitude!, curPos.longitude!, apptId, status);
     });
