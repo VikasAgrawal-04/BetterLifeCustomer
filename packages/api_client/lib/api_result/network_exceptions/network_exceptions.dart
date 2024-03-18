@@ -72,8 +72,6 @@ abstract class NetworkExceptions with _$NetworkExceptions {
               networkExceptions = const NetworkExceptions.sendTimeout();
               break;
             case DioErrorType.response:
-              // final Map<String, dynamic> errorModel = jsonDecode(error.response!.toString());
-              // networkExceptions = NetworkExceptions.defaultError(error.response!.statusCode.toString());
               switch (error.response!.statusCode) {
                 case 400:
                   final map = json.decode(error.response!.toString()) as Map;
